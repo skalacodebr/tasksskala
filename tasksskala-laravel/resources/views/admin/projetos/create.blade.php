@@ -24,7 +24,7 @@
 
                     <!-- Descrição -->
                     <div class="lg:col-span-2">
-                        <label for="descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
+                        <label for="descricao" class="block text-sm font-medium text-gray-700">Descrição (Opcional)</label>
                         <textarea name="descricao" id="descricao" rows="3" 
                                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('descricao') border-red-500 @enderror">{{ old('descricao') }}</textarea>
                         @error('descricao')
@@ -44,7 +44,7 @@
 
                     <!-- Status -->
                     <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <label for="status" class="block text-sm font-medium text-gray-700">Status (Sistema)</label>
                         <select name="status" id="status" 
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('status') border-red-500 @enderror">
                             <option value="em_andamento" {{ old('status') == 'em_andamento' ? 'selected' : '' }}>Em Andamento</option>
@@ -56,6 +56,26 @@
                         @error('status')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
+                    </div>
+
+                    <!-- Status Personalizado -->
+                    <div>
+                        <label for="status_id" class="block text-sm font-medium text-gray-700">Status Personalizado</label>
+                        <select name="status_id" id="status_id" 
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('status_id') border-red-500 @enderror">
+                            <option value="">Selecione um status (opcional)</option>
+                            @foreach($statusProjetos as $statusProjeto)
+                                <option value="{{ $statusProjeto->id }}" 
+                                        {{ old('status_id') == $statusProjeto->id ? 'selected' : '' }}
+                                        data-cor="{{ $statusProjeto->cor }}">
+                                    {{ $statusProjeto->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('status_id')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-sm text-gray-500">Status personalizado para melhor organização</p>
                     </div>
 
                     <!-- Cliente -->
@@ -94,7 +114,7 @@
 
                     <!-- Prazo -->
                     <div>
-                        <label for="prazo" class="block text-sm font-medium text-gray-700">Prazo</label>
+                        <label for="prazo" class="block text-sm font-medium text-gray-700">Prazo (Opcional)</label>
                         <input type="date" name="prazo" id="prazo" value="{{ old('prazo') }}" 
                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('prazo') border-red-500 @enderror">
                         @error('prazo')

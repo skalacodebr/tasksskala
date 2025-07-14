@@ -40,6 +40,9 @@
                 <a class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('admin.projetos.*') ? 'bg-gray-700' : '' }}" href="{{ route('admin.projetos.index') }}">
                     Projetos
                 </a>
+                <a class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('admin.status-projetos.*') ? 'bg-gray-700' : '' }}" href="{{ route('admin.status-projetos.index') }}">
+                    Status de Projetos
+                </a>
                 <a class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('admin.tarefas.*') ? 'bg-gray-700' : '' }}" href="{{ route('admin.tarefas.index') }}">
                     Tarefas
                 </a>

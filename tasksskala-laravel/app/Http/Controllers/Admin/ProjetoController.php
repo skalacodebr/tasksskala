@@ -32,11 +32,11 @@ class ProjetoController extends Controller
     {
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
-            'descricao' => 'required|string',
+            'descricao' => 'nullable|string',
             'repositorio_git' => 'nullable|url',
             'colaborador_responsavel_id' => 'required|exists:colaboradores,id',
             'cliente_id' => 'required|exists:clientes,id',
-            'prazo' => 'required|date',
+            'prazo' => 'nullable|date',
             'anotacoes' => 'nullable|string',
             'status' => 'required|in:em_andamento,aprovacao_app,concluido,pausado,cancelado',
             'status_id' => 'nullable|exists:status_projetos,id',
@@ -80,11 +80,11 @@ class ProjetoController extends Controller
     {
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
-            'descricao' => 'required|string',
+            'descricao' => 'nullable|string',
             'repositorio_git' => 'nullable|url',
             'colaborador_responsavel_id' => 'required|exists:colaboradores,id',
             'cliente_id' => 'required|exists:clientes,id',
-            'prazo' => 'required|date',
+            'prazo' => 'nullable|date',
             'anotacoes' => 'nullable|string',
             'status' => 'required|in:em_andamento,aprovacao_app,concluido,pausado,cancelado',
             'status_id' => 'nullable|exists:status_projetos,id',
