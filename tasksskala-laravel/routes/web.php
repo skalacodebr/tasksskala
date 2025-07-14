@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ConhecimentoController;
 use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\ProjetoController;
 use App\Http\Controllers\Admin\TarefaController;
+use App\Http\Controllers\Admin\StatusProjetoController;
 use App\Http\Controllers\Auth\ColaboradorAuthController;
 use App\Http\Controllers\DashboardController;
 
@@ -60,6 +61,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         'setores' => 'setor'
     ]);
     Route::resource('conhecimentos', ConhecimentoController::class);
+    Route::resource('status-projetos', StatusProjetoController::class)->parameters([
+        'status-projetos' => 'statusProjeto'
+    ]);
     Route::resource('clientes', ClienteController::class)->parameters([
         'clientes' => 'cliente'
     ]);

@@ -18,6 +18,7 @@ class Projeto extends Model
         'prazo',
         'anotacoes',
         'status',
+        'status_id',
     ];
 
     protected function casts(): array
@@ -45,5 +46,10 @@ class Projeto extends Model
     public function tarefas()
     {
         return $this->hasMany(Tarefa::class);
+    }
+
+    public function statusProjeto()
+    {
+        return $this->belongsTo(StatusProjeto::class, 'status_id');
     }
 }

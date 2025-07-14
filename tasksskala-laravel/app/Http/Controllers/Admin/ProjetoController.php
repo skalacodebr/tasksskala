@@ -7,6 +7,7 @@ use App\Models\Projeto;
 use App\Models\Cliente;
 use App\Models\Colaborador;
 use App\Models\MarcosProjeto;
+use App\Models\StatusProjeto;
 use Illuminate\Http\Request;
 
 class ProjetoController extends Controller
@@ -23,7 +24,8 @@ class ProjetoController extends Controller
     {
         $clientes = Cliente::all();
         $colaboradores = Colaborador::all();
-        return view('admin.projetos.create', compact('clientes', 'colaboradores'));
+        $statusProjetos = StatusProjeto::ativos()->ordenados()->get();
+        return view('admin.projetos.create', compact('clientes', 'colaboradores', 'statusProjetos'));
     }
 
     public function store(Request $request)
@@ -37,6 +39,7 @@ class ProjetoController extends Controller
             'prazo' => 'required|date',
             'anotacoes' => 'nullable|string',
             'status' => 'required|in:em_andamento,aprovacao_app,concluido,pausado,cancelado',
+            'status_id' => 'nullable|exists:status_projetos,id',
             'marcos' => 'nullable|array',
             'marcos.*.nome' => 'required_with:marcos|string|max:255',
             'marcos.*.descricao' => 'nullable|string',
@@ -68,8 +71,9 @@ class ProjetoController extends Controller
     {
         $clientes = Cliente::all();
         $colaboradores = Colaborador::all();
+        $statusProjetos = StatusProjeto::ativos()->ordenados()->get();
         $projeto->load('marcos');
-        return view('admin.projetos.edit', compact('projeto', 'clientes', 'colaboradores'));
+        return view('admin.projetos.edit', compact('projeto', 'clientes', 'colaboradores', 'statusProjetos'));
     }
 
     public function update(Request $request, Projeto $projeto)
@@ -83,6 +87,7 @@ class ProjetoController extends Controller
             'prazo' => 'required|date',
             'anotacoes' => 'nullable|string',
             'status' => 'required|in:em_andamento,aprovacao_app,concluido,pausado,cancelado',
+            'status_id' => 'nullable|exists:status_projetos,id',
             'marcos' => 'nullable|array',
             'marcos.*.id' => 'nullable|exists:marcos_projeto,id',
             'marcos.*.nome' => 'required_with:marcos|string|max:255',
