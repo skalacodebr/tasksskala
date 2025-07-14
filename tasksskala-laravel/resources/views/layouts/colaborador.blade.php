@@ -43,87 +43,89 @@
             </div>
             
             <!-- Navigation -->
-            <nav class="relative p-4 space-y-2">
-                <!-- Main Section -->
-                <div class="mb-6">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Principal</p>
-                    
-                    <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 shadow-lg' : '' }}" href="{{ route('dashboard') }}">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('dashboard') ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2zM3 7l9 6 9-6"></path>
-                            </svg>
-                        </div>
-                        <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('dashboard') ? 'text-white' : 'text-slate-300' }}">Dashboard</span>
-                        @if(request()->routeIs('dashboard'))
-                            <div class="ml-auto w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                        @endif
-                    </a>
+            <nav class="relative p-4 h-full flex flex-col">
+                <div class="flex-1 space-y-2">
+                    <!-- Main Section -->
+                    <div class="mb-6">
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Principal</p>
+                        
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 shadow-lg' : '' }}" href="{{ route('dashboard') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('dashboard') ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2zM3 7l9 6 9-6"></path>
+                                </svg>
+                            </div>
+                            <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('dashboard') ? 'text-white' : 'text-slate-300' }}">Dashboard</span>
+                            @if(request()->routeIs('dashboard'))
+                                <div class="ml-auto w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
 
-                    <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('plano-diario') ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 shadow-lg' : '' }}" href="{{ route('plano-diario') }}">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('plano-diario') ? 'bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                            </svg>
-                        </div>
-                        <div class="ml-3">
-                            <span class="font-medium group-hover:text-white transition-colors {{ request()->routeIs('plano-diario') ? 'text-white' : 'text-slate-300' }}">Plano Diário</span>
-                            <p class="text-xs text-slate-500">Foco & Produtividade</p>
-                        </div>
-                        @if(request()->routeIs('plano-diario'))
-                            <div class="ml-auto w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                        @endif
-                    </a>
-                </div>
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('plano-diario') ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 shadow-lg' : '' }}" href="{{ route('plano-diario') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('plano-diario') ? 'bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <span class="font-medium group-hover:text-white transition-colors {{ request()->routeIs('plano-diario') ? 'text-white' : 'text-slate-300' }}">Plano Diário</span>
+                                <p class="text-xs text-slate-500">Foco & Produtividade</p>
+                            </div>
+                            @if(request()->routeIs('plano-diario'))
+                                <div class="ml-auto w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
+                    </div>
 
-                <!-- Tasks Section -->
-                <div class="mb-6">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Tarefas</p>
-                    
-                    <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('minhas-tarefas') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 shadow-lg' : '' }}" href="{{ route('minhas-tarefas') }}">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('minhas-tarefas') ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                            </svg>
-                        </div>
-                        <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('minhas-tarefas') ? 'text-white' : 'text-slate-300' }}">Minhas Tarefas</span>
-                        @if(request()->routeIs('minhas-tarefas'))
-                            <div class="ml-auto w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                        @endif
-                    </a>
+                    <!-- Tasks Section -->
+                    <div class="mb-6">
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Tarefas</p>
+                        
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('minhas-tarefas') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 shadow-lg' : '' }}" href="{{ route('minhas-tarefas') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('minhas-tarefas') ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                                </svg>
+                            </div>
+                            <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('minhas-tarefas') ? 'text-white' : 'text-slate-300' }}">Minhas Tarefas</span>
+                            @if(request()->routeIs('minhas-tarefas'))
+                                <div class="ml-auto w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
 
-                    <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('tarefa.criar') ? 'bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 shadow-lg' : '' }}" href="{{ route('tarefa.criar') }}">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('tarefa.criar') ? 'bg-gradient-to-br from-orange-500 to-red-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                        </div>
-                        <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('tarefa.criar') ? 'text-white' : 'text-slate-300' }}">Criar Tarefa</span>
-                        @if(request()->routeIs('tarefa.criar'))
-                            <div class="ml-auto w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                        @endif
-                    </a>
-                </div>
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('tarefa.criar') ? 'bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 shadow-lg' : '' }}" href="{{ route('tarefa.criar') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('tarefa.criar') ? 'bg-gradient-to-br from-orange-500 to-red-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                            </div>
+                            <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('tarefa.criar') ? 'text-white' : 'text-slate-300' }}">Criar Tarefa</span>
+                            @if(request()->routeIs('tarefa.criar'))
+                                <div class="ml-auto w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
+                    </div>
 
-                <!-- Projects Section -->
-                <div class="mb-6">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Projetos</p>
-                    
-                    <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('projetos.*') ? 'bg-gradient-to-r from-indigo-500/20 to-blue-500/20 border border-indigo-500/30 shadow-lg' : '' }}" href="{{ route('projetos.index') }}">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('projetos.*') ? 'bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                            </svg>
-                        </div>
-                        <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('projetos.*') ? 'text-white' : 'text-slate-300' }}">Projetos</span>
-                        @if(request()->routeIs('projetos.*'))
-                            <div class="ml-auto w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
-                        @endif
-                    </a>
+                    <!-- Projects Section -->
+                    <div class="mb-6">
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Projetos</p>
+                        
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('projetos.*') ? 'bg-gradient-to-r from-indigo-500/20 to-blue-500/20 border border-indigo-500/30 shadow-lg' : '' }}" href="{{ route('projetos.index') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('projetos.*') ? 'bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                </svg>
+                            </div>
+                            <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('projetos.*') ? 'text-white' : 'text-slate-300' }}">Projetos</span>
+                            @if(request()->routeIs('projetos.*'))
+                                <div class="ml-auto w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Bottom Section -->
-                <div class="absolute bottom-6 left-4 right-4">
+                <div class="mt-6 pt-4 border-t border-slate-700/50">
                     <div class="p-3 bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/20 rounded-xl backdrop-blur-sm">
                         <form action="{{ route('colaborador.logout') }}" method="POST">
                             @csrf
