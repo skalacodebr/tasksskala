@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tarefa;
 use App\Models\Projeto;
+use App\Models\Colaborador;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -157,5 +158,49 @@ class DashboardController extends Controller
         $tarefa->load(['projeto']);
         
         return view('tarefa-detalhes', compact('tarefa', 'colaborador'));
+    }
+
+    public function criarTarefa()
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador) {
+            return redirect('/login');
+        }
+
+        // Buscar todos os colaboradores para poder atribuir tarefas
+        $colaboradores = Colaborador::orderBy('nome')->get();
+        
+        // Buscar projetos para poder vincular (opcional)
+        $projetos = Projeto::orderBy('nome')->get();
+
+        return view('criar-tarefa', compact('colaborador', 'colaboradores', 'projetos'));
+    }
+
+    public function armazenarTarefa(Request $request)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador) {
+            return redirect('/login');
+        }
+
+        $validated = $request->validate([
+            'titulo' => 'required|string|max:255',
+            'descricao' => 'nullable|string|max:2000',
+            'colaborador_id' => 'required|exists:colaboradores,id',
+            'projeto_id' => 'nullable|exists:projetos,id',
+            'prioridade' => 'required|in:baixa,media,alta,urgente',
+            'data_vencimento' => 'nullable|date|after:now',
+            'recorrente' => 'boolean',
+            'frequencia_recorrencia' => 'nullable|in:diaria,semanal,mensal|required_if:recorrente,1',
+        ]);
+
+        $validated['tipo'] = 'manual';
+        $validated['status'] = 'pendente';
+
+        Tarefa::create($validated);
+
+        return redirect('/minhas-tarefas')->with('success', 'Tarefa criada com sucesso!');
     }
 }
