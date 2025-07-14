@@ -33,6 +33,21 @@ Route::middleware(['web'])->group(function () {
     Route::patch('/tarefa/{tarefa}/iniciar', [DashboardController::class, 'iniciarTarefa'])->name('tarefa.iniciar');
     Route::patch('/tarefa/{tarefa}/concluir', [DashboardController::class, 'concluirTarefa'])->name('tarefa.concluir');
     Route::get('/tarefa/{tarefa}/detalhes', [DashboardController::class, 'verTarefa'])->name('tarefa.detalhes');
+    
+    // Plano de ação diário e Pomodoro
+    Route::get('/plano-diario', [DashboardController::class, 'planoDiario'])->name('plano-diario');
+    Route::post('/plano-diario/gerar', [DashboardController::class, 'gerarPlanoDiario'])->name('plano-diario.gerar');
+    Route::post('/plano-diario/salvar', [DashboardController::class, 'salvarPlanoDiario'])->name('plano-diario.salvar');
+    Route::delete('/plano-diario/limpar', [DashboardController::class, 'limparPlanoDiario'])->name('plano-diario.limpar');
+    Route::patch('/tarefa/{tarefa}/pomodoro', [DashboardController::class, 'registrarPomodoro'])->name('tarefa.pomodoro');
+    
+    // CRUD de projetos para colaboradores
+    Route::get('/projetos', [DashboardController::class, 'listarProjetos'])->name('projetos.index');
+    Route::get('/projetos/criar', [DashboardController::class, 'criarProjeto'])->name('projetos.criar');
+    Route::post('/projetos/criar', [DashboardController::class, 'armazenarProjeto'])->name('projetos.store');
+    Route::get('/projetos/{projeto}', [DashboardController::class, 'verProjeto'])->name('projetos.show');
+    Route::get('/projetos/{projeto}/editar', [DashboardController::class, 'editarProjeto'])->name('projetos.edit');
+    Route::put('/projetos/{projeto}', [DashboardController::class, 'atualizarProjeto'])->name('projetos.update');
 });
 
 // Rotas do Admin

@@ -23,6 +23,8 @@ class Tarefa extends Model
         'observacoes',
         'recorrente',
         'frequencia_recorrencia',
+        'plano_dia',
+        'pomodoros',
     ];
 
     protected function casts(): array
@@ -32,6 +34,8 @@ class Tarefa extends Model
             'data_inicio' => 'datetime',
             'data_fim' => 'datetime',
             'recorrente' => 'boolean',
+            'plano_dia' => 'date',
+            'pomodoros' => 'array',
         ];
     }
 
