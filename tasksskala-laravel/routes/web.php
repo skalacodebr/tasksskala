@@ -56,7 +56,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('colaboradores', ColaboradorController::class)->parameters([
         'colaboradores' => 'colaborador'
     ]);
-    Route::resource('setores', SetorController::class);
+    Route::resource('setores', SetorController::class)->parameters([
+        'setores' => 'setor'
+    ]);
     Route::resource('conhecimentos', ConhecimentoController::class);
     Route::resource('clientes', ClienteController::class)->parameters([
         'clientes' => 'cliente'
