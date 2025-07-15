@@ -59,7 +59,7 @@
                                             <span class="font-medium">Cliente:</span> {{ $projeto->cliente->nome ?? 'Não informado' }}
                                         </div>
                                         <div>
-                                            <span class="font-medium">Responsável:</span> {{ $projeto->responsavel->nome ?? 'Não informado' }}
+                                            <span class="font-medium">Responsável:</span> {{ $projeto->colaboradorResponsavel->nome ?? 'Não informado' }}
                                         </div>
                                         @if($projeto->prazo)
                                             <div>

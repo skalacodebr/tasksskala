@@ -215,7 +215,7 @@ class DashboardController extends Controller
             return redirect('/login');
         }
 
-        $projetos = Projeto::with(['cliente', 'responsavel'])
+        $projetos = Projeto::with(['cliente', 'colaboradorResponsavel'])
                           ->orderBy('created_at', 'desc')
                           ->paginate(15);
 
@@ -294,7 +294,7 @@ class DashboardController extends Controller
             return redirect('/login');
         }
 
-        $projeto->load(['cliente', 'responsavel', 'marcos', 'tarefas' => function($query) {
+        $projeto->load(['cliente', 'colaboradorResponsavel', 'marcos', 'tarefas' => function($query) {
             $query->orderBy('created_at', 'desc');
         }]);
 
