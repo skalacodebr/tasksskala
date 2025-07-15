@@ -30,7 +30,7 @@
                                 <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
                                     <span>Cliente: {{ $projeto->cliente->nome ?? 'N/A' }}</span>
                                     <span>Responsável: {{ $projeto->colaboradorResponsavel->nome ?? 'N/A' }}</span>
-                                    <span>Prazo: {{ $projeto->prazo->format('d/m/Y') }}</span>
+                                    <span>Prazo: {{ $projeto->prazo ? $projeto->prazo->format('d/m/Y') : 'Não definido' }}</span>
                                     <span>{{ $projeto->marcos_count }} marco(s)</span>
                                 </div>
                                 @if($projeto->repositorio_git)
