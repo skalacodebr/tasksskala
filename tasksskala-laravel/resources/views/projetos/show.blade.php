@@ -28,11 +28,11 @@
                         </span>
                         
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                            Cliente: {{ $projeto->cliente->nome }}
+                            Cliente: {{ $projeto->cliente->nome ?? 'Não informado' }}
                         </span>
                         
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                            Responsável: {{ $projeto->responsavel->nome }}
+                            Responsável: {{ $projeto->colaboradorResponsavel->nome ?? 'Não informado' }}
                         </span>
                     </div>
                 </div>
@@ -176,16 +176,16 @@
                             <dd class="mt-1 text-sm text-gray-900">{{ ucfirst(str_replace('_', ' ', $projeto->status)) }}</dd>
                         </div>
 
-                        @if($projeto->prazo_entrega)
+                        @if($projeto->prazo)
                             <div>
                                 <dt class="text-sm font-medium text-gray-500">Prazo de Entrega</dt>
                                 <dd class="mt-1 text-sm text-gray-900">
-                                    {{ $projeto->prazo_entrega->format('d/m/Y') }}
-                                    @if($projeto->prazo_entrega->isPast() && $projeto->status !== 'concluido')
+                                    {{ $projeto->prazo->format('d/m/Y') }}
+                                    @if($projeto->prazo->isPast() && $projeto->status !== 'concluido')
                                         <span class="text-red-600 text-xs">(Atrasado)</span>
                                     @endif
                                 </dd>
-                                <dd class="text-xs text-gray-500">{{ $projeto->prazo_entrega->diffForHumans() }}</dd>
+                                <dd class="text-xs text-gray-500">{{ $projeto->prazo->diffForHumans() }}</dd>
                             </div>
                         @endif
 
@@ -210,12 +210,12 @@
                     <dl class="space-y-4">
                         <div>
                             <dt class="text-sm font-medium text-gray-500">Nome</dt>
-                            <dd class="mt-1 text-sm text-gray-900">{{ $projeto->cliente->nome }}</dd>
+                            <dd class="mt-1 text-sm text-gray-900">{{ $projeto->cliente->nome ?? 'Não informado' }}</dd>
                         </div>
                         
                         <div>
                             <dt class="text-sm font-medium text-gray-500">Email</dt>
-                            <dd class="mt-1 text-sm text-gray-900">{{ $projeto->cliente->email }}</dd>
+                            <dd class="mt-1 text-sm text-gray-900">{{ $projeto->cliente->email ?? 'Não informado' }}</dd>
                         </div>
                     </dl>
                 </div>

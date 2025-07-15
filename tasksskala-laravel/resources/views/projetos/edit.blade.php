@@ -68,7 +68,7 @@
                         <select name="responsavel_id" id="responsavel_id" required
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             @foreach($colaboradores as $colab)
-                                <option value="{{ $colab->id }}" {{ old('responsavel_id', $projeto->responsavel_id) == $colab->id ? 'selected' : '' }}>
+                                <option value="{{ $colab->id }}" {{ old('responsavel_id', $projeto->colaborador_responsavel_id) == $colab->id ? 'selected' : '' }}>
                                     {{ $colab->nome }} @if($colab->id == $colaborador->id)(Você)@endif
                                 </option>
                             @endforeach
