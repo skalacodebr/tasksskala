@@ -136,7 +136,7 @@
                                         @endif
                                         
                                         <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
-                                            <span>Prazo: {{ $marco->prazo->format('d/m/Y') }}</span>
+                                            <span>Prazo: {{ $marco->prazo ? $marco->prazo->format('d/m/Y') : 'Não definido' }}</span>
                                             @if($marco->valor)
                                                 <span>Valor: R$ {{ number_format($marco->valor, 2, ',', '.') }}</span>
                                             @endif

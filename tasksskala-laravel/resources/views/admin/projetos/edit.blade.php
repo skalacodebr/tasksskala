@@ -116,7 +116,7 @@
                     <!-- Prazo -->
                     <div>
                         <label for="prazo" class="block text-sm font-medium text-gray-700">Prazo (Opcional)</label>
-                        <input type="date" name="prazo" id="prazo" value="{{ old('prazo', $projeto->prazo->format('Y-m-d')) }}" 
+                        <input type="date" name="prazo" id="prazo" value="{{ old('prazo', $projeto->prazo ? $projeto->prazo->format('Y-m-d') : '') }}" 
                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('prazo') border-red-500 @enderror">
                         @error('prazo')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -164,7 +164,7 @@
                                     
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Prazo</label>
-                                        <input type="date" name="marcos[{{ $index }}][prazo]" value="{{ $marco->prazo->format('Y-m-d') }}"
+                                        <input type="date" name="marcos[{{ $index }}][prazo]" value="{{ $marco->prazo ? $marco->prazo->format('Y-m-d') : '' }}"
                                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     </div>
                                     
