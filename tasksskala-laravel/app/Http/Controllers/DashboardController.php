@@ -255,7 +255,19 @@ class DashboardController extends Controller
             'anotacoes' => 'nullable|string|max:2000',
         ]);
 
-        $projeto = Projeto::create($validated);
+        // Map field names to match database schema
+        $projetoData = [
+            'nome' => $validated['nome'],
+            'descricao' => $validated['descricao'],
+            'cliente_id' => $validated['cliente_id'],
+            'colaborador_responsavel_id' => $validated['responsavel_id'],
+            'repositorio_git' => $validated['link_repositorio'],
+            'prazo' => $validated['prazo_entrega'],
+            'status' => $validated['status'],
+            'anotacoes' => $validated['anotacoes'],
+        ];
+
+        $projeto = Projeto::create($projetoData);
 
         // Processar marcos se enviados
         if ($request->has('marcos')) {
@@ -323,7 +335,19 @@ class DashboardController extends Controller
             'anotacoes' => 'nullable|string|max:2000',
         ]);
 
-        $projeto->update($validated);
+        // Map field names to match database schema
+        $projetoData = [
+            'nome' => $validated['nome'],
+            'descricao' => $validated['descricao'],
+            'cliente_id' => $validated['cliente_id'],
+            'colaborador_responsavel_id' => $validated['responsavel_id'],
+            'repositorio_git' => $validated['link_repositorio'],
+            'prazo' => $validated['prazo_entrega'],
+            'status' => $validated['status'],
+            'anotacoes' => $validated['anotacoes'],
+        ];
+
+        $projeto->update($projetoData);
 
         // Atualizar marcos existentes (sem tocar nos valores)
         if ($request->has('marcos')) {

@@ -56,7 +56,7 @@
 
                                     <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
                                         <div>
-                                            <span class="font-medium">Cliente:</span> {{ $projeto->cliente->nome }}
+                                            <span class="font-medium">Cliente:</span> {{ $projeto->cliente->nome ?? 'Não informado' }}
                                         </div>
                                         <div>
                                             <span class="font-medium">Responsável:</span> {{ $projeto->responsavel->nome }}
