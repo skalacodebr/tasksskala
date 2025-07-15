@@ -70,7 +70,7 @@
                     
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Prazo</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $projeto->prazo->format('d/m/Y') }}</dd>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $projeto->prazo ? $projeto->prazo->format('d/m/Y') : 'Não definido' }}</dd>
                     </div>
                     
                     @if($projeto->repositorio_git)
