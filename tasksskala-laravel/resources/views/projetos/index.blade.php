@@ -59,13 +59,13 @@
                                             <span class="font-medium">Cliente:</span> {{ $projeto->cliente->nome ?? 'Não informado' }}
                                         </div>
                                         <div>
-                                            <span class="font-medium">Responsável:</span> {{ $projeto->responsavel->nome }}
+                                            <span class="font-medium">Responsável:</span> {{ $projeto->responsavel->nome ?? 'Não informado' }}
                                         </div>
-                                        @if($projeto->prazo_entrega)
+                                        @if($projeto->prazo)
                                             <div>
                                                 <span class="font-medium">Prazo:</span> 
-                                                <span class="{{ $projeto->prazo_entrega->isPast() ? 'text-red-600' : '' }}">
-                                                    {{ $projeto->prazo_entrega->format('d/m/Y') }}
+                                                <span class="{{ $projeto->prazo->isPast() ? 'text-red-600' : '' }}">
+                                                    {{ $projeto->prazo->format('d/m/Y') }}
                                                 </span>
                                             </div>
                                         @endif
