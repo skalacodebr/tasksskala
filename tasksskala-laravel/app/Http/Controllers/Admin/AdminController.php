@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Colaborador;
-use App\Models\Setor;
-use App\Models\Conhecimento;
 use App\Models\Projeto;
 use App\Models\Tarefa;
 use Carbon\Carbon;
@@ -15,8 +13,6 @@ class AdminController extends Controller
     public function index()
     {
         $totalColaboradores = Colaborador::count();
-        $totalSetores = Setor::count();
-        $totalConhecimentos = Conhecimento::count();
         
         // Projetos atrasados
         $projetosAtrasados = Projeto::where('prazo', '<', Carbon::now())
@@ -56,8 +52,6 @@ class AdminController extends Controller
         
         return view('admin.dashboard', compact(
             'totalColaboradores', 
-            'totalSetores', 
-            'totalConhecimentos',
             'projetosAtrasados',
             'projetosEsteMes',
             'projetosProximoMes',
