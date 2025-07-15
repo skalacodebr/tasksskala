@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\ProjetoController;
 use App\Http\Controllers\Admin\TarefaController;
 use App\Http\Controllers\Admin\StatusProjetoController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Auth\ColaboradorAuthController;
 use App\Http\Controllers\DashboardController;
 
@@ -51,8 +52,15 @@ Route::middleware(['web'])->group(function () {
     Route::put('/projetos/{projeto}', [DashboardController::class, 'atualizarProjeto'])->name('projetos.update');
 });
 
-// Rotas do Admin
+// Rotas de autenticação do admin
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+});
+
+// Rotas do Admin (protegidas)
+Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\AdminAuth::class])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('colaboradores', ColaboradorController::class)->parameters([
         'colaboradores' => 'colaborador'
