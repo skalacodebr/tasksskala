@@ -42,4 +42,8 @@ return [
         'calendar_id' => env('GOOGLE_CALENDAR_ID', 'primary'),
     ],
 
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
+
 ];

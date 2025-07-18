@@ -153,6 +153,37 @@
                     </div>
                 </div>
 
+                <!-- Tarefa de Teste -->
+                <div class="space-y-4 border-t pt-4">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="criar_tarefa_teste" id="criar_tarefa_teste" value="1" 
+                               {{ old('criar_tarefa_teste') ? 'checked' : '' }}
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="criar_tarefa_teste" class="ml-2 block text-sm text-gray-900">
+                            Criar tarefa de teste após conclusão
+                        </label>
+                    </div>
+
+                    <div id="testador-container" class="hidden">
+                        <label for="testador_id" class="block text-sm font-medium text-gray-700">
+                            Responsável pelos testes
+                        </label>
+                        <select name="testador_id" id="testador_id"
+                                class="mt-1 block w-full md:w-1/2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Selecione um colaborador...</option>
+                            @foreach($colaboradores as $colab)
+                                <option value="{{ $colab->id }}" {{ old('testador_id') == $colab->id ? 'selected' : '' }}>
+                                    {{ $colab->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('testador_id')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-2 text-sm text-gray-500">Uma tarefa de teste será criada automaticamente para este colaborador quando a tarefa principal for concluída.</p>
+                    </div>
+                </div>
+
                 <!-- Botões de Ação -->
                 <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
                     <a href="{{ route('minhas-tarefas') }}" 
@@ -188,6 +219,27 @@ document.getElementById('recorrente').addEventListener('change', function() {
 if (document.getElementById('recorrente').checked) {
     document.getElementById('frequencia-container').classList.remove('hidden');
     document.getElementById('frequencia_recorrencia').required = true;
+}
+
+// Tarefa de teste
+document.getElementById('criar_tarefa_teste').addEventListener('change', function() {
+    const testadorContainer = document.getElementById('testador-container');
+    const testadorSelect = document.getElementById('testador_id');
+    
+    if (this.checked) {
+        testadorContainer.classList.remove('hidden');
+        testadorSelect.required = true;
+    } else {
+        testadorContainer.classList.add('hidden');
+        testadorSelect.required = false;
+        testadorSelect.value = '';
+    }
+});
+
+// Verificar se já está marcado ao carregar a página
+if (document.getElementById('criar_tarefa_teste').checked) {
+    document.getElementById('testador-container').classList.remove('hidden');
+    document.getElementById('testador_id').required = true;
 }
 </script>
 @endsection

@@ -8,16 +8,19 @@ use App\Models\Colaborador;
 use App\Models\Cliente;
 use App\Models\MarcosProjeto;
 use App\Services\GoogleCalendarService;
+use App\Services\OpenAIService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     private GoogleCalendarService $googleCalendarService;
+    private OpenAIService $openAIService;
     
-    public function __construct(GoogleCalendarService $googleCalendarService)
+    public function __construct(GoogleCalendarService $googleCalendarService, OpenAIService $openAIService)
     {
         $this->googleCalendarService = $googleCalendarService;
+        $this->openAIService = $openAIService;
     }
     
     public function index()
@@ -168,6 +171,11 @@ class DashboardController extends Controller
         ]);
 
         $tarefa->concluirTarefa($validated['observacoes'] ?? null);
+        
+        // Criar tarefa de teste se necessário
+        if ($tarefa->criar_tarefa_teste && $tarefa->testador_id) {
+            $this->criarTarefaTeste($tarefa);
+        }
 
         return redirect()->back()->with('success', 'Tarefa concluída com sucesso!');
     }
@@ -219,6 +227,8 @@ class DashboardController extends Controller
             'data_vencimento' => 'nullable|date|after:now',
             'recorrente' => 'boolean',
             'frequencia_recorrencia' => 'nullable|in:diaria,semanal,mensal|required_if:recorrente,1',
+            'criar_tarefa_teste' => 'boolean',
+            'testador_id' => 'nullable|exists:colaboradores,id|required_if:criar_tarefa_teste,1',
         ]);
 
         $validated['tipo'] = 'manual';
@@ -399,6 +409,30 @@ class DashboardController extends Controller
         }
 
         return redirect('/projetos')->with('success', 'Projeto atualizado com sucesso!');
+    }
+
+    private function criarTarefaTeste(Tarefa $tarefaOriginal)
+    {
+        // Gerar descrição da tarefa de teste usando OpenAI
+        $descricaoTeste = $this->openAIService->generateTestTaskDescription(
+            $tarefaOriginal->titulo,
+            $tarefaOriginal->descricao
+        );
+        
+        // Criar a tarefa de teste
+        $tarefaTeste = Tarefa::create([
+            'titulo' => "[TESTE] " . $tarefaOriginal->titulo,
+            'descricao' => $descricaoTeste,
+            'colaborador_id' => $tarefaOriginal->testador_id,
+            'projeto_id' => $tarefaOriginal->projeto_id,
+            'tipo' => 'teste',
+            'prioridade' => $tarefaOriginal->prioridade,
+            'status' => 'pendente',
+            'tarefa_origem_id' => $tarefaOriginal->id,
+        ]);
+        
+        // Atualizar a tarefa original com o ID da tarefa de teste
+        $tarefaOriginal->update(['tarefa_teste_id' => $tarefaTeste->id]);
     }
 
     // MÉTODOS PARA PLANO DIÁRIO E POMODORO

@@ -25,6 +25,10 @@ class Tarefa extends Model
         'frequencia_recorrencia',
         'plano_dia',
         'pomodoros',
+        'criar_tarefa_teste',
+        'testador_id',
+        'tarefa_origem_id',
+        'tarefa_teste_id',
     ];
 
     protected function casts(): array
@@ -36,6 +40,7 @@ class Tarefa extends Model
             'recorrente' => 'boolean',
             'plano_dia' => 'date',
             'pomodoros' => 'array',
+            'criar_tarefa_teste' => 'boolean',
         ];
     }
 
@@ -106,5 +111,20 @@ class Tarefa extends Model
     public function scopeAutomaticas($query)
     {
         return $query->whereIn('tipo', ['automatica_feedback', 'automatica_aprovacao']);
+    }
+
+    public function testador()
+    {
+        return $this->belongsTo(Colaborador::class, 'testador_id');
+    }
+
+    public function tarefaOrigem()
+    {
+        return $this->belongsTo(Tarefa::class, 'tarefa_origem_id');
+    }
+
+    public function tarefaTeste()
+    {
+        return $this->belongsTo(Tarefa::class, 'tarefa_teste_id');
     }
 }
