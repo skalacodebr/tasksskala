@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GoogleOAuthToken extends Model
 {
+    protected $table = 'google_oauth_tokens';
+    
     protected $fillable = [
         'colaborador_id',
         'access_token',

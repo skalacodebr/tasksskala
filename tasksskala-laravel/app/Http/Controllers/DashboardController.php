@@ -240,7 +240,7 @@ class DashboardController extends Controller
     }
 
     // MÉTODOS PARA PROJETOS
-    public function listarProjetos()
+    public function listarProjetos(Request $request)
     {
         $colaborador = session('colaborador');
         
@@ -248,9 +248,21 @@ class DashboardController extends Controller
             return redirect('/login');
         }
 
-        $projetos = Projeto::with(['cliente', 'colaboradorResponsavel'])
-                          ->orderBy('created_at', 'desc')
-                          ->paginate(15);
+        $query = Projeto::with(['cliente', 'colaboradorResponsavel']);
+
+        // Filtro por nome
+        if ($request->filled('search')) {
+            $query->where('nome', 'like', '%' . $request->search . '%');
+        }
+
+        // Filtro por responsável
+        if ($request->filled('responsavel_id')) {
+            $query->where('colaborador_responsavel_id', $request->responsavel_id);
+        }
+
+        $projetos = $query->orderBy('created_at', 'desc')
+                          ->paginate(15)
+                          ->withQueryString();
 
         return view('projetos.index', compact('projetos', 'colaborador'));
     }

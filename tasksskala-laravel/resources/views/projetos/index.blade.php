@@ -22,6 +22,56 @@
         </div>
     </div>
 
+    <!-- Filtros -->
+    <div class="bg-white shadow rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <form method="GET" action="{{ route('projetos.index') }}" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Filtro por nome -->
+                    <div>
+                        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Buscar por nome</label>
+                        <input type="text" 
+                               name="search" 
+                               id="search" 
+                               value="{{ request('search') }}"
+                               placeholder="Digite o nome do projeto..."
+                               class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Filtro por responsável -->
+                    <div>
+                        <label for="responsavel_id" class="block text-sm font-medium text-gray-700 mb-1">Responsável</label>
+                        <select name="responsavel_id" 
+                                id="responsavel_id" 
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="">Todos os responsáveis</option>
+                            @foreach(\App\Models\Colaborador::orderBy('nome')->get() as $colaborador)
+                                <option value="{{ $colaborador->id }}" {{ request('responsavel_id') == $colaborador->id ? 'selected' : '' }}>
+                                    {{ $colaborador->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Botões de ação -->
+                    <div class="flex items-end space-x-2">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            Filtrar
+                        </button>
+                        @if(request()->hasAny(['search', 'responsavel_id']))
+                            <a href="{{ route('projetos.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+                                Limpar
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Lista de Projetos -->
     <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
