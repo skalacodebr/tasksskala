@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\StatusProjetoController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Auth\ColaboradorAuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleAuthController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -50,6 +51,11 @@ Route::middleware(['web'])->group(function () {
     Route::get('/projetos/{projeto}', [DashboardController::class, 'verProjeto'])->name('projetos.show');
     Route::get('/projetos/{projeto}/editar', [DashboardController::class, 'editarProjeto'])->name('projetos.edit');
     Route::put('/projetos/{projeto}', [DashboardController::class, 'atualizarProjeto'])->name('projetos.update');
+    
+    // Google Calendar OAuth routes
+    Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google.auth');
+    Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('google.callback');
+    Route::post('/auth/google/disconnect', [GoogleAuthController::class, 'disconnect'])->name('google.disconnect');
 });
 
 // Rotas de autenticação do admin

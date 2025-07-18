@@ -177,6 +177,61 @@
                 @endif
             </div>
         </div>
+
+        <!-- Google Calendar -->
+        <div class="bg-white shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Agendamentos do Google Calendar</h3>
+                    @if($isGoogleConnected)
+                        <form action="{{ route('google.disconnect') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="text-sm text-red-600 hover:text-red-800">
+                                Desconectar
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('google.auth') }}" class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+                            Conectar Google Calendar
+                        </a>
+                    @endif
+                </div>
+                
+                @if($isGoogleConnected)
+                    @if(count($googleEvents) > 0)
+                        <div class="space-y-3">
+                            @foreach($googleEvents as $event)
+                                <div class="border-l-4 border-purple-400 pl-4 py-2">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex-1">
+                                            <h4 class="text-sm font-medium text-gray-900">{{ $event['summary'] ?? 'Sem título' }}</h4>
+                                            @if(isset($event['location']))
+                                                <p class="text-xs text-gray-500">Local: {{ $event['location'] }}</p>
+                                            @endif
+                                            <p class="text-xs text-gray-500">
+                                                @if($event['is_all_day'])
+                                                    Dia todo - {{ \Carbon\Carbon::parse($event['start'])->format('d/m/Y') }}
+                                                @else
+                                                    {{ \Carbon\Carbon::parse($event['start'])->format('d/m/Y H:i') }} - 
+                                                    {{ \Carbon\Carbon::parse($event['end'])->format('H:i') }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                        <a href="{{ $event['html_link'] }}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800">
+                                            Ver no Google
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="text-gray-500 text-sm">Nenhum agendamento nos próximos 30 dias.</p>
+                    @endif
+                @else
+                    <p class="text-gray-500 text-sm">Conecte sua conta Google para ver seus agendamentos.</p>
+                @endif
+            </div>
+        </div>
     </div>
 
     <!-- Tarefas por Prioridade -->

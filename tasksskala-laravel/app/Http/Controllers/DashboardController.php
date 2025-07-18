@@ -7,11 +7,19 @@ use App\Models\Projeto;
 use App\Models\Colaborador;
 use App\Models\Cliente;
 use App\Models\MarcosProjeto;
+use App\Services\GoogleCalendarService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    private GoogleCalendarService $googleCalendarService;
+    
+    public function __construct(GoogleCalendarService $googleCalendarService)
+    {
+        $this->googleCalendarService = $googleCalendarService;
+    }
+    
     public function index()
     {
         $colaborador = session('colaborador');
@@ -64,6 +72,19 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        // Buscar eventos do Google Calendar
+        $googleEvents = [];
+        $isGoogleConnected = false;
+        
+        if ($colaborador->googleOAuthToken) {
+            $isGoogleConnected = true;
+            try {
+                $googleEvents = $this->googleCalendarService->getUpcomingEvents($colaborador, 10);
+            } catch (\Exception $e) {
+                $googleEvents = [];
+            }
+        }
+
         return view('dashboard', compact(
             'colaborador',
             'tarefasPendentes',
@@ -72,7 +93,9 @@ class DashboardController extends Controller
             'tarefasAtrasadas',
             'tarefasRecentes',
             'tarefasPrioridade',
-            'proximasTarefas'
+            'proximasTarefas',
+            'googleEvents',
+            'isGoogleConnected'
         ));
     }
 

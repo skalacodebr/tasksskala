@@ -44,4 +44,9 @@ class Colaborador extends Model
     {
         return $this->hasMany(Projeto::class, 'colaborador_responsavel_id');
     }
+
+    public function googleOAuthToken()
+    {
+        return $this->hasOne(GoogleOAuthToken::class);
+    }
 }

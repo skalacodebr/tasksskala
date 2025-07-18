@@ -31,7 +31,7 @@
             <select name="colaborador_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option value="">Todos</option>
                 @foreach($colaboradores as $colaborador)
-                    <option value="{{ $colaborador->id }}" {{ request('colaborador_id') == $colaborador->id ? 'selected' : '' }}>
+                    <option value="{{ $colaborador->id }}" {{ ($colaboradorSelecionado == $colaborador->id) ? 'selected' : '' }}>
                         {{ $colaborador->nome }}
                     </option>
                 @endforeach

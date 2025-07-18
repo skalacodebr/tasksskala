@@ -13,13 +13,24 @@ class TarefaController extends Controller
     public function index(Request $request)
     {
         $query = Tarefa::with(['colaborador', 'projeto']);
+        
+        // Se não há filtro de colaborador na requisição e não é uma requisição de filtro explícita,
+        // usar o colaborador padrão (lucas@skalacode.com.br) por padrão
+        $colaboradorSelecionado = null;
+        if ($request->filled('colaborador_id')) {
+            $colaboradorSelecionado = $request->colaborador_id;
+        } elseif (!$request->hasAny(['status', 'projeto_id', 'tipo']) && !$request->has('colaborador_id')) {
+            // Se não há nenhum filtro aplicado, usar o colaborador padrão
+            $colaboradorPadrao = Colaborador::where('email', 'lucas@skalacode.com.br')->first();
+            $colaboradorSelecionado = $colaboradorPadrao ? $colaboradorPadrao->id : null;
+        }
 
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        if ($request->filled('colaborador_id')) {
-            $query->where('colaborador_id', $request->colaborador_id);
+        if ($colaboradorSelecionado) {
+            $query->where('colaborador_id', $colaboradorSelecionado);
         }
 
         if ($request->filled('projeto_id')) {
@@ -34,7 +45,7 @@ class TarefaController extends Controller
         $colaboradores = Colaborador::all();
         $projetos = Projeto::all();
 
-        return view('admin.tarefas.index', compact('tarefas', 'colaboradores', 'projetos'));
+        return view('admin.tarefas.index', compact('tarefas', 'colaboradores', 'projetos', 'colaboradorSelecionado'));
     }
 
     public function create()
