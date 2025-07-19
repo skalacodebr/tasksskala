@@ -113,9 +113,7 @@
                         <i class="fas fa-flag w-5"></i>
                         <span class="font-medium">Status</span>
                     </a>
-                </div>
-                 <!-- Logout Button -->
-            <div class="absolute bottom-6 left-6 right-6">
+                    <div class="absolute bottom-6 left-6 right-6">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button type="submit" class="w-full nav-item flex items-center space-x-4 py-3 px-4 rounded-xl text-red-200 hover:text-white hover:bg-red-500/20">
@@ -124,6 +122,9 @@
                     </button>
                 </form>
             </div>
+                </div>
+                 <!-- Logout Button -->
+            
             </nav>
             
            
