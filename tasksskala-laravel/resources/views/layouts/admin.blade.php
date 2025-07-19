@@ -114,9 +114,7 @@
                         <span class="font-medium">Status</span>
                     </a>
                 </div>
-            </nav>
-            
-            <!-- Logout Button -->
+                 <!-- Logout Button -->
             <div class="absolute bottom-6 left-6 right-6">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
@@ -126,6 +124,9 @@
                     </button>
                 </form>
             </div>
+            </nav>
+            
+           
         </div>
 
         <!-- Main Content -->
