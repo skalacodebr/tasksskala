@@ -29,8 +29,17 @@ class AgenteSkalaController extends Controller
         $plan->approved = $request->input('approved');
         $plan->save();
         
+        // Atualizar status da task vinculada
+        $task = $plan->task;
+        if ($task) {
+            if ($plan->approved) {
+                $task->status = 'aprovado';
+                $task->save();
+            }
+        }
+        
         $status = $plan->approved ? 'aprovado' : 'reprovado';
         
-        return redirect()->back()->with('success', "Plano #{$plan->id} {$status} com sucesso!");
+        return redirect()->back()->with('success', "Plano #{$plan->id} {$status} com sucesso! Task #{$task->id} também foi atualizada.");
     }
 }
