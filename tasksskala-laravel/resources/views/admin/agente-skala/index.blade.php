@@ -16,6 +16,62 @@
         </div>
     </div>
 
+    <!-- Filtros e Estatísticas -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <!-- Filtro por Repositório -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-filter text-purple-600 mr-2"></i>
+                Filtros
+            </h3>
+            <form method="GET" action="{{ route('admin.agente-skala.index') }}" class="flex space-x-4">
+                <div class="flex-1">
+                    <label for="repository_filter" class="block text-sm font-medium text-gray-700 mb-2">Repositório</label>
+                    <select name="repository_filter" id="repository_filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">Todos os repositórios</option>
+                        @foreach($repositories as $repo)
+                            <option value="{{ $repo }}" {{ request('repository_filter') === $repo ? 'selected' : '' }}>
+                                {{ basename($repo) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex items-end space-x-2">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-search mr-1"></i>
+                        Filtrar
+                    </button>
+                    @if(request('repository_filter'))
+                        <a href="{{ route('admin.agente-skala.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+                            <i class="fas fa-times mr-1"></i>
+                            Limpar
+                        </a>
+                    @endif
+                </div>
+            </form>
+        </div>
+
+        <!-- Card de Custo Total -->
+        <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Custo Total</h3>
+                    <p class="text-3xl font-bold">${{ number_format($totalCost, 2) }}</p>
+                    <p class="text-green-100 text-sm mt-1">{{ $planCount }} plano(s) executado(s)</p>
+                    @if(request('repository_filter'))
+                        <p class="text-green-200 text-xs mt-2">
+                            <i class="fas fa-filter mr-1"></i>
+                            Filtrado por: {{ basename(request('repository_filter')) }}
+                        </p>
+                    @endif
+                </div>
+                <div class="text-green-200">
+                    <i class="fas fa-dollar-sign text-4xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if($tasks->count() > 0)
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white">

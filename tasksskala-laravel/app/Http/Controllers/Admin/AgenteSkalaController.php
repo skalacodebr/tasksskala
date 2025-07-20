@@ -9,11 +9,37 @@ use Illuminate\Http\Request;
 
 class AgenteSkalaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = SkalaTask::with('plans')->orderBy('created_at', 'desc')->get();
+        $query = SkalaTask::with('plans');
         
-        return view('admin.agente-skala.index', compact('tasks'));
+        // Filtro por repositório
+        if ($request->filled('repository_filter')) {
+            $query->where('repository_url', $request->repository_filter);
+        }
+        
+        $tasks = $query->orderBy('created_at', 'desc')->get();
+        
+        // Obter todos os repositórios únicos para o filtro
+        $repositories = SkalaTask::whereNotNull('repository_url')
+                                ->distinct()
+                                ->pluck('repository_url')
+                                ->sort();
+        
+        // Calcular custo total dos planos
+        $totalCost = 0;
+        $planCount = 0;
+        
+        foreach ($tasks as $task) {
+            foreach ($task->plans as $plan) {
+                if ($plan->plan_json && isset($plan->plan_json['total_cost_usd'])) {
+                    $totalCost += $plan->plan_json['total_cost_usd'];
+                    $planCount++;
+                }
+            }
+        }
+        
+        return view('admin.agente-skala.index', compact('tasks', 'repositories', 'totalCost', 'planCount'));
     }
 
     public function show($id)
