@@ -88,7 +88,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $task->created_at->format('d/m/Y H:i') }}
+                                {{ $task->created_at ? $task->created_at->format('d/m/Y H:i') : 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <a href="{{ route('admin.agente-skala.show', $task->id) }}" class="text-blue-600 hover:text-blue-900">

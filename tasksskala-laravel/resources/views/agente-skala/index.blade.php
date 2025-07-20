@@ -178,9 +178,13 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $task->created_at->format('d/m/Y') }}
-                                    <br>
-                                    <span class="text-xs">{{ $task->created_at->format('H:i') }}</span>
+                                    @if($task->created_at)
+                                        {{ $task->created_at->format('d/m/Y') }}
+                                        <br>
+                                        <span class="text-xs">{{ $task->created_at->format('H:i') }}</span>
+                                    @else
+                                        N/A
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a href="{{ route('agente-skala.show', $task->id) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg text-cyan-700 bg-cyan-100 hover:bg-cyan-200 transition-colors">

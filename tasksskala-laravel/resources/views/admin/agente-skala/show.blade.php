@@ -69,11 +69,11 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Data de Criação</label>
-                        <p class="text-sm text-gray-900">{{ $task->created_at->format('d/m/Y H:i:s') }}</p>
+                        <p class="text-sm text-gray-900">{{ $task->created_at ? $task->created_at->format('d/m/Y H:i:s') : 'Não informado' }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Última Atualização</label>
-                        <p class="text-sm text-gray-900">{{ $task->updated_at->format('d/m/Y H:i:s') }}</p>
+                        <p class="text-sm text-gray-900">{{ $task->updated_at ? $task->updated_at->format('d/m/Y H:i:s') : 'Não informado' }}</p>
                     </div>
                 </div>
             </div>
