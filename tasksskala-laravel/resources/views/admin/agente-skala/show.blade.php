@@ -135,7 +135,7 @@
                                     Pendente
                                 </span>
                             @endif
-                            <span class="text-sm text-gray-500">{{ $plan->created_at->format('d/m/Y H:i') }}</span>
+                            <span class="text-sm text-gray-500">{{ $plan->created_at ? $plan->created_at->format('d/m/Y H:i') : 'N/A' }}</span>
                         </div>
                     </div>
 
