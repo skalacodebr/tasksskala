@@ -12,9 +12,11 @@ use App\Http\Controllers\Admin\StatusProjetoController;
 use App\Http\Controllers\Admin\AgenteSkalaController as AdminAgenteSkalaController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Auth\ColaboradorAuthController;
+use App\Http\Controllers\Auth\ClienteAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\AgenteSkalaController;
+use App\Http\Controllers\Cliente\ClienteDashboardController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -28,6 +30,11 @@ Route::get('/', function () {
 Route::get('/login', [ColaboradorAuthController::class, 'showLoginForm'])->name('colaborador.login.form');
 Route::post('/login', [ColaboradorAuthController::class, 'login'])->name('colaborador.login');
 Route::post('/logout', [ColaboradorAuthController::class, 'logout'])->name('colaborador.logout');
+
+// Rotas de autenticação do cliente
+Route::get('/cliente/login', [ClienteAuthController::class, 'showLoginForm'])->name('cliente.login.form');
+Route::post('/cliente/login', [ClienteAuthController::class, 'login'])->name('cliente.login');
+Route::post('/cliente/logout', [ClienteAuthController::class, 'logout'])->name('cliente.logout');
 
 // Rotas do colaborador (dashboard)
 Route::middleware(['web'])->group(function () {
@@ -63,6 +70,15 @@ Route::middleware(['web'])->group(function () {
     Route::get('/agente-skala', [AgenteSkalaController::class, 'index'])->name('agente-skala.index');
     Route::get('/agente-skala/{id}', [AgenteSkalaController::class, 'show'])->name('agente-skala.show');
     Route::patch('/agente-skala/plan/{planId}/status', [AgenteSkalaController::class, 'updatePlanStatus'])->name('agente-skala.plan.status');
+});
+
+// Rotas do Cliente (protegidas)
+Route::prefix('cliente')->name('cliente.')->middleware(['web', App\Http\Middleware\ClienteAuth::class])->group(function () {
+    Route::get('/dashboard', [ClienteDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/criar-task', [ClienteDashboardController::class, 'criarTask'])->name('criar-task');
+    Route::post('/criar-task', [ClienteDashboardController::class, 'armazenarTask'])->name('armazenar-task');
+    Route::get('/minhas-tasks', [ClienteDashboardController::class, 'minhasTasks'])->name('minhas-tasks');
+    Route::get('/task/{id}', [ClienteDashboardController::class, 'verTask'])->name('task.detalhes');
 });
 
 // Rotas de autenticação do admin
