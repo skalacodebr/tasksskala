@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Auth\ColaboradorAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\AgenteSkalaController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -57,6 +58,10 @@ Route::middleware(['web'])->group(function () {
     Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google.auth');
     Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('google.callback');
     Route::post('/auth/google/disconnect', [GoogleAuthController::class, 'disconnect'])->name('google.disconnect');
+    
+    // Agente Skala routes for colaboradores
+    Route::get('/agente-skala', [AgenteSkalaController::class, 'index'])->name('agente-skala.index');
+    Route::get('/agente-skala/{id}', [AgenteSkalaController::class, 'show'])->name('agente-skala.show');
 });
 
 // Rotas de autenticação do admin
