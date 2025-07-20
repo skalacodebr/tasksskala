@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         <h1 class="text-xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">Portal Cliente</h1>
-                        <p class="text-sm text-blue-200">Skala ERP</p>
+                        <p class="text-sm text-blue-200">Skala Code</p>
                     </div>
                 </div>
                 
@@ -93,9 +93,7 @@
                             @endif
                         </a>
                     </div>
-                </div>
-
-                <!-- Bottom Section -->
+                      <!-- Bottom Section -->
                 <div class="mt-6 pt-4 border-t border-blue-700/50">
                     <div class="p-3 bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/20 rounded-xl backdrop-blur-sm">
                         <form action="{{ route('cliente.logout') }}" method="POST">
@@ -111,6 +109,9 @@
                         </form>
                     </div>
                 </div>
+                </div>
+
+              
             </nav>
         </div>
 
