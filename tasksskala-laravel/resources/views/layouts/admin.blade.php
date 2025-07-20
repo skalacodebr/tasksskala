@@ -113,6 +113,11 @@
                         <i class="fas fa-flag w-5"></i>
                         <span class="font-medium">Status</span>
                     </a>
+                    
+                    <a href="{{ route('admin.agente-skala.index') }}" class="nav-item {{ request()->routeIs('admin.agente-skala.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-robot w-5"></i>
+                        <span class="font-medium">Agente Skala</span>
+                    </a>
                     <div class="absolute bottom-6 left-6 right-6">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf

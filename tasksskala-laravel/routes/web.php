@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\ProjetoController;
 use App\Http\Controllers\Admin\TarefaController;
 use App\Http\Controllers\Admin\StatusProjetoController;
+use App\Http\Controllers\Admin\AgenteSkalaController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Auth\ColaboradorAuthController;
 use App\Http\Controllers\DashboardController;
@@ -91,4 +92,8 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::patch('tarefas/{tarefa}/iniciar', [TarefaController::class, 'iniciar'])->name('tarefas.iniciar');
     Route::patch('tarefas/{tarefa}/concluir', [TarefaController::class, 'concluir'])->name('tarefas.concluir');
     Route::patch('tarefas/{tarefa}/cancelar', [TarefaController::class, 'cancelar'])->name('tarefas.cancelar');
+    
+    // Agente Skala routes
+    Route::get('agente-skala', [AgenteSkalaController::class, 'index'])->name('agente-skala.index');
+    Route::get('agente-skala/{id}', [AgenteSkalaController::class, 'show'])->name('agente-skala.show');
 });

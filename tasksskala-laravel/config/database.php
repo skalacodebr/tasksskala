@@ -112,6 +112,21 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'skala_tasks' => [
+            'driver' => 'mysql',
+            'host' => '45.132.157.52',
+            'port' => '3306',
+            'database' => 'u365250089_tasks',
+            'username' => 'u365250089_tasks',
+            'password' => 'Skala@2025$',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+        ],
+
     ],
 
     /*
