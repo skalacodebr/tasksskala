@@ -244,17 +244,37 @@
                             </div>
                         </div>
 
+                        <!-- Resultado do Plano (Markdown) -->
+                        @if(isset($plan->plan_json['result']) && $plan->plan_json['result'])
+                            <div class="bg-white rounded-lg border p-4 mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Plano de Execução:</label>
+                                <div class="prose prose-sm max-w-none bg-gray-50 rounded-lg p-4 border">
+                                    {!! \Illuminate\Support\Str::markdown($plan->plan_json['result']) !!}
+                                </div>
+                            </div>
+                        @endif
+
+                        <!-- JSON Técnico (Colapsável) -->
                         <div class="bg-white rounded-lg border p-4">
                             <div class="flex justify-between items-center mb-3">
-                                <label class="text-sm font-medium text-gray-700">Plano de Execução:</label>
-                                <button onclick="copyToClipboard('plan-{{ $plan->id }}')" class="text-xs text-blue-600 hover:text-blue-700 flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                    </svg>
-                                    Copiar
-                                </button>
+                                <label class="text-sm font-medium text-gray-700">Detalhes Técnicos:</label>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="toggleJson('json-{{ $plan->id }}')" class="text-xs text-blue-600 hover:text-blue-700 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="icon-{{ $plan->id }}">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        <span id="text-{{ $plan->id }}">Ver Detalhes</span>
+                                    </button>
+                                    <button onclick="copyToClipboard('plan-{{ $plan->id }}')" class="text-xs text-blue-600 hover:text-blue-700 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                </div>
                             </div>
-                            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto max-h-96 overflow-y-auto">
+                            <div id="json-{{ $plan->id }}" class="hidden bg-gray-900 rounded-lg p-4 overflow-x-auto max-h-96 overflow-y-auto">
                                 <pre id="plan-{{ $plan->id }}" class="text-green-400 text-sm font-mono whitespace-pre-wrap">{{ json_encode($plan->plan_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                             </div>
                         </div>
@@ -277,6 +297,22 @@
 </div>
 
 <script>
+function toggleJson(elementId) {
+    const element = document.getElementById(elementId);
+    const icon = document.getElementById('icon-' + elementId.replace('json-', ''));
+    const text = document.getElementById('text-' + elementId.replace('json-', ''));
+    
+    if (element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L8.464 8.464M9.878 9.878a3 3 0 00-3-3m4.242 4.242L13 13l-1.414-1.414M13 13l.414.414M13 13a3 3 0 003-3M4 4l16 16"></path>';
+        text.textContent = 'Ocultar Detalhes';
+    } else {
+        element.classList.add('hidden');
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
+        text.textContent = 'Ver Detalhes';
+    }
+}
+
 function copyToClipboard(elementId) {
     const element = document.getElementById(elementId);
     const text = element.textContent;

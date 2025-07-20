@@ -164,9 +164,26 @@
                         @endif
                     </div>
 
+                    <!-- Resultado do Plano (Markdown) -->
+                    @if(isset($plan->plan_json['result']) && $plan->plan_json['result'])
+                        <div class="bg-white rounded-lg p-4 border mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Resultado do Plano:</label>
+                            <div class="prose prose-sm max-w-none bg-gray-50 rounded-lg p-4 border">
+                                {!! \Illuminate\Support\Str::markdown($plan->plan_json['result']) !!}
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- JSON Completo (Colapsável) -->
                     <div class="bg-white rounded-lg p-4 border">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">JSON do Plano:</label>
-                        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="text-sm font-medium text-gray-700">JSON Completo do Plano:</label>
+                            <button onclick="toggleJson('json-{{ $plan->id }}')" class="text-xs text-blue-600 hover:text-blue-700 flex items-center">
+                                <i class="fas fa-eye mr-1" id="icon-{{ $plan->id }}"></i>
+                                <span id="text-{{ $plan->id }}">Mostrar JSON</span>
+                            </button>
+                        </div>
+                        <div id="json-{{ $plan->id }}" class="hidden bg-gray-900 rounded-lg p-4 overflow-x-auto">
                             <pre class="text-green-400 text-sm font-mono whitespace-pre-wrap">{{ json_encode($plan->plan_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
                         </div>
                     </div>
@@ -177,3 +194,23 @@
 </div>
 @endif
 @endsection
+
+@push('scripts')
+<script>
+function toggleJson(elementId) {
+    const element = document.getElementById(elementId);
+    const icon = document.getElementById('icon-' + elementId.replace('json-', ''));
+    const text = document.getElementById('text-' + elementId.replace('json-', ''));
+    
+    if (element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
+        icon.className = 'fas fa-eye-slash mr-1';
+        text.textContent = 'Ocultar JSON';
+    } else {
+        element.classList.add('hidden');
+        icon.className = 'fas fa-eye mr-1';
+        text.textContent = 'Mostrar JSON';
+    }
+}
+</script>
+@endpush
