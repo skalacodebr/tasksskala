@@ -62,6 +62,7 @@ Route::middleware(['web'])->group(function () {
     // Agente Skala routes for colaboradores
     Route::get('/agente-skala', [AgenteSkalaController::class, 'index'])->name('agente-skala.index');
     Route::get('/agente-skala/{id}', [AgenteSkalaController::class, 'show'])->name('agente-skala.show');
+    Route::patch('/agente-skala/plan/{planId}/status', [AgenteSkalaController::class, 'updatePlanStatus'])->name('agente-skala.plan.status');
 });
 
 // Rotas de autenticação do admin
@@ -101,4 +102,5 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     // Agente Skala routes
     Route::get('agente-skala', [AdminAgenteSkalaController::class, 'index'])->name('agente-skala.index');
     Route::get('agente-skala/{id}', [AdminAgenteSkalaController::class, 'show'])->name('agente-skala.show');
+    Route::patch('agente-skala/plan/{planId}/status', [AdminAgenteSkalaController::class, 'updatePlanStatus'])->name('agente-skala.plan.status');
 });

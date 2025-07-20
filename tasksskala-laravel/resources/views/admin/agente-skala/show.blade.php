@@ -139,6 +139,31 @@
                         </div>
                     </div>
 
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end space-x-2 mb-4">
+                        @if(!$plan->approved)
+                            <form method="POST" action="{{ route('admin.agente-skala.plan.status', $plan->id) }}" class="inline" onsubmit="return confirm('Tem certeza que deseja aprovar este plano?')">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="approved" value="1">
+                                <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 transition-colors transform hover:scale-105">
+                                    <i class="fas fa-check mr-1"></i>
+                                    Aprovar
+                                </button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('admin.agente-skala.plan.status', $plan->id) }}" class="inline" onsubmit="return confirm('Tem certeza que deseja reprovar este plano?')">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="approved" value="0">
+                                <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 transition-colors transform hover:scale-105">
+                                    <i class="fas fa-times mr-1"></i>
+                                    Reprovar
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+
                     <div class="bg-white rounded-lg p-4 border">
                         <label class="block text-sm font-medium text-gray-700 mb-2">JSON do Plano:</label>
                         <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
