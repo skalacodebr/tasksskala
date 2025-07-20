@@ -122,9 +122,7 @@
                             @endif
                         </a>
                     </div>
-                </div>
-
-                <!-- Bottom Section -->
+                      <!-- Bottom Section -->
                 <div class="mt-6 pt-4 border-t border-slate-700/50">
                     <div class="p-3 bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/20 rounded-xl backdrop-blur-sm">
                         <form action="{{ route('colaborador.logout') }}" method="POST">
@@ -140,6 +138,9 @@
                         </form>
                     </div>
                 </div>
+                </div>
+
+              
             </nav>
         </div>
 
