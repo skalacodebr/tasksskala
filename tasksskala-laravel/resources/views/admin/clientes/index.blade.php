@@ -4,11 +4,54 @@
 
 @section('content')
 <div class="mb-6">
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-bold text-gray-900">Lista de Clientes</h2>
         <a href="{{ route('admin.clientes.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Novo Cliente
         </a>
+    </div>
+    
+    <!-- Barra de Busca -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+        <form method="GET" action="{{ route('admin.clientes.index') }}" class="flex items-center space-x-4">
+            <div class="flex-1">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" 
+                           name="search" 
+                           value="{{ request('search') }}" 
+                           placeholder="Buscar por nome ou email..." 
+                           class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Buscar
+                </button>
+                @if(request('search'))
+                    <a href="{{ route('admin.clientes.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-500 text-white font-medium rounded-lg hover:bg-gray-600 focus:ring-4 focus:ring-gray-200 transition-colors">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Limpar
+                    </a>
+                @endif
+            </div>
+        </form>
+        
+        @if(request('search'))
+            <div class="mt-3 text-sm text-gray-600">
+                <span class="font-medium">{{ $clientes->total() }}</span> resultado(s) encontrado(s) para 
+                <span class="font-medium">"{{ request('search') }}"</span>
+            </div>
+        @endif
     </div>
 </div>
 
@@ -65,9 +108,28 @@
             </div>
         </li>
         @empty
-        <li class="px-4 py-4 sm:px-6 text-center text-gray-500">
-            Nenhum cliente encontrado.
-            <a href="{{ route('admin.clientes.create') }}" class="text-blue-600 hover:text-blue-500 ml-1">Criar o primeiro cliente</a>
+        <li class="px-4 py-8 sm:px-6 text-center text-gray-500">
+            @if(request('search'))
+                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum resultado encontrado</h3>
+                <p>Não encontramos nenhum cliente com o termo "{{ request('search') }}"</p>
+                <p class="mt-2">
+                    <a href="{{ route('admin.clientes.index') }}" class="text-blue-600 hover:text-blue-500">Ver todos os clientes</a>
+                    ou
+                    <a href="{{ route('admin.clientes.create') }}" class="text-blue-600 hover:text-blue-500">criar um novo cliente</a>
+                </p>
+            @else
+                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum cliente cadastrado</h3>
+                <p>Comece criando o primeiro cliente do sistema</p>
+                <p class="mt-2">
+                    <a href="{{ route('admin.clientes.create') }}" class="text-blue-600 hover:text-blue-500">Criar o primeiro cliente</a>
+                </p>
+            @endif
         </li>
         @endforelse
     </ul>

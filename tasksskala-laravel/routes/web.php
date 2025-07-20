@@ -37,7 +37,7 @@ Route::post('/cliente/login', [ClienteAuthController::class, 'login'])->name('cl
 Route::post('/cliente/logout', [ClienteAuthController::class, 'logout'])->name('cliente.logout');
 
 // Rotas do colaborador (dashboard)
-Route::middleware(['web'])->group(function () {
+Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/minhas-tarefas', [DashboardController::class, 'minhasTarefas'])->name('minhas-tarefas');
     Route::get('/tarefa/criar', [DashboardController::class, 'criarTarefa'])->name('tarefa.criar');

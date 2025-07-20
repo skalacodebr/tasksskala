@@ -9,9 +9,21 @@ use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $clientes = Cliente::withCount('projetos')->paginate(10);
+        $query = Cliente::withCount('projetos');
+        
+        // Busca por nome ou email
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nome', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+        
+        $clientes = $query->orderBy('nome')->paginate(10)->appends($request->query());
+        
         return view('admin.clientes.index', compact('clientes'));
     }
 
