@@ -75,6 +75,21 @@
                                 <div class="ml-auto w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
                             @endif
                         </a>
+
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('agente-skala.*') ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 shadow-lg' : '' }}" href="{{ route('agente-skala.index') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('agente-skala.*') ? 'bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <span class="font-medium group-hover:text-white transition-colors {{ request()->routeIs('agente-skala.*') ? 'text-white' : 'text-slate-300' }}">Agente Skala</span>
+                                <p class="text-xs text-slate-500">Assistente IA</p>
+                            </div>
+                            @if(request()->routeIs('agente-skala.*'))
+                                <div class="ml-auto w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
                     </div>
 
                     <!-- Tasks Section -->
