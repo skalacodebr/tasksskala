@@ -87,6 +87,13 @@ Route::prefix('cliente')->name('cliente.')->middleware(['web', App\Http\Middlewa
     Route::get('/projetos', [ClienteDashboardController::class, 'meusProjetos'])->name('projetos');
     Route::get('/projeto/{projeto}', [ClienteDashboardController::class, 'verProjeto'])->name('projeto.detalhes');
     Route::get('/tutoriais', [ClienteDashboardController::class, 'tutoriais'])->name('tutoriais');
+    
+    // Rotas de Feedback
+    Route::get('/feedbacks', [ClienteDashboardController::class, 'feedbacks'])->name('feedbacks');
+    Route::get('/feedback/criar', [ClienteDashboardController::class, 'criarFeedback'])->name('feedback.criar');
+    Route::post('/feedback', [ClienteDashboardController::class, 'armazenarFeedback'])->name('feedback.armazenar');
+    Route::get('/feedback/{feedback}', [ClienteDashboardController::class, 'verFeedback'])->name('feedback.show');
+    Route::post('/feedback/{feedback}/avaliar', [ClienteDashboardController::class, 'avaliarFeedback'])->name('feedback.avaliar');
 });
 
 // Rotas de autenticação do admin
@@ -132,4 +139,12 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::resource('tutoriais', TutorialController::class)->parameters([
         'tutoriais' => 'tutorial'
     ]);
+    
+    // Feedbacks routes
+    Route::get('feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.index');
+    Route::get('feedbacks/estatisticas', [FeedbackController::class, 'estatisticas'])->name('feedbacks.estatisticas');
+    Route::get('feedbacks/{feedback}', [FeedbackController::class, 'show'])->name('feedbacks.show');
+    Route::post('feedbacks/{feedback}/responder', [FeedbackController::class, 'responder'])->name('feedbacks.responder');
+    Route::post('feedbacks/{feedback}/status', [FeedbackController::class, 'atualizarStatus'])->name('feedbacks.atualizarStatus');
+    Route::delete('feedbacks/{feedback}', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
 });
