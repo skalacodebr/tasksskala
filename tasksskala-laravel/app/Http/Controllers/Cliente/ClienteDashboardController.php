@@ -74,4 +74,26 @@ class ClienteDashboardController extends Controller
         
         return view('cliente.task-detalhes', compact('task'));
     }
+
+    public function meusProjetos()
+    {
+        $cliente = Auth::guard('cliente')->user();
+        $projetos = $cliente->projetos()->with(['colaboradorResponsavel', 'statusProjeto'])->get();
+        
+        return view('cliente.projetos', compact('projetos'));
+    }
+
+    public function verProjeto(Projeto $projeto)
+    {
+        $cliente = Auth::guard('cliente')->user();
+        
+        // Verificar se o projeto pertence ao cliente logado
+        if ($projeto->cliente_id !== $cliente->id) {
+            abort(403, 'Acesso negado');
+        }
+
+        $projeto->load(['colaboradorResponsavel', 'statusProjeto', 'marcos']);
+        
+        return view('cliente.projeto-detalhes', compact('projeto'));
+    }
 }

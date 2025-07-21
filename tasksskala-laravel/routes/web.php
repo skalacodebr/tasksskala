@@ -79,6 +79,8 @@ Route::prefix('cliente')->name('cliente.')->middleware(['web', App\Http\Middlewa
     Route::post('/criar-task', [ClienteDashboardController::class, 'armazenarTask'])->name('armazenar-task');
     Route::get('/minhas-tasks', [ClienteDashboardController::class, 'minhasTasks'])->name('minhas-tasks');
     Route::get('/task/{id}', [ClienteDashboardController::class, 'verTask'])->name('task.detalhes');
+    Route::get('/projetos', [ClienteDashboardController::class, 'meusProjetos'])->name('projetos');
+    Route::get('/projeto/{projeto}', [ClienteDashboardController::class, 'verProjeto'])->name('projeto.detalhes');
 });
 
 // Rotas de autenticação do admin

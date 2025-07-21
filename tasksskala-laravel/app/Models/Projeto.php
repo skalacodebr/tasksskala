@@ -19,6 +19,8 @@ class Projeto extends Model
         'anotacoes',
         'status',
         'status_id',
+        'instrucoes_ambiente_teste',
+        'instrucoes_ambiente_producao',
     ];
 
     protected function casts(): array

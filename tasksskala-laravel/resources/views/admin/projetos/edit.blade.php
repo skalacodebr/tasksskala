@@ -132,6 +132,28 @@
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    <!-- Instruções Ambiente de Teste -->
+                    <div class="lg:col-span-2">
+                        <label for="instrucoes_ambiente_teste" class="block text-sm font-medium text-gray-700">Instruções para Acesso ao Ambiente de Teste</label>
+                        <textarea name="instrucoes_ambiente_teste" id="instrucoes_ambiente_teste" rows="4" placeholder="Ex: URL, usuário, senha, informações específicas para acesso ao ambiente de teste..."
+                                  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('instrucoes_ambiente_teste') border-red-500 @enderror">{{ old('instrucoes_ambiente_teste', $projeto->instrucoes_ambiente_teste) }}</textarea>
+                        @error('instrucoes_ambiente_teste')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-sm text-gray-500">Instruções que o cliente verá para acessar o ambiente de teste</p>
+                    </div>
+
+                    <!-- Instruções Ambiente de Produção -->
+                    <div class="lg:col-span-2">
+                        <label for="instrucoes_ambiente_producao" class="block text-sm font-medium text-gray-700">Instruções para Acesso ao Ambiente de Produção</label>
+                        <textarea name="instrucoes_ambiente_producao" id="instrucoes_ambiente_producao" rows="4" placeholder="Ex: URL, usuário, senha, informações específicas para acesso ao ambiente de produção..."
+                                  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('instrucoes_ambiente_producao') border-red-500 @enderror">{{ old('instrucoes_ambiente_producao', $projeto->instrucoes_ambiente_producao) }}</textarea>
+                        @error('instrucoes_ambiente_producao')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-sm text-gray-500">Instruções que o cliente verá para acessar o ambiente de produção</p>
+                    </div>
                 </div>
 
                 <!-- Marcos do Projeto -->
