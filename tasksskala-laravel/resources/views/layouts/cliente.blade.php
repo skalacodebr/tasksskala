@@ -17,9 +17,7 @@
             <!-- Header -->
             <div class="relative p-6 border-b border-blue-700/50">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
                     
-                    </div>
                     <div>
                         <h1 class="text-xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">Portal Cliente</h1>
                         <p class="text-sm text-blue-200">Skala Code</p>
