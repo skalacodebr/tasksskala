@@ -102,10 +102,7 @@
                     <p class="text-sm text-purple-200 mb-2">
                         <i class="fas fa-info-circle mr-2"></i>Credenciais de Acesso:
                     </p>
-                    <div class="text-xs space-y-1">
-                        <p class="text-yellow-300">Email: admin@skalacode.com.br</p>
-                        <p class="text-yellow-300">Senha: admin</p>
-                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -125,10 +122,7 @@
             const passwordInput = document.getElementById('password');
             
             // Add click to fill demo credentials
-            document.querySelector('.glass-effect.rounded-lg').addEventListener('click', function() {
-                emailInput.value = 'admin@skalacode.com.br';
-                passwordInput.value = 'admin';
-            });
+           
         });
     </script>
 </body>
