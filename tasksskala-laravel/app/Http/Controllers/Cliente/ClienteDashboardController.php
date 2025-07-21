@@ -18,7 +18,11 @@ class ClienteDashboardController extends Controller
         $projetos = $cliente->projetos;
         
         // Buscar tasks do cliente no banco externo
-        $tasks = SkalaTask::where('user_id', $cliente->id)->orderBy('created_at', 'desc')->get();
+        // Filtrar por repositório dos projetos do cliente
+        $repositoriosCliente = $cliente->projetos->pluck('repositorio_git')->filter()->toArray();
+        $tasks = SkalaTask::whereIn('repository_url', $repositoriosCliente)
+                         ->orderBy('created_at', 'desc')
+                         ->get();
         
         return view('cliente.dashboard', compact('cliente', 'projetos', 'tasks'));
     }
@@ -44,15 +48,16 @@ class ClienteDashboardController extends Controller
                           ->where('cliente_id', $cliente->id)
                           ->firstOrFail();
 
-        // Concatenar URL e descrição
-        $taskDescription = "URL: {$request->url_pagina}\n\nDescrição: {$request->descricao}";
+        // Concatenar informações do cliente, URL e descrição
+        $taskDescription = "Cliente: {$cliente->nome} (ID: {$cliente->id})\nProjeto: {$projeto->nome}\nURL: {$request->url_pagina}\n\nDescrição: {$request->descricao}";
 
         // Criar task no banco externo
+        // Usar user_id fixo para tasks de clientes (user_id 1 deve existir no banco skala_tasks)
         SkalaTask::create([
             'repository_url' => $projeto->repositorio_git,
             'task_description' => $taskDescription,
             'status' => 'pendente',
-            'user_id' => $cliente->id,
+            'user_id' => 1, // ID fixo para tasks criadas por clientes
         ]);
 
         return redirect()->route('cliente.dashboard')->with('success', 'Task criada com sucesso! Nossa equipe irá analisá-la em breve.');
@@ -61,7 +66,11 @@ class ClienteDashboardController extends Controller
     public function minhasTasks()
     {
         $cliente = Auth::guard('cliente')->user();
-        $tasks = SkalaTask::where('user_id', $cliente->id)->orderBy('created_at', 'desc')->get();
+        // Filtrar por repositório dos projetos do cliente
+        $repositoriosCliente = $cliente->projetos->pluck('repositorio_git')->filter()->toArray();
+        $tasks = SkalaTask::whereIn('repository_url', $repositoriosCliente)
+                         ->orderBy('created_at', 'desc')
+                         ->get();
         
         return view('cliente.minhas-tasks', compact('tasks'));
     }
@@ -69,8 +78,10 @@ class ClienteDashboardController extends Controller
     public function verTask($id)
     {
         $cliente = Auth::guard('cliente')->user();
+        // Verificar se a task pertence a um dos projetos do cliente
+        $repositoriosCliente = $cliente->projetos->pluck('repositorio_git')->filter()->toArray();
         $task = SkalaTask::where('id', $id)
-                        ->where('user_id', $cliente->id)
+                        ->whereIn('repository_url', $repositoriosCliente)
                         ->with('plans')
                         ->firstOrFail();
         
