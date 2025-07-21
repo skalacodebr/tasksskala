@@ -18,6 +18,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\AgenteSkalaController;
 use App\Http\Controllers\Cliente\ClienteDashboardController;
+use App\Http\Controllers\Admin\FeedbackController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {

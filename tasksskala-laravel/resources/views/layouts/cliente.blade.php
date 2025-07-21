@@ -118,6 +118,21 @@
                     <div class="mb-6">
                         <p class="text-xs font-semibold text-blue-300 uppercase tracking-wider mb-3 px-3">Ajuda</p>
                         
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-blue-800/50 {{ request()->routeIs('cliente.feedbacks*') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 shadow-lg' : '' }}" href="{{ route('cliente.feedbacks') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('cliente.feedbacks*') ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg' : 'bg-blue-700/50 group-hover:bg-blue-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <span class="font-medium group-hover:text-white transition-colors {{ request()->routeIs('cliente.feedbacks*') ? 'text-white' : 'text-blue-200' }}">Feedbacks</span>
+                                <p class="text-xs text-blue-400">Sugestões e reclamações</p>
+                            </div>
+                            @if(request()->routeIs('cliente.feedbacks*'))
+                                <div class="ml-auto w-2 h-2 bg-emerald-300 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
+                        
                         <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-blue-800/50 {{ request()->routeIs('cliente.tutoriais') ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 shadow-lg' : '' }}" href="{{ route('cliente.tutoriais') }}">
                             <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('cliente.tutoriais') ? 'bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg' : 'bg-blue-700/50 group-hover:bg-blue-600/50' }} transition-all duration-200">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

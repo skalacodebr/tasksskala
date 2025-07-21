@@ -123,6 +123,11 @@
                         <i class="fas fa-video w-5"></i>
                         <span class="font-medium">Tutoriais</span>
                     </a>
+                    
+                    <a href="{{ route('admin.feedbacks.index') }}" class="nav-item {{ request()->routeIs('admin.feedbacks.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-comments w-5"></i>
+                        <span class="font-medium">Feedbacks</span>
+                    </a>
                     <div class="absolute bottom-6 left-6 right-6">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
