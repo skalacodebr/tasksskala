@@ -93,6 +93,26 @@
                             @endif
                         </a>
                     </div>
+
+                    <!-- Projects Section -->
+                    <div class="mb-6">
+                        <p class="text-xs font-semibold text-blue-300 uppercase tracking-wider mb-3 px-3">Projetos</p>
+                        
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-blue-800/50 {{ request()->routeIs('cliente.projetos') || request()->routeIs('cliente.projeto.detalhes') ? 'bg-gradient-to-r from-orange-500/20 to-yellow-500/20 border border-orange-500/30 shadow-lg' : '' }}" href="{{ route('cliente.projetos') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('cliente.projetos') || request()->routeIs('cliente.projeto.detalhes') ? 'bg-gradient-to-br from-orange-500 to-yellow-600 shadow-lg' : 'bg-blue-700/50 group-hover:bg-blue-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <span class="font-medium group-hover:text-white transition-colors {{ request()->routeIs('cliente.projetos') || request()->routeIs('cliente.projeto.detalhes') ? 'text-white' : 'text-blue-200' }}">Meus Projetos</span>
+                                <p class="text-xs text-blue-400">Acompanhamento</p>
+                            </div>
+                            @if(request()->routeIs('cliente.projetos') || request()->routeIs('cliente.projeto.detalhes'))
+                                <div class="ml-auto w-2 h-2 bg-orange-300 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
+                    </div>
                       <!-- Bottom Section -->
                 <div class="mt-6 pt-4 border-t border-blue-700/50">
                     <div class="p-3 bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/20 rounded-xl backdrop-blur-sm">
