@@ -43,7 +43,7 @@
             </div>
             
             <!-- Navigation -->
-            <nav class="relative p-4 h-full flex flex-col">
+            <nav class="relative p-4 flex flex-col">
                 <div class="flex-1 space-y-2">
                     <!-- Main Section -->
                     <div class="mb-6">
