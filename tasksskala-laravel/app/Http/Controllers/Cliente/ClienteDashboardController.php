@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SkalaTask;
 use App\Models\Projeto;
 use App\Models\Tutorial;
+use App\Models\Feedback;
 
 class ClienteDashboardController extends Controller
 {
@@ -108,5 +109,86 @@ class ClienteDashboardController extends Controller
             ->get();
 
         return view('cliente.tutoriais', compact('tutoriais'));
+    }
+
+    public function feedbacks()
+    {
+        $cliente = Auth::guard('cliente')->user();
+        
+        $feedbacks = Feedback::where('cliente_id', $cliente->id)
+            ->with(['projeto', 'respondidoPor'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
+        return view('cliente.feedbacks.index', compact('feedbacks'));
+    }
+
+    public function criarFeedback()
+    {
+        $cliente = Auth::guard('cliente')->user();
+        $projetos = $cliente->projetos;
+        
+        return view('cliente.feedbacks.create', compact('projetos'));
+    }
+
+    public function armazenarFeedback(Request $request)
+    {
+        $cliente = Auth::guard('cliente')->user();
+        
+        $validated = $request->validate([
+            'tipo' => 'required|in:sugestao,reclamacao,elogio,duvida,outro',
+            'prioridade' => 'required|in:baixa,media,alta,urgente',
+            'projeto_id' => 'nullable|exists:projetos,id',
+            'assunto' => 'required|string|max:255',
+            'mensagem' => 'required|string|min:10',
+        ]);
+        
+        // Verificar se o projeto pertence ao cliente
+        if ($validated['projeto_id']) {
+            $projeto = Projeto::where('id', $validated['projeto_id'])
+                ->where('cliente_id', $cliente->id)
+                ->firstOrFail();
+        }
+        
+        $validated['cliente_id'] = $cliente->id;
+        
+        Feedback::create($validated);
+        
+        return redirect()->route('cliente.feedbacks')
+            ->with('success', 'Feedback enviado com sucesso! Entraremos em contato em breve.');
+    }
+
+    public function verFeedback(Feedback $feedback)
+    {
+        $cliente = Auth::guard('cliente')->user();
+        
+        // Verificar se o feedback pertence ao cliente
+        if ($feedback->cliente_id !== $cliente->id) {
+            abort(403, 'Acesso negado');
+        }
+        
+        return view('cliente.feedbacks.show', compact('feedback'));
+    }
+
+    public function avaliarFeedback(Request $request, Feedback $feedback)
+    {
+        $cliente = Auth::guard('cliente')->user();
+        
+        // Verificar se o feedback pertence ao cliente e está respondido
+        if ($feedback->cliente_id !== $cliente->id || $feedback->status !== 'respondido') {
+            abort(403, 'Acesso negado');
+        }
+        
+        $validated = $request->validate([
+            'avaliacao' => 'required|integer|min:1|max:5',
+        ]);
+        
+        $feedback->update([
+            'avaliacao' => $validated['avaliacao'],
+            'status' => 'resolvido'
+        ]);
+        
+        return redirect()->route('cliente.feedback.show', $feedback)
+            ->with('success', 'Obrigado pela sua avaliação!');
     }
 }
