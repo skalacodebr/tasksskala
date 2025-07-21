@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TarefaController;
 use App\Http\Controllers\Admin\StatusProjetoController;
 use App\Http\Controllers\Admin\AgenteSkalaController as AdminAgenteSkalaController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\TutorialController;
 use App\Http\Controllers\Auth\ColaboradorAuthController;
 use App\Http\Controllers\Auth\ClienteAuthController;
 use App\Http\Controllers\DashboardController;
@@ -70,6 +71,9 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::get('/agente-skala', [AgenteSkalaController::class, 'index'])->name('agente-skala.index');
     Route::get('/agente-skala/{id}', [AgenteSkalaController::class, 'show'])->name('agente-skala.show');
     Route::patch('/agente-skala/plan/{planId}/status', [AgenteSkalaController::class, 'updatePlanStatus'])->name('agente-skala.plan.status');
+    
+    // Tutoriais para colaboradores
+    Route::get('/tutoriais', [DashboardController::class, 'tutoriais'])->name('tutoriais');
 });
 
 // Rotas do Cliente (protegidas)
@@ -81,6 +85,7 @@ Route::prefix('cliente')->name('cliente.')->middleware(['web', App\Http\Middlewa
     Route::get('/task/{id}', [ClienteDashboardController::class, 'verTask'])->name('task.detalhes');
     Route::get('/projetos', [ClienteDashboardController::class, 'meusProjetos'])->name('projetos');
     Route::get('/projeto/{projeto}', [ClienteDashboardController::class, 'verProjeto'])->name('projeto.detalhes');
+    Route::get('/tutoriais', [ClienteDashboardController::class, 'tutoriais'])->name('tutoriais');
 });
 
 // Rotas de autenticação do admin
@@ -121,4 +126,9 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::get('agente-skala', [AdminAgenteSkalaController::class, 'index'])->name('agente-skala.index');
     Route::get('agente-skala/{id}', [AdminAgenteSkalaController::class, 'show'])->name('agente-skala.show');
     Route::patch('agente-skala/plan/{planId}/status', [AdminAgenteSkalaController::class, 'updatePlanStatus'])->name('agente-skala.plan.status');
+    
+    // Tutoriais resource routes
+    Route::resource('tutoriais', TutorialController::class)->parameters([
+        'tutoriais' => 'tutorial'
+    ]);
 });

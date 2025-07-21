@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SkalaTask;
 use App\Models\Projeto;
+use App\Models\Tutorial;
 
 class ClienteDashboardController extends Controller
 {
@@ -95,5 +96,17 @@ class ClienteDashboardController extends Controller
         $projeto->load(['colaboradorResponsavel', 'statusProjeto', 'marcos']);
         
         return view('cliente.projeto-detalhes', compact('projeto'));
+    }
+
+    public function tutoriais()
+    {
+        $cliente = Auth::guard('cliente')->user();
+        
+        $tutoriais = Tutorial::ativos()
+            ->paraClientes()
+            ->ordenados()
+            ->get();
+
+        return view('cliente.tutoriais', compact('tutoriais'));
     }
 }

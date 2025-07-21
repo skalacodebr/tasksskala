@@ -7,6 +7,7 @@ use App\Models\Projeto;
 use App\Models\Colaborador;
 use App\Models\Cliente;
 use App\Models\MarcosProjeto;
+use App\Models\Tutorial;
 use App\Services\GoogleCalendarService;
 use App\Services\OpenAIService;
 use Illuminate\Http\Request;
@@ -781,5 +782,21 @@ class DashboardController extends Controller
         }
         
         return $proximosDias;
+    }
+
+    public function tutoriais()
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador) {
+            return redirect('/login');
+        }
+
+        $tutoriais = Tutorial::ativos()
+            ->paraColaboradores()
+            ->ordenados()
+            ->get();
+
+        return view('tutoriais-colaboradores', compact('tutoriais'));
     }
 }

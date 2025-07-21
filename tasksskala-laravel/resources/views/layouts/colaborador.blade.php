@@ -90,6 +90,21 @@
                                 <div class="ml-auto w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
                             @endif
                         </a>
+
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('tutoriais') ? 'bg-gradient-to-r from-pink-500/20 to-red-500/20 border border-pink-500/30 shadow-lg' : '' }}" href="{{ route('tutoriais') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('tutoriais') ? 'bg-gradient-to-br from-pink-500 to-red-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <span class="font-medium group-hover:text-white transition-colors {{ request()->routeIs('tutoriais') ? 'text-white' : 'text-slate-300' }}">Tutoriais</span>
+                                <p class="text-xs text-slate-500">Aprenda o sistema</p>
+                            </div>
+                            @if(request()->routeIs('tutoriais'))
+                                <div class="ml-auto w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
                     </div>
 
                     <!-- Tasks Section -->

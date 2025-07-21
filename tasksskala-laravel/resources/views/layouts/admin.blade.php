@@ -118,6 +118,11 @@
                         <i class="fas fa-robot w-5"></i>
                         <span class="font-medium">Agente Skala</span>
                     </a>
+                    
+                    <a href="{{ route('admin.tutoriais.index') }}" class="nav-item {{ request()->routeIs('admin.tutoriais.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-video w-5"></i>
+                        <span class="font-medium">Tutoriais</span>
+                    </a>
                     <div class="absolute bottom-6 left-6 right-6">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
