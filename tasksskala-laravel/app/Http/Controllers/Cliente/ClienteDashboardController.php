@@ -57,7 +57,7 @@ class ClienteDashboardController extends Controller
             'repository_url' => $projeto->repositorio_git,
             'task_description' => $taskDescription,
             'status' => 'pendente',
-            'user_id' => 1, // ID fixo para tasks criadas por clientes
+   
         ]);
 
         return redirect()->route('cliente.dashboard')->with('success', 'Task criada com sucesso! Nossa equipe irá analisá-la em breve.');
