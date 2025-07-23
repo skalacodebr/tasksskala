@@ -19,30 +19,44 @@
                     <i class="fas fa-tasks text-blue-600 mr-3"></i>
                     Task #{{ $task->id }}
                 </h2>
-                @switch($task->status)
-                    @case('aprovado')
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                            <i class="fas fa-check-circle mr-1"></i>
-                            Aprovado
-                        </span>
-                        @break
-                    @case('pendente')
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                            <i class="fas fa-clock mr-1"></i>
-                            Pendente
-                        </span>
-                        @break
-                    @case('rejeitado')
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                            <i class="fas fa-times-circle mr-1"></i>
-                            Rejeitado
-                        </span>
-                        @break
-                    @default
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                            {{ $task->status }}
-                        </span>
-                @endswitch
+                <div class="flex items-center space-x-4">
+                    @switch($task->status)
+                        @case('aprovado')
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <i class="fas fa-check-circle mr-1"></i>
+                                Aprovado
+                            </span>
+                            @break
+                        @case('pendente')
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                <i class="fas fa-clock mr-1"></i>
+                                Pendente
+                            </span>
+                            @break
+                        @case('rejeitado')
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                <i class="fas fa-times-circle mr-1"></i>
+                                Rejeitado
+                            </span>
+                            @break
+                        @default
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                                {{ $task->status }}
+                            </span>
+                    @endswitch
+                    
+                    <!-- Status Update Dropdown -->
+                    <form method="POST" action="{{ route('admin.agente-skala.task.status', $task->id) }}" class="inline-flex items-center">
+                        @csrf
+                        @method('PATCH')
+                        <select name="status" onchange="this.form.submit()" class="text-sm rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="">Alterar Status</option>
+                            <option value="pendente" {{ $task->status == 'pendente' ? 'disabled' : '' }}>Pendente</option>
+                            <option value="aprovado" {{ $task->status == 'aprovado' ? 'disabled' : '' }}>Aprovado</option>
+                            <option value="rejeitado" {{ $task->status == 'rejeitado' ? 'disabled' : '' }}>Rejeitado</option>
+                        </select>
+                    </form>
+                </div>
             </div>
 
             <div class="space-y-6">

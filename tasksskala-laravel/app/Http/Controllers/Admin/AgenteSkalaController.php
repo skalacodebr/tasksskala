@@ -69,4 +69,18 @@ class AgenteSkalaController extends Controller
         
         return redirect()->back()->with('success', "Plano #{$plan->id} {$status} com sucesso! Task #{$task->id} também foi atualizada.");
     }
+
+    public function updateTaskStatus(Request $request, $taskId)
+    {
+        $request->validate([
+            'status' => 'required|in:aprovado,pendente,rejeitado'
+        ]);
+
+        $task = SkalaTask::findOrFail($taskId);
+        
+        $task->status = $request->input('status');
+        $task->save();
+        
+        return redirect()->back()->with('success', "Status da Task #{$task->id} atualizado para {$task->status} com sucesso!");
+    }
 }

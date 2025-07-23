@@ -134,6 +134,7 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::get('agente-skala', [AdminAgenteSkalaController::class, 'index'])->name('agente-skala.index');
     Route::get('agente-skala/{id}', [AdminAgenteSkalaController::class, 'show'])->name('agente-skala.show');
     Route::patch('agente-skala/plan/{planId}/status', [AdminAgenteSkalaController::class, 'updatePlanStatus'])->name('agente-skala.plan.status');
+    Route::patch('agente-skala/{taskId}/status', [AdminAgenteSkalaController::class, 'updateTaskStatus'])->name('agente-skala.task.status');
     
     // Tutoriais resource routes
     Route::resource('tutoriais', TutorialController::class)->parameters([
