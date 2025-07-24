@@ -34,10 +34,10 @@
                         <select class="w-full rounded-md border-gray-300 @error('tipo_conta') border-red-500 @enderror" 
                                 id="tipo_conta" name="tipo_conta" required>
                             <option value="">Selecione o tipo</option>
-                            <option value="pagar" {{ old('tipo_conta') == 'pagar' ? 'selected' : '' }}>
+                            <option value="pagar" {{ old('tipo_conta', request('tipo_conta')) == 'pagar' ? 'selected' : '' }}>
                                 Contas a Pagar
                             </option>
-                            <option value="receber" {{ old('tipo_conta') == 'receber' ? 'selected' : '' }}>
+                            <option value="receber" {{ old('tipo_conta', request('tipo_conta')) == 'receber' ? 'selected' : '' }}>
                                 Contas a Receber
                             </option>
                         </select>
