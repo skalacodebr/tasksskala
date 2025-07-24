@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\CategoriaFinanceiraController;
 use App\Http\Controllers\Admin\DashboardFinanceiraController;
 use App\Http\Controllers\Admin\ImportacaoOfxController;
 use App\Http\Controllers\Admin\TipoCustoController;
+use App\Http\Controllers\Admin\FornecedorController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -181,6 +182,8 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::resource('contas-bancarias', ContaBancariaController::class)->parameters([
         'contas-bancarias' => 'conta_bancaria'
     ]);
+    
+    Route::resource('fornecedores', FornecedorController::class);
     
     Route::resource('contas-pagar', ContaPagarController::class)->parameters([
         'contas-pagar' => 'conta_pagar'
