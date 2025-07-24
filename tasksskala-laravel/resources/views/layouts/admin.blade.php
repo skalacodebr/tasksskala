@@ -128,6 +128,29 @@
                         <i class="fas fa-comments w-5"></i>
                         <span class="font-medium">Feedbacks</span>
                     </a>
+                </div>
+                
+                <!-- Financeiro Seção -->
+                <div class="pt-6">
+                    <div class="text-xs uppercase text-purple-200 font-semibold tracking-wider mb-4 px-3">
+                        Financeiro
+                    </div>
+                    
+                    <a href="{{ route('admin.contas-bancarias.index') }}" class="nav-item {{ request()->routeIs('admin.contas-bancarias.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-university w-5"></i>
+                        <span class="font-medium">Contas Bancárias</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.contas-pagar.index') }}" class="nav-item {{ request()->routeIs('admin.contas-pagar.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-money-bill-wave w-5"></i>
+                        <span class="font-medium">Contas a Pagar</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.contas-receber.index') }}" class="nav-item {{ request()->routeIs('admin.contas-receber.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-hand-holding-usd w-5"></i>
+                        <span class="font-medium">Contas a Receber</span>
+                    </a>
+                    
                     <div class="absolute bottom-6 left-6 right-6">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf

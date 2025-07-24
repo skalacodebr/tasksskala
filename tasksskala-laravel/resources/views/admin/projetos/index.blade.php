@@ -10,6 +10,25 @@
             Novo Projeto
         </a>
     </div>
+    <div class="mt-4">
+        <form method="GET" action="{{ route('admin.projetos.index') }}" class="flex items-center space-x-4">
+            <div class="flex-1">
+                <input type="text" 
+                       name="search" 
+                       value="{{ request('search') }}" 
+                       placeholder="Buscar por nome do projeto, descrição, cliente ou responsável..." 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                Buscar
+            </button>
+            @if(request('search'))
+                <a href="{{ route('admin.projetos.index') }}" class="text-gray-600 hover:text-gray-800">
+                    Limpar
+                </a>
+            @endif
+        </form>
+    </div>
 </div>
 
 <div class="bg-white shadow overflow-hidden sm:rounded-md">

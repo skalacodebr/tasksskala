@@ -19,6 +19,9 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\AgenteSkalaController;
 use App\Http\Controllers\Cliente\ClienteDashboardController;
 use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\ContaBancariaController;
+use App\Http\Controllers\Admin\ContaPagarController;
+use App\Http\Controllers\Admin\ContaReceberController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -148,4 +151,19 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::post('feedbacks/{feedback}/responder', [FeedbackController::class, 'responder'])->name('feedbacks.responder');
     Route::post('feedbacks/{feedback}/status', [FeedbackController::class, 'atualizarStatus'])->name('feedbacks.atualizarStatus');
     Route::delete('feedbacks/{feedback}', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
+    
+    // Rotas do Sistema Financeiro
+    Route::resource('contas-bancarias', ContaBancariaController::class)->parameters([
+        'contas-bancarias' => 'conta_bancaria'
+    ]);
+    
+    Route::resource('contas-pagar', ContaPagarController::class)->parameters([
+        'contas-pagar' => 'conta_pagar'
+    ]);
+    Route::post('contas-pagar/{conta_pagar}/pagar', [ContaPagarController::class, 'pagar'])->name('contas-pagar.pagar');
+    
+    Route::resource('contas-receber', ContaReceberController::class)->parameters([
+        'contas-receber' => 'conta_receber'
+    ]);
+    Route::post('contas-receber/{conta_receber}/receber', [ContaReceberController::class, 'receber'])->name('contas-receber.receber');
 });

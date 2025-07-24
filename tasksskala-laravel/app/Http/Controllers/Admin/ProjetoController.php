@@ -12,11 +12,26 @@ use Illuminate\Http\Request;
 
 class ProjetoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $projetos = Projeto::with(['cliente', 'colaboradorResponsavel', 'marcos'])
-            ->withCount('marcos')
-            ->paginate(10);
+        $query = Projeto::with(['cliente', 'colaboradorResponsavel', 'marcos'])
+            ->withCount('marcos');
+        
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nome', 'like', '%' . $search . '%')
+                  ->orWhere('descricao', 'like', '%' . $search . '%')
+                  ->orWhereHas('cliente', function($q) use ($search) {
+                      $q->where('nome', 'like', '%' . $search . '%');
+                  })
+                  ->orWhereHas('colaboradorResponsavel', function($q) use ($search) {
+                      $q->where('nome', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+        
+        $projetos = $query->paginate(10)->withQueryString();
         return view('admin.projetos.index', compact('projetos'));
     }
 
