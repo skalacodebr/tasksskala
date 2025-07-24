@@ -152,20 +152,16 @@
                     <option value="">Selecione uma categoria...</option>
                     
                     @php
-                        $categoriasPorTipo = $categorias->groupBy('tipo_custo');
-                        $tipoLabels = [
-                            'fixo' => 'Custos Fixos',
-                            'variavel' => 'Custos Variáveis',
-                            'administrativo' => 'Despesas Administrativas',
-                            'pessoal' => 'Pessoal (Salários e Encargos)',
-                            'outros' => 'Outros'
-                        ];
+                        $categoriasPorTipo = $categorias->groupBy('tipo_custo_id');
                     @endphp
                     
-                    @foreach($tipoLabels as $tipo => $label)
-                        @if(isset($categoriasPorTipo[$tipo]) && $categoriasPorTipo[$tipo]->count() > 0)
-                            <optgroup label="{{ $label }}">
-                                @foreach($categoriasPorTipo[$tipo] as $categoria)
+                    @foreach($categoriasPorTipo as $tipoCustoId => $categoriasDoTipo)
+                        @if($tipoCustoId)
+                            @php
+                                $tipoCusto = $categoriasDoTipo->first()->tipoCusto;
+                            @endphp
+                            <optgroup label="{{ $tipoCusto->nome }}">
+                                @foreach($categoriasDoTipo as $categoria)
                                     <option value="{{ $categoria->id }}" {{ old('categoria_id') == $categoria->id ? 'selected' : '' }}>
                                         {{ $categoria->nome }}
                                     </option>

@@ -58,10 +58,9 @@ class ContaPagarController extends Controller
     public function create()
     {
         $contasBancarias = ContaBancaria::where('ativo', true)->orderBy('nome')->get();
-        $categorias = CategoriaFinanceira::where('tipo', 'saida')
+        $categorias = CategoriaFinanceira::with('tipoCusto')
+            ->where('tipo', 'saida')
             ->where('ativo', true)
-            ->orderBy('tipo_custo')
-            ->orderBy('nome')
             ->get();
         return view('admin.contas-pagar.create', compact('contasBancarias', 'categorias'));
     }
@@ -147,10 +146,9 @@ class ContaPagarController extends Controller
     {
         $conta = ContaPagar::findOrFail($id);
         $contasBancarias = ContaBancaria::where('ativo', true)->orderBy('nome')->get();
-        $categorias = CategoriaFinanceira::where('tipo', 'saida')
+        $categorias = CategoriaFinanceira::with('tipoCusto')
+            ->where('tipo', 'saida')
             ->where('ativo', true)
-            ->orderBy('tipo_custo')
-            ->orderBy('nome')
             ->get();
         return view('admin.contas-pagar.edit', compact('conta', 'contasBancarias', 'categorias'));
     }
