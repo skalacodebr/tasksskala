@@ -183,7 +183,9 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
         'contas-bancarias' => 'conta_bancaria'
     ]);
     
-    Route::resource('fornecedores', FornecedorController::class);
+    Route::resource('fornecedores', FornecedorController::class)->parameters([
+        'fornecedores' => 'fornecedor'
+    ]);
     
     Route::resource('contas-pagar', ContaPagarController::class)->parameters([
         'contas-pagar' => 'conta_pagar'
