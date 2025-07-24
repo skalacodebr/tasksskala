@@ -799,4 +799,55 @@ class DashboardController extends Controller
 
         return view('tutoriais-colaboradores', compact('tutoriais'));
     }
+
+    public function pausarTarefa(Tarefa $tarefa)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador || $tarefa->colaborador_id != $colaborador->id) {
+            return redirect('/dashboard')->with('error', 'Acesso negado!');
+        }
+
+        if ($tarefa->status !== 'em_andamento' || $tarefa->pausada) {
+            return redirect()->back()->with('error', 'Tarefa não pode ser pausada!');
+        }
+
+        $tarefa->pausarTarefa();
+
+        return redirect()->back()->with('success', 'Tarefa pausada com sucesso!');
+    }
+
+    public function continuarTarefa(Tarefa $tarefa)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador || $tarefa->colaborador_id != $colaborador->id) {
+            return redirect('/dashboard')->with('error', 'Acesso negado!');
+        }
+
+        if ($tarefa->status !== 'em_andamento' || !$tarefa->pausada) {
+            return redirect()->back()->with('error', 'Tarefa não pode ser continuada!');
+        }
+
+        $tarefa->continuarTarefa();
+
+        return redirect()->back()->with('success', 'Tarefa retomada com sucesso!');
+    }
+
+    public function adicionarNota(Request $request, Tarefa $tarefa)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador || $tarefa->colaborador_id != $colaborador->id) {
+            return redirect('/dashboard')->with('error', 'Acesso negado!');
+        }
+
+        $validated = $request->validate([
+            'nota' => 'required|string|max:500'
+        ]);
+
+        $tarefa->adicionarNota($validated['nota']);
+
+        return redirect()->back()->with('success', 'Nota adicionada com sucesso!');
+    }
 }

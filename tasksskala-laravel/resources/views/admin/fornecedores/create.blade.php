@@ -42,9 +42,9 @@
 
                     <div>
                         <label class="block text-gray-700 text-sm font-bold mb-2">
-                            <span id="label_documento">CPF/CNPJ</span> <span class="text-red-500">*</span>
+                            <span id="label_documento">CPF/CNPJ</span>
                         </label>
-                        <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="{{ old('cpf_cnpj') }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('cpf_cnpj') border-red-500 @enderror">
+                        <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="{{ old('cpf_cnpj') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('cpf_cnpj') border-red-500 @enderror">
                         @error('cpf_cnpj')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror

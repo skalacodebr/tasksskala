@@ -56,6 +56,9 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::post('/tarefa/criar', [DashboardController::class, 'armazenarTarefa'])->name('tarefa.store');
     Route::patch('/tarefa/{tarefa}/iniciar', [DashboardController::class, 'iniciarTarefa'])->name('tarefa.iniciar');
     Route::patch('/tarefa/{tarefa}/concluir', [DashboardController::class, 'concluirTarefa'])->name('tarefa.concluir');
+    Route::patch('/tarefa/{tarefa}/pausar', [DashboardController::class, 'pausarTarefa'])->name('tarefa.pausar');
+    Route::patch('/tarefa/{tarefa}/continuar', [DashboardController::class, 'continuarTarefa'])->name('tarefa.continuar');
+    Route::post('/tarefa/{tarefa}/nota', [DashboardController::class, 'adicionarNota'])->name('tarefa.nota');
     Route::get('/tarefa/{tarefa}/detalhes', [DashboardController::class, 'verTarefa'])->name('tarefa.detalhes');
     
     // Plano de ação diário e Pomodoro

@@ -62,23 +62,25 @@ class FornecedorController extends Controller
             'nome' => 'required|string|max:255',
             'tipo_pessoa' => 'required|in:fisica,juridica',
             'cpf_cnpj' => [
-                'required',
+                'nullable',
                 'string',
                 'unique:fornecedores',
                 function ($attribute, $value, $fail) use ($request) {
-                    $value = preg_replace('/[^0-9]/', '', $value);
-                    
-                    if ($request->tipo_pessoa === 'fisica') {
-                        if (strlen($value) !== 11) {
-                            $fail('O CPF deve conter 11 dígitos.');
-                        } elseif (!$this->validarCPF($value)) {
-                            $fail('O CPF informado é inválido.');
-                        }
-                    } else {
-                        if (strlen($value) !== 14) {
-                            $fail('O CNPJ deve conter 14 dígitos.');
-                        } elseif (!$this->validarCNPJ($value)) {
-                            $fail('O CNPJ informado é inválido.');
+                    if ($value) {
+                        $value = preg_replace('/[^0-9]/', '', $value);
+                        
+                        if ($request->tipo_pessoa === 'fisica') {
+                            if (strlen($value) !== 11) {
+                                $fail('O CPF deve conter 11 dígitos.');
+                            } elseif (!$this->validarCPF($value)) {
+                                $fail('O CPF informado é inválido.');
+                            }
+                        } else {
+                            if (strlen($value) !== 14) {
+                                $fail('O CNPJ deve conter 14 dígitos.');
+                            } elseif (!$this->validarCNPJ($value)) {
+                                $fail('O CNPJ informado é inválido.');
+                            }
                         }
                     }
                 },
@@ -97,8 +99,10 @@ class FornecedorController extends Controller
             'ativo' => 'boolean',
         ]);
         
-        // Remove formatação do CPF/CNPJ
-        $validated['cpf_cnpj'] = preg_replace('/[^0-9]/', '', $validated['cpf_cnpj']);
+        // Remove formatação do CPF/CNPJ se fornecido
+        if (isset($validated['cpf_cnpj']) && $validated['cpf_cnpj']) {
+            $validated['cpf_cnpj'] = preg_replace('/[^0-9]/', '', $validated['cpf_cnpj']);
+        }
         
         // Define ativo como true se não foi enviado
         if (!isset($validated['ativo'])) {
@@ -140,23 +144,25 @@ class FornecedorController extends Controller
             'nome' => 'required|string|max:255',
             'tipo_pessoa' => 'required|in:fisica,juridica',
             'cpf_cnpj' => [
-                'required',
+                'nullable',
                 'string',
                 Rule::unique('fornecedores')->ignore($fornecedor->id),
                 function ($attribute, $value, $fail) use ($request) {
-                    $value = preg_replace('/[^0-9]/', '', $value);
-                    
-                    if ($request->tipo_pessoa === 'fisica') {
-                        if (strlen($value) !== 11) {
-                            $fail('O CPF deve conter 11 dígitos.');
-                        } elseif (!$this->validarCPF($value)) {
-                            $fail('O CPF informado é inválido.');
-                        }
-                    } else {
-                        if (strlen($value) !== 14) {
-                            $fail('O CNPJ deve conter 14 dígitos.');
-                        } elseif (!$this->validarCNPJ($value)) {
-                            $fail('O CNPJ informado é inválido.');
+                    if ($value) {
+                        $value = preg_replace('/[^0-9]/', '', $value);
+                        
+                        if ($request->tipo_pessoa === 'fisica') {
+                            if (strlen($value) !== 11) {
+                                $fail('O CPF deve conter 11 dígitos.');
+                            } elseif (!$this->validarCPF($value)) {
+                                $fail('O CPF informado é inválido.');
+                            }
+                        } else {
+                            if (strlen($value) !== 14) {
+                                $fail('O CNPJ deve conter 14 dígitos.');
+                            } elseif (!$this->validarCNPJ($value)) {
+                                $fail('O CNPJ informado é inválido.');
+                            }
                         }
                     }
                 },
@@ -175,8 +181,10 @@ class FornecedorController extends Controller
             'ativo' => 'boolean',
         ]);
         
-        // Remove formatação do CPF/CNPJ
-        $validated['cpf_cnpj'] = preg_replace('/[^0-9]/', '', $validated['cpf_cnpj']);
+        // Remove formatação do CPF/CNPJ se fornecido
+        if (isset($validated['cpf_cnpj']) && $validated['cpf_cnpj']) {
+            $validated['cpf_cnpj'] = preg_replace('/[^0-9]/', '', $validated['cpf_cnpj']);
+        }
         
         // Define ativo como false se não foi enviado
         if (!isset($validated['ativo'])) {

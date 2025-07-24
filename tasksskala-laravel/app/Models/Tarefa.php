@@ -29,6 +29,10 @@ class Tarefa extends Model
         'testador_id',
         'tarefa_origem_id',
         'tarefa_teste_id',
+        'notas',
+        'data_pausa',
+        'tempo_pausado',
+        'pausada',
     ];
 
     protected function casts(): array
@@ -41,6 +45,8 @@ class Tarefa extends Model
             'plano_dia' => 'date',
             'pomodoros' => 'array',
             'criar_tarefa_teste' => 'boolean',
+            'data_pausa' => 'datetime',
+            'pausada' => 'boolean',
         ];
     }
 
@@ -68,6 +74,7 @@ class Tarefa extends Model
             'status' => 'concluida',
             'data_fim' => now(),
             'observacoes' => $observacoes,
+            'pausada' => false,
         ]);
     }
 
@@ -76,6 +83,38 @@ class Tarefa extends Model
         $this->update([
             'status' => 'cancelada',
             'observacoes' => $observacoes,
+        ]);
+    }
+
+    public function pausarTarefa()
+    {
+        if ($this->status === 'em_andamento' && !$this->pausada) {
+            $this->update([
+                'pausada' => true,
+                'data_pausa' => now(),
+            ]);
+        }
+    }
+
+    public function continuarTarefa()
+    {
+        if ($this->status === 'em_andamento' && $this->pausada) {
+            $tempoPausado = now()->diffInSeconds($this->data_pausa);
+            $this->update([
+                'pausada' => false,
+                'tempo_pausado' => $this->tempo_pausado + $tempoPausado,
+                'data_pausa' => null,
+            ]);
+        }
+    }
+
+    public function adicionarNota($nota)
+    {
+        $notaFormatada = now()->format('d/m/Y H:i') . ' - ' . $nota;
+        $notasAtuais = $this->notas ? $this->notas . "\n\n" . $notaFormatada : $notaFormatada;
+        
+        $this->update([
+            'notas' => $notasAtuais,
         ]);
     }
 

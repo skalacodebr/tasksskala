@@ -119,6 +119,12 @@
                                                 Recorrente
                                             </span>
                                         @endif
+                                        
+                                        @if($tarefa->pausada)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                Pausada
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -137,6 +143,23 @@
                             @endif
 
                             @if($tarefa->status == 'em_andamento')
+                                @if($tarefa->pausada)
+                                    <form action="{{ route('tarefa.continuar', $tarefa) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm">
+                                            Continuar
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('tarefa.pausar', $tarefa) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm">
+                                            Pausar
+                                        </button>
+                                    </form>
+                                @endif
                                 <button type="button" onclick="openConcluirModal({{ $tarefa->id }})" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
                                     Concluir
                                 </button>

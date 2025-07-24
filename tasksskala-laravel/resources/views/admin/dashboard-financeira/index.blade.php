@@ -202,100 +202,207 @@
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+// Performance optimizations for Chart.js
+Chart.defaults.animation = false;
+Chart.defaults.elements.line.borderWidth = 2;
+Chart.defaults.elements.point.radius = 0;
+Chart.defaults.elements.point.hoverRadius = 4;
+
+// Função para criar gráficos com lazy loading
+function createChartWhenVisible(elementId, createChartFn) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                createChartFn();
+                observer.disconnect();
+            }
+        });
+    }, {
+        rootMargin: '50px'
+    });
+    
+    observer.observe(element);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Gráfico de Despesas
+    // Gráfico de Despesas com otimizações
     @if($despesasPorCategoria->count() > 0)
-        const despesasCtx = document.getElementById('despesasChart').getContext('2d');
-        new Chart(despesasCtx, {
-            type: 'doughnut',
-            data: {
-                labels: {!! json_encode($despesasPorCategoria->pluck('categoria')) !!},
-                datasets: [{
-                    data: {!! json_encode($despesasPorCategoria->pluck('valor')) !!},
-                    backgroundColor: {!! json_encode($despesasPorCategoria->pluck('cor')) !!}
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
+        createChartWhenVisible('despesasChart', function() {
+            const despesasCtx = document.getElementById('despesasChart').getContext('2d', { 
+                willReadFrequently: false,
+                alpha: false 
+            });
+            
+            new Chart(despesasCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: {!! json_encode($despesasPorCategoria->pluck('categoria')) !!},
+                    datasets: [{
+                        data: {!! json_encode($despesasPorCategoria->pluck('valor')) !!},
+                        backgroundColor: {!! json_encode($despesasPorCategoria->pluck('cor')) !!},
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            animation: false
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
                     }
                 }
-            }
+            });
         });
     @endif
 
-    // Gráfico de Receitas
+    // Gráfico de Receitas com otimizações
     @if($receitasPorCategoria->count() > 0)
-        const receitasCtx = document.getElementById('receitasChart').getContext('2d');
-        new Chart(receitasCtx, {
-            type: 'doughnut',
+        createChartWhenVisible('receitasChart', function() {
+            const receitasCtx = document.getElementById('receitasChart').getContext('2d', { 
+                willReadFrequently: false,
+                alpha: false 
+            });
+            
+            new Chart(receitasCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: {!! json_encode($receitasPorCategoria->pluck('categoria')) !!},
+                    datasets: [{
+                        data: {!! json_encode($receitasPorCategoria->pluck('valor')) !!},
+                        backgroundColor: {!! json_encode($receitasPorCategoria->pluck('cor')) !!},
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            animation: false
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        });
+    @endif
+
+    // Gráfico de Evolução com otimizações e decimação
+    createChartWhenVisible('evolucaoChart', function() {
+        const evolucaoCtx = document.getElementById('evolucaoChart').getContext('2d', { 
+            willReadFrequently: false,
+            alpha: false 
+        });
+        
+        new Chart(evolucaoCtx, {
+            type: 'line',
             data: {
-                labels: {!! json_encode($receitasPorCategoria->pluck('categoria')) !!},
+                labels: {!! json_encode(collect($evolucaoMensal)->map(function($item) { return $item['mes'] . '/' . $item['ano']; })) !!},
                 datasets: [{
-                    data: {!! json_encode($receitasPorCategoria->pluck('valor')) !!},
-                    backgroundColor: {!! json_encode($receitasPorCategoria->pluck('cor')) !!}
+                    label: 'Receitas',
+                    data: {!! json_encode(collect($evolucaoMensal)->pluck('receitas')) !!},
+                    borderColor: 'rgb(34, 197, 94)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    tension: 0,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    fill: false
+                }, {
+                    label: 'Despesas',
+                    data: {!! json_encode(collect($evolucaoMensal)->pluck('despesas')) !!},
+                    borderColor: 'rgb(239, 68, 68)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    tension: 0,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    fill: false
+                }, {
+                    label: 'Lucro',
+                    data: {!! json_encode(collect($evolucaoMensal)->pluck('lucro')) !!},
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    fill: false
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: false,
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                },
                 plugins: {
                     legend: {
-                        display: false
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        animation: false
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 50
                     }
-                }
-            }
-        });
-    @endif
-
-    // Gráfico de Evolução
-    const evolucaoCtx = document.getElementById('evolucaoChart').getContext('2d');
-    new Chart(evolucaoCtx, {
-        type: 'line',
-        data: {
-            labels: {!! json_encode(collect($evolucaoMensal)->map(function($item) { return $item['mes'] . '/' . $item['ano']; })) !!},
-            datasets: [{
-                label: 'Receitas',
-                data: {!! json_encode(collect($evolucaoMensal)->pluck('receitas')) !!},
-                borderColor: 'rgb(34, 197, 94)',
-                backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                tension: 0.1
-            }, {
-                label: 'Despesas',
-                data: {!! json_encode(collect($evolucaoMensal)->pluck('despesas')) !!},
-                borderColor: 'rgb(239, 68, 68)',
-                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                tension: 0.1
-            }, {
-                label: 'Lucro',
-                data: {!! json_encode(collect($evolucaoMensal)->pluck('lucro')) !!},
-                borderColor: 'rgb(59, 130, 246)',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return 'R$ ' + value.toLocaleString('pt-BR');
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 0,
+                            autoSkip: true,
+                            maxTicksLimit: 8
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value.toLocaleString('pt-BR');
+                            },
+                            maxTicksLimit: 6
                         }
                     }
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
                 }
             }
-        }
+        });
     });
 });
 </script>

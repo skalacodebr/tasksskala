@@ -41,6 +41,12 @@
                                 Recorrente ({{ ucfirst($tarefa->frequencia_recorrencia) }})
                             </span>
                         @endif
+                        
+                        @if($tarefa->pausada)
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                Pausada
+                            </span>
+                        @endif
                     </div>
                 </div>
                 
@@ -56,6 +62,23 @@
                     @endif
 
                     @if($tarefa->status == 'em_andamento')
+                        @if($tarefa->pausada)
+                            <form action="{{ route('tarefa.continuar', $tarefa) }}" method="POST" class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                                    Continuar Tarefa
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route('tarefa.pausar', $tarefa) }}" method="POST" class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                                    Pausar Tarefa
+                                </button>
+                            </form>
+                        @endif
                         <button type="button" onclick="openConcluirModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Concluir Tarefa
                         </button>
@@ -90,6 +113,26 @@
                             <h4 class="text-md leading-6 font-medium text-gray-900 mb-2">Observações</h4>
                             <p class="text-gray-700 whitespace-pre-line">{{ $tarefa->observacoes }}</p>
                         </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Notas -->
+            <div class="bg-white shadow rounded-lg mt-6">
+                <div class="px-4 py-5 sm:p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Notas</h3>
+                        <button type="button" onclick="openNotaModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded">
+                            Adicionar Nota
+                        </button>
+                    </div>
+                    
+                    @if($tarefa->notas)
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="whitespace-pre-line text-gray-700">{{ $tarefa->notas }}</div>
+                        </div>
+                    @else
+                        <p class="text-gray-500 italic">Nenhuma nota adicionada ainda.</p>
                     @endif
                 </div>
             </div>
@@ -222,6 +265,13 @@
                             <dt class="text-sm font-medium text-gray-500">Atualizado em</dt>
                             <dd class="mt-1 text-sm text-gray-900">{{ $tarefa->updated_at->format('d/m/Y H:i') }}</dd>
                         </div>
+                        
+                        @if($tarefa->tempo_pausado > 0)
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Tempo pausado</dt>
+                                <dd class="mt-1 text-sm text-gray-900">{{ gmdate('H:i:s', $tarefa->tempo_pausado) }}</dd>
+                            </div>
+                        @endif
                     </dl>
                 </div>
             </div>
@@ -276,6 +326,31 @@
     </div>
 </div>
 
+<!-- Modal Adicionar Nota -->
+<div id="notaModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Adicionar Nota</h3>
+            <form action="{{ route('tarefa.nota', $tarefa) }}" method="POST">
+                @csrf
+                <div class="mb-4">
+                    <label for="nota" class="block text-sm font-medium text-gray-700">Nota</label>
+                    <textarea name="nota" id="nota" rows="3" required
+                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeNotaModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Adicionar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
 function openConcluirModal() {
     document.getElementById('concluirModal').classList.remove('hidden');
@@ -284,6 +359,15 @@ function openConcluirModal() {
 function closeConcluirModal() {
     document.getElementById('concluirModal').classList.add('hidden');
     document.getElementById('observacoes_concluir').value = '';
+}
+
+function openNotaModal() {
+    document.getElementById('notaModal').classList.remove('hidden');
+}
+
+function closeNotaModal() {
+    document.getElementById('notaModal').classList.add('hidden');
+    document.getElementById('nota').value = '';
 }
 </script>
 @endsection
