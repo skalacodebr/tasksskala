@@ -77,7 +77,7 @@ class ContaReceberController extends Controller
             'cliente_id' => 'nullable|exists:clientes,id',
             'tipo' => 'required|in:fixa,parcelada,recorrente',
             'total_parcelas' => 'required_if:tipo,parcelada|nullable|integer|min:2',
-            'periodicidade' => 'required_if:tipo,recorrente|nullable|in:mensal,bimestral,trimestral,semestral,anual',
+            'periodicidade' => 'required_if:tipo,recorrente|nullable|in:semanal,mensal,bimestral,trimestral,semestral,anual',
             'data_fim_recorrencia' => 'required_if:tipo,recorrente|nullable|date|after:data_vencimento',
             'categoria_id' => 'nullable|exists:categorias_financeiras,id',
             'observacoes' => 'nullable|string'
@@ -101,6 +101,9 @@ class ContaReceberController extends Controller
                 ContaReceber::create($contaReceber);
                 
                 switch ($validated['periodicidade']) {
+                    case 'semanal':
+                        $dataAtual->addWeek();
+                        break;
                     case 'mensal':
                         $dataAtual->addMonth();
                         break;

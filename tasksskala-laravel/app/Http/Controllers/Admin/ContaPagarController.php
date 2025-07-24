@@ -75,7 +75,7 @@ class ContaPagarController extends Controller
             'categoria_id' => 'required|exists:categorias_financeiras,id',
             'tipo' => 'required|in:fixa,parcelada,recorrente',
             'total_parcelas' => 'required_if:tipo,parcelada|nullable|integer|min:2',
-            'periodicidade' => 'required_if:tipo,recorrente|nullable|in:mensal,bimestral,trimestral,semestral,anual',
+            'periodicidade' => 'required_if:tipo,recorrente|nullable|in:semanal,mensal,bimestral,trimestral,semestral,anual',
             'data_fim_recorrencia' => 'required_if:tipo,recorrente|nullable|date|after:data_vencimento',
             'fornecedor' => 'nullable|string|max:255',
             'observacoes' => 'nullable|string'
@@ -99,6 +99,9 @@ class ContaPagarController extends Controller
                 ContaPagar::create($contaPagar);
                 
                 switch ($validated['periodicidade']) {
+                    case 'semanal':
+                        $dataAtual->addWeek();
+                        break;
                     case 'mensal':
                         $dataAtual->addMonth();
                         break;

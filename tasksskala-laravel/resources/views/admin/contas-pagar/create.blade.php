@@ -114,6 +114,7 @@
                             id="periodicidade" 
                             name="periodicidade">
                         <option value="">Selecione...</option>
+                        <option value="semanal" {{ old('periodicidade') == 'semanal' ? 'selected' : '' }}>Semanal</option>
                         <option value="mensal" {{ old('periodicidade') == 'mensal' ? 'selected' : '' }}>Mensal</option>
                         <option value="bimestral" {{ old('periodicidade') == 'bimestral' ? 'selected' : '' }}>Bimestral</option>
                         <option value="trimestral" {{ old('periodicidade') == 'trimestral' ? 'selected' : '' }}>Trimestral</option>
