@@ -136,6 +136,11 @@
                         Financeiro
                     </div>
                     
+                    <a href="{{ route('admin.fluxo-caixa.index') }}" class="nav-item {{ request()->routeIs('admin.fluxo-caixa.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-chart-line w-5"></i>
+                        <span class="font-medium">Fluxo de Caixa</span>
+                    </a>
+                    
                     <a href="{{ route('admin.contas-bancarias.index') }}" class="nav-item {{ request()->routeIs('admin.contas-bancarias.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-university w-5"></i>
                         <span class="font-medium">Contas Bancárias</span>

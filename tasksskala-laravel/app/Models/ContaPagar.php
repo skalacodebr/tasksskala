@@ -55,4 +55,16 @@ class ContaPagar extends Model
     {
         return $query->where('status', 'pago');
     }
+
+    public static function atualizarContasVencidas()
+    {
+        self::where('status', 'pendente')
+            ->whereDate('data_vencimento', '<', now())
+            ->update(['status' => 'vencido']);
+    }
+
+    public function estaAtrasada()
+    {
+        return $this->status == 'pendente' && $this->data_vencimento < now();
+    }
 }

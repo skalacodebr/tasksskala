@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\ContaBancariaController;
 use App\Http\Controllers\Admin\ContaPagarController;
 use App\Http\Controllers\Admin\ContaReceberController;
+use App\Http\Controllers\Admin\FluxoCaixaController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -153,6 +154,8 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::delete('feedbacks/{feedback}', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
     
     // Rotas do Sistema Financeiro
+    Route::get('fluxo-caixa', [FluxoCaixaController::class, 'index'])->name('fluxo-caixa.index');
+    
     Route::resource('contas-bancarias', ContaBancariaController::class)->parameters([
         'contas-bancarias' => 'conta_bancaria'
     ]);
