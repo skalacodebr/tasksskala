@@ -146,6 +146,11 @@
                         <span class="font-medium">Fluxo de Caixa</span>
                     </a>
                     
+                    <a href="{{ route('admin.tipos-custo.index') }}" class="nav-item {{ request()->routeIs('admin.tipos-custo.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-layer-group w-5"></i>
+                        <span class="font-medium">Tipos de Custo</span>
+                    </a>
+                    
                     <a href="{{ route('admin.categorias-financeiras.index') }}" class="nav-item {{ request()->routeIs('admin.categorias-financeiras.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-tags w-5"></i>
                         <span class="font-medium">Categorias</span>
