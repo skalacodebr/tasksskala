@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\FluxoCaixaController;
 use App\Http\Controllers\Admin\CategoriaFinanceiraController;
 use App\Http\Controllers\Admin\DashboardFinanceiraController;
 use App\Http\Controllers\Admin\ImportacaoOfxController;
+use App\Http\Controllers\Admin\TipoCustoController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -168,6 +169,10 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     // Rotas do Sistema Financeiro
     Route::get('dashboard-financeira', [DashboardFinanceiraController::class, 'index'])->name('dashboard-financeira.index');
     Route::get('fluxo-caixa', [FluxoCaixaController::class, 'index'])->name('fluxo-caixa.index');
+    
+    Route::resource('tipos-custo', TipoCustoController::class)->parameters([
+        'tipos-custo' => 'tipoCusto'
+    ]);
     
     Route::resource('categorias-financeiras', CategoriaFinanceiraController::class)->parameters([
         'categorias-financeiras' => 'categoria_financeira'

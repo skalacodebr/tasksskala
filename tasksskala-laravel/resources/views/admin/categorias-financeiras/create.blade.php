@@ -41,21 +41,27 @@
             </div>
 
             <div class="mb-4" id="campo-tipo-custo" style="display: none;">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo_custo">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo_custo_id">
                     Tipo de Custo (para despesas)
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tipo_custo') border-red-500 @enderror" 
-                        id="tipo_custo" 
-                        name="tipo_custo">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tipo_custo_id') border-red-500 @enderror" 
+                        id="tipo_custo_id" 
+                        name="tipo_custo_id">
                     <option value="">Selecione...</option>
-                    <option value="fixo" {{ old('tipo_custo') == 'fixo' ? 'selected' : '' }}>Custo Fixo</option>
-                    <option value="variavel" {{ old('tipo_custo') == 'variavel' ? 'selected' : '' }}>Custo Variável</option>
-                    <option value="pessoal" {{ old('tipo_custo') == 'pessoal' ? 'selected' : '' }}>Pessoal/Salários</option>
-                    <option value="administrativo" {{ old('tipo_custo') == 'administrativo' ? 'selected' : '' }}>Administrativo</option>
+                    @foreach($tiposCusto as $tipo)
+                        <option value="{{ $tipo->id }}" {{ old('tipo_custo_id') == $tipo->id ? 'selected' : '' }}>
+                            {{ $tipo->nome }}
+                        </option>
+                    @endforeach
                 </select>
-                @error('tipo_custo')
+                @error('tipo_custo_id')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
+                <div class="mt-2">
+                    <a href="{{ route('admin.tipos-custo.create') }}" class="text-sm text-blue-600 hover:text-blue-800">
+                        Gerenciar Tipos de Custo
+                    </a>
+                </div>
             </div>
 
             <div class="mb-4">

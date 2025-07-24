@@ -110,14 +110,39 @@
                         name="categoria_id" 
                         required>
                     <option value="">Selecione uma categoria...</option>
-                    @foreach($categorias as $categoria)
-                        <option value="{{ $categoria->id }}" {{ old('categoria_id', $conta->categoria_id) == $categoria->id ? 'selected' : '' }}>
-                            {{ $categoria->nome }}
-                            @if($categoria->tipo_custo)
-                                ({{ ucfirst($categoria->tipo_custo) }})
-                            @endif
-                        </option>
+                    
+                    @php
+                        $categoriasPorTipo = $categorias->groupBy('tipo_custo');
+                        $tipoLabels = [
+                            'fixo' => 'Custos Fixos',
+                            'variavel' => 'Custos Variáveis',
+                            'administrativo' => 'Despesas Administrativas',
+                            'pessoal' => 'Pessoal (Salários e Encargos)',
+                            'outros' => 'Outros'
+                        ];
+                    @endphp
+                    
+                    @foreach($tipoLabels as $tipo => $label)
+                        @if(isset($categoriasPorTipo[$tipo]) && $categoriasPorTipo[$tipo]->count() > 0)
+                            <optgroup label="{{ $label }}">
+                                @foreach($categoriasPorTipo[$tipo] as $categoria)
+                                    <option value="{{ $categoria->id }}" {{ old('categoria_id', $conta->categoria_id) == $categoria->id ? 'selected' : '' }}>
+                                        {{ $categoria->nome }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
+                        @endif
                     @endforeach
+                    
+                    @if(isset($categoriasPorTipo[null]) && $categoriasPorTipo[null]->count() > 0)
+                        <optgroup label="Sem Classificação">
+                            @foreach($categoriasPorTipo[null] as $categoria)
+                                <option value="{{ $categoria->id }}" {{ old('categoria_id', $conta->categoria_id) == $categoria->id ? 'selected' : '' }}>
+                                    {{ $categoria->nome }}
+                                </option>
+                            @endforeach
+                        </optgroup>
+                    @endif
                 </select>
                 @error('categoria_id')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>

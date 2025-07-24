@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CategoriaFinanceira;
+use App\Models\TipoCusto;
 use Illuminate\Http\Request;
 
 class CategoriaFinanceiraController extends Controller
@@ -13,7 +14,7 @@ class CategoriaFinanceiraController extends Controller
      */
     public function index()
     {
-        $categorias = CategoriaFinanceira::orderBy('tipo')->orderBy('nome')->paginate(10);
+        $categorias = CategoriaFinanceira::with('tipoCusto')->orderBy('tipo')->orderBy('nome')->paginate(10);
         return view('admin.categorias-financeiras.index', compact('categorias'));
     }
 
@@ -22,7 +23,8 @@ class CategoriaFinanceiraController extends Controller
      */
     public function create()
     {
-        return view('admin.categorias-financeiras.create');
+        $tiposCusto = TipoCusto::ativos()->ordenados()->get();
+        return view('admin.categorias-financeiras.create', compact('tiposCusto'));
     }
 
     /**
@@ -33,7 +35,7 @@ class CategoriaFinanceiraController extends Controller
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'tipo' => 'required|in:entrada,saida',
-            'tipo_custo' => 'nullable|in:fixo,variavel,pessoal,administrativo',
+            'tipo_custo_id' => 'nullable|exists:tipos_custo,id',
             'cor' => 'required|string|max:7',
             'descricao' => 'nullable|string',
             'ativo' => 'boolean'
@@ -62,7 +64,8 @@ class CategoriaFinanceiraController extends Controller
     public function edit(string $id)
     {
         $categoria = CategoriaFinanceira::findOrFail($id);
-        return view('admin.categorias-financeiras.edit', compact('categoria'));
+        $tiposCusto = TipoCusto::ativos()->ordenados()->get();
+        return view('admin.categorias-financeiras.edit', compact('categoria', 'tiposCusto'));
     }
 
     /**
@@ -75,7 +78,7 @@ class CategoriaFinanceiraController extends Controller
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'tipo' => 'required|in:entrada,saida',
-            'tipo_custo' => 'nullable|in:fixo,variavel,pessoal,administrativo',
+            'tipo_custo_id' => 'nullable|exists:tipos_custo,id',
             'cor' => 'required|string|max:7',
             'descricao' => 'nullable|string',
             'ativo' => 'boolean'

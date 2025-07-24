@@ -12,6 +12,7 @@ class CategoriaFinanceira extends Model
         'nome',
         'tipo',
         'tipo_custo',
+        'tipo_custo_id',
         'cor',
         'descricao',
         'ativo'
@@ -20,6 +21,11 @@ class CategoriaFinanceira extends Model
     protected $casts = [
         'ativo' => 'boolean'
     ];
+    
+    public function tipoCusto()
+    {
+        return $this->belongsTo(TipoCusto::class, 'tipo_custo_id');
+    }
     
     public function contasPagar()
     {
