@@ -47,6 +47,11 @@ class ContaReceber extends Model
     {
         return $this->belongsTo(CategoriaFinanceira::class, 'categoria_id');
     }
+    
+    public function projeto()
+    {
+        return $this->belongsTo(Projeto::class);
+    }
 
     public function scopePendentes($query)
     {
