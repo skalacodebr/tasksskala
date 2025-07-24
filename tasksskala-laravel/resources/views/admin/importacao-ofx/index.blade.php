@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('layouts.admin')
 
 @section('title', 'Transações OFX Importadas')
 

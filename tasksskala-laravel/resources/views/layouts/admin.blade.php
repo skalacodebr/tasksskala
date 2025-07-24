@@ -166,6 +166,11 @@
                         <span class="font-medium">Contas a Receber</span>
                     </a>
                     
+                    <a href="{{ route('admin.fornecedores.index') }}" class="nav-item {{ request()->routeIs('admin.fornecedores.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-truck w-5"></i>
+                        <span class="font-medium">Fornecedores</span>
+                    </a>
+                    
                     <a href="{{ route('admin.importacao-ofx.index') }}" class="nav-item {{ request()->routeIs('admin.importacao-ofx.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-file-import w-5"></i>
                         <span class="font-medium">Importação OFX</span>
