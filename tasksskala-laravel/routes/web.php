@@ -18,11 +18,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\AgenteSkalaController;
 use App\Http\Controllers\Cliente\ClienteDashboardController;
+use App\Http\Controllers\Cliente\TicketController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\ContaBancariaController;
 use App\Http\Controllers\Admin\ContaPagarController;
 use App\Http\Controllers\Admin\ContaReceberController;
 use App\Http\Controllers\Admin\FluxoCaixaController;
+use App\Http\Controllers\Admin\CategoriaFinanceiraController;
+use App\Http\Controllers\Admin\DashboardFinanceiraController;
+use App\Http\Controllers\Admin\ImportacaoOfxController;
 
 // Rota principal - redireciona para dashboard se logado, senão para login
 Route::get('/', function () {
@@ -98,6 +102,14 @@ Route::prefix('cliente')->name('cliente.')->middleware(['web', App\Http\Middlewa
     Route::post('/feedback', [ClienteDashboardController::class, 'armazenarFeedback'])->name('feedback.armazenar');
     Route::get('/feedback/{feedback}', [ClienteDashboardController::class, 'verFeedback'])->name('feedback.show');
     Route::post('/feedback/{feedback}/avaliar', [ClienteDashboardController::class, 'avaliarFeedback'])->name('feedback.avaliar');
+    
+    // Rotas de tickets
+    Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
+    Route::get('/tickets/create', [TicketController::class, 'create'])->name('tickets.create');
+    Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
+    Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
+    Route::post('/tickets/{ticket}/reply', [TicketController::class, 'reply'])->name('tickets.reply');
+    Route::patch('/tickets/{ticket}/close', [TicketController::class, 'close'])->name('tickets.close');
 });
 
 // Rotas de autenticação do admin
@@ -154,7 +166,12 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::delete('feedbacks/{feedback}', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
     
     // Rotas do Sistema Financeiro
+    Route::get('dashboard-financeira', [DashboardFinanceiraController::class, 'index'])->name('dashboard-financeira.index');
     Route::get('fluxo-caixa', [FluxoCaixaController::class, 'index'])->name('fluxo-caixa.index');
+    
+    Route::resource('categorias-financeiras', CategoriaFinanceiraController::class)->parameters([
+        'categorias-financeiras' => 'categoria_financeira'
+    ]);
     
     Route::resource('contas-bancarias', ContaBancariaController::class)->parameters([
         'contas-bancarias' => 'conta_bancaria'
@@ -169,4 +186,12 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
         'contas-receber' => 'conta_receber'
     ]);
     Route::post('contas-receber/{conta_receber}/receber', [ContaReceberController::class, 'receber'])->name('contas-receber.receber');
+    
+    // Rotas de Importação OFX
+    Route::get('importacao-ofx', [ImportacaoOfxController::class, 'index'])->name('importacao-ofx.index');
+    Route::get('importacao-ofx/importar', [ImportacaoOfxController::class, 'create'])->name('importacao-ofx.create');
+    Route::post('importacao-ofx/importar', [ImportacaoOfxController::class, 'store'])->name('importacao-ofx.store');
+    Route::get('importacao-ofx/conciliar', [ImportacaoOfxController::class, 'conciliar'])->name('importacao-ofx.conciliar');
+    Route::post('importacao-ofx/conciliar/{transacao}', [ImportacaoOfxController::class, 'conciliarTransacao'])->name('importacao-ofx.conciliar-transacao');
+    Route::get('importacao-ofx/buscar-contas/{transacao}', [ImportacaoOfxController::class, 'buscarContasSugeridas'])->name('importacao-ofx.buscar-contas');
 });

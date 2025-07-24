@@ -14,14 +14,14 @@ class ContaPagar extends Model
         'data_vencimento',
         'data_pagamento',
         'conta_bancaria_id',
+        'categoria_id',
+        'fornecedor_id',
         'tipo',
         'parcela_atual',
         'total_parcelas',
         'periodicidade',
         'data_fim_recorrencia',
         'status',
-        'categoria',
-        'fornecedor',
         'observacoes'
     ];
 
@@ -35,6 +35,16 @@ class ContaPagar extends Model
     public function contaBancaria()
     {
         return $this->belongsTo(ContaBancaria::class);
+    }
+    
+    public function categoria()
+    {
+        return $this->belongsTo(CategoriaFinanceira::class, 'categoria_id');
+    }
+    
+    public function fornecedor()
+    {
+        return $this->belongsTo(Fornecedor::class);
     }
 
     public function scopePendentes($query)

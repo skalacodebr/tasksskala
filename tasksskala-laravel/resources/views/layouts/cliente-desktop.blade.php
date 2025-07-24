@@ -129,7 +129,22 @@
 
                     <!-- Support Section -->
                     <div class="mb-6">
-                        <p class="text-xs font-semibold text-blue-300 uppercase tracking-wider mb-3 px-3">Ajuda</p>
+                        <p class="text-xs font-semibold text-blue-300 uppercase tracking-wider mb-3 px-3">Suporte</p>
+                        
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-blue-800/50 {{ request()->routeIs('cliente.tickets*') ? 'bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/30 shadow-lg' : '' }}" href="{{ route('cliente.tickets.index') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('cliente.tickets*') ? 'bg-gradient-to-br from-red-500 to-orange-600 shadow-lg' : 'bg-blue-700/50 group-hover:bg-blue-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <span class="font-medium group-hover:text-white transition-colors {{ request()->routeIs('cliente.tickets*') ? 'text-white' : 'text-blue-200' }}">Tickets de Suporte</span>
+                                <p class="text-xs text-blue-400">Comercial, Financeiro, Dev</p>
+                            </div>
+                            @if(request()->routeIs('cliente.tickets*'))
+                                <div class="ml-auto w-2 h-2 bg-red-300 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
                         
                         <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-blue-800/50 {{ request()->routeIs('cliente.feedbacks*') ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 shadow-lg' : '' }}" href="{{ route('cliente.feedbacks') }}">
                             <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('cliente.feedbacks*') ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg' : 'bg-blue-700/50 group-hover:bg-blue-600/50' }} transition-all duration-200">

@@ -136,9 +136,19 @@
                         Financeiro
                     </div>
                     
+                    <a href="{{ route('admin.dashboard-financeira.index') }}" class="nav-item {{ request()->routeIs('admin.dashboard-financeira.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-chart-pie w-5"></i>
+                        <span class="font-medium">Dashboard Financeira</span>
+                    </a>
+                    
                     <a href="{{ route('admin.fluxo-caixa.index') }}" class="nav-item {{ request()->routeIs('admin.fluxo-caixa.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-chart-line w-5"></i>
                         <span class="font-medium">Fluxo de Caixa</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.categorias-financeiras.index') }}" class="nav-item {{ request()->routeIs('admin.categorias-financeiras.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-tags w-5"></i>
+                        <span class="font-medium">Categorias</span>
                     </a>
                     
                     <a href="{{ route('admin.contas-bancarias.index') }}" class="nav-item {{ request()->routeIs('admin.contas-bancarias.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">

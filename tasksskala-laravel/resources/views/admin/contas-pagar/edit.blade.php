@@ -102,15 +102,24 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria">
-                    Categoria (opcional)
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria_id">
+                    Categoria
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('categoria') border-red-500 @enderror" 
-                       id="categoria" 
-                       type="text" 
-                       name="categoria" 
-                       value="{{ old('categoria', $conta->categoria) }}">
-                @error('categoria')
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('categoria_id') border-red-500 @enderror" 
+                        id="categoria_id" 
+                        name="categoria_id" 
+                        required>
+                    <option value="">Selecione uma categoria...</option>
+                    @foreach($categorias as $categoria)
+                        <option value="{{ $categoria->id }}" {{ old('categoria_id', $conta->categoria_id) == $categoria->id ? 'selected' : '' }}>
+                            {{ $categoria->nome }}
+                            @if($categoria->tipo_custo)
+                                ({{ ucfirst($categoria->tipo_custo) }})
+                            @endif
+                        </option>
+                    @endforeach
+                </select>
+                @error('categoria_id')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
