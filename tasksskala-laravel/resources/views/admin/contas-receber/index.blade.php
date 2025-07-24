@@ -4,9 +4,14 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Contas a Receber</h1>
-        <a href="{{ route('admin.contas-receber.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Nova Conta
-        </a>
+        <div class="flex gap-2">
+            <a href="{{ route('admin.importacao-ofx.create') }}?tipo_conta=receber" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-file-import mr-2"></i>Importar OFX
+            </a>
+            <a href="{{ route('admin.contas-receber.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Nova Conta
+            </a>
+        </div>
     </div>
 
     @if(session('success'))

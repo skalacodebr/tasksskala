@@ -29,7 +29,7 @@ class AuthController extends Controller
         $password = $request->password;
 
         // Credenciais do admin hardcoded
-        if ($email === 'admin@skalacode.com.br' && $password === 'admin') {
+        if ($email === 'admin@skalacode.com.br' && $password === 'Rs5$1ge0') {
             session(['admin_authenticated' => true, 'admin_email' => $email]);
             return redirect()->intended(route('admin.dashboard'));
         }
