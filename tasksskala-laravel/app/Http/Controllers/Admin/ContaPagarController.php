@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ContaPagar;
 use App\Models\ContaBancaria;
 use App\Models\CategoriaFinanceira;
+use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -33,7 +34,7 @@ class ContaPagarController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ContaPagar::with(['contaBancaria', 'categoria']);
+        $query = ContaPagar::with(['contaBancaria', 'categoria', 'fornecedor']);
 
         if ($request->filled('status')) {
             $query->where('status', $request->status);
@@ -62,7 +63,8 @@ class ContaPagarController extends Controller
             ->where('tipo', 'saida')
             ->where('ativo', true)
             ->get();
-        return view('admin.contas-pagar.create', compact('contasBancarias', 'categorias'));
+        $fornecedores = Fornecedor::where('ativo', true)->orderBy('nome')->get();
+        return view('admin.contas-pagar.create', compact('contasBancarias', 'categorias', 'fornecedores'));
     }
 
     /**
@@ -80,7 +82,7 @@ class ContaPagarController extends Controller
             'total_parcelas' => 'required_if:tipo,parcelada|nullable|integer|min:2',
             'periodicidade' => 'required_if:tipo,recorrente|nullable|in:semanal,mensal,bimestral,trimestral,semestral,anual',
             'data_fim_recorrencia' => 'required_if:tipo,recorrente|nullable|date|after:data_vencimento',
-            'fornecedor' => 'nullable|string|max:255',
+            'fornecedor_id' => 'nullable|exists:fornecedores,id',
             'observacoes' => 'nullable|string'
         ]);
 
@@ -150,7 +152,8 @@ class ContaPagarController extends Controller
             ->where('tipo', 'saida')
             ->where('ativo', true)
             ->get();
-        return view('admin.contas-pagar.edit', compact('conta', 'contasBancarias', 'categorias'));
+        $fornecedores = Fornecedor::where('ativo', true)->orderBy('nome')->get();
+        return view('admin.contas-pagar.edit', compact('conta', 'contasBancarias', 'categorias', 'fornecedores'));
     }
 
     /**
@@ -168,7 +171,7 @@ class ContaPagarController extends Controller
             'conta_bancaria_id' => 'nullable|exists:contas_bancarias,id',
             'categoria_id' => 'required|exists:categorias_financeiras,id',
             'status' => 'required|in:pendente,pago,vencido,cancelado',
-            'fornecedor' => 'nullable|string|max:255',
+            'fornecedor_id' => 'nullable|exists:fornecedores,id',
             'observacoes' => 'nullable|string'
         ]);
 

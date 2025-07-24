@@ -24,17 +24,30 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="fornecedor">
-                    Fornecedor (opcional)
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="fornecedor_id">
+                    Fornecedor
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('fornecedor') border-red-500 @enderror" 
-                       id="fornecedor" 
-                       type="text" 
-                       name="fornecedor" 
-                       value="{{ old('fornecedor') }}">
-                @error('fornecedor')
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('fornecedor_id') border-red-500 @enderror" 
+                        id="fornecedor_id" 
+                        name="fornecedor_id">
+                    <option value="">Selecione um fornecedor...</option>
+                    @foreach($fornecedores as $fornecedor)
+                        <option value="{{ $fornecedor->id }}" {{ old('fornecedor_id') == $fornecedor->id ? 'selected' : '' }}>
+                            {{ $fornecedor->nome }} 
+                            @if($fornecedor->cpf_cnpj)
+                                - {{ $fornecedor->tipo_pessoa == 'fisica' ? 'CPF' : 'CNPJ' }}: {{ \Illuminate\Support\Str::mask($fornecedor->cpf_cnpj, '*', 3, -2) }}
+                            @endif
+                        </option>
+                    @endforeach
+                </select>
+                @error('fornecedor_id')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
+                <div class="mt-1">
+                    <a href="{{ route('admin.fornecedores.create') }}" class="text-sm text-blue-600 hover:text-blue-800">
+                        Cadastrar novo fornecedor
+                    </a>
+                </div>
             </div>
 
             <div class="mb-4">

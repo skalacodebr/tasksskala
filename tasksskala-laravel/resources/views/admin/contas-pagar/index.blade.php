@@ -78,7 +78,9 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             {{ $conta->descricao }}
-                            @if($conta->fornecedor)
+                            @if($conta->fornecedor_id && $conta->fornecedor)
+                                <br><span class="text-xs text-gray-500">{{ $conta->fornecedor->nome }}</span>
+                            @elseif($conta->fornecedor)
                                 <br><span class="text-xs text-gray-500">{{ $conta->fornecedor }}</span>
                             @endif
                         </td>

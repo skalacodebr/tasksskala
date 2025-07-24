@@ -16,6 +16,7 @@ class ContaPagar extends Model
         'conta_bancaria_id',
         'categoria_id',
         'fornecedor_id',
+        'fornecedor',
         'tipo',
         'parcela_atual',
         'total_parcelas',
