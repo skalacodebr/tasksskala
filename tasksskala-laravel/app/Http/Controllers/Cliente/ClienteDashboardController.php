@@ -48,6 +48,11 @@ class ClienteDashboardController extends Controller
                           ->where('cliente_id', $cliente->id)
                           ->firstOrFail();
 
+        // Verificar se o projeto tem repositório configurado
+        if (!$projeto->repositorio_git) {
+            return redirect()->back()->with('error', 'Este projeto não possui repositório Git configurado. Entre em contato com o suporte.');
+        }
+
         // Concatenar informações do cliente, URL e descrição
         $taskDescription = "Cliente: {$cliente->nome} (ID: {$cliente->id})\nProjeto: {$projeto->nome}\nURL: {$request->url_pagina}\n\nDescrição: {$request->descricao}";
 
