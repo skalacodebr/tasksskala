@@ -104,10 +104,8 @@ class FornecedorController extends Controller
             $validated['cpf_cnpj'] = preg_replace('/[^0-9]/', '', $validated['cpf_cnpj']);
         }
         
-        // Define ativo como true se não foi enviado
-        if (!isset($validated['ativo'])) {
-            $validated['ativo'] = true;
-        }
+        // Processar campo boolean
+        $validated['ativo'] = $request->has('ativo');
 
         Fornecedor::create($validated);
 
@@ -186,10 +184,8 @@ class FornecedorController extends Controller
             $validated['cpf_cnpj'] = preg_replace('/[^0-9]/', '', $validated['cpf_cnpj']);
         }
         
-        // Define ativo como false se não foi enviado
-        if (!isset($validated['ativo'])) {
-            $validated['ativo'] = false;
-        }
+        // Processar campo boolean
+        $validated['ativo'] = $request->has('ativo');
 
         $fornecedor->update($validated);
 

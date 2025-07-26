@@ -28,9 +28,9 @@ class ContaReceber extends Model
 
     protected $casts = [
         'valor' => 'decimal:2',
-        'data_vencimento' => 'date',
-        'data_recebimento' => 'date',
-        'data_fim_recorrencia' => 'date'
+        'data_vencimento' => 'datetime',
+        'data_recebimento' => 'datetime',
+        'data_fim_recorrencia' => 'datetime'
     ];
 
     public function contaBancaria()

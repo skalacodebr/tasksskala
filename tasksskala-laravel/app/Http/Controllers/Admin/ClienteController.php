@@ -71,6 +71,9 @@ class ClienteController extends Controller
             'observacoes' => 'nullable|string'
         ]);
 
+        // Processar campo boolean
+        $validated['ativo'] = $request->has('ativo');
+
         // Validação adicional para CPF/CNPJ
         if ($request->filled('cpf_cnpj')) {
             $cpfCnpj = preg_replace('/[^0-9]/', '', $request->cpf_cnpj);
@@ -146,6 +149,9 @@ class ClienteController extends Controller
             'ativo' => 'boolean',
             'observacoes' => 'nullable|string'
         ]);
+
+        // Processar campo boolean
+        $validated['ativo'] = $request->has('ativo');
 
         // Validação adicional para CPF/CNPJ
         if ($request->filled('cpf_cnpj')) {

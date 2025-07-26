@@ -51,6 +51,10 @@ class PlanoContasController extends Controller
             'ativo' => 'boolean'
         ]);
         
+        // Processar campos boolean
+        $validated['dre_visivel'] = $request->has('dre_visivel');
+        $validated['ativo'] = $request->has('ativo');
+        
         // Calcular nível baseado no parent
         if ($validated['parent_id']) {
             $parent = PlanoContas::find($validated['parent_id']);
@@ -106,6 +110,10 @@ class PlanoContasController extends Controller
             'dre_visivel' => 'boolean',
             'ativo' => 'boolean'
         ]);
+        
+        // Processar campos boolean
+        $validated['dre_visivel'] = $request->has('dre_visivel');
+        $validated['ativo'] = $request->has('ativo');
         
         // Recalcular nível se parent mudou
         if ($validated['parent_id'] !== $planoConta->parent_id) {
