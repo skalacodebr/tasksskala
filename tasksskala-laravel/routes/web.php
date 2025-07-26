@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ImportacaoOfxController;
 use App\Http\Controllers\Admin\TipoCustoController;
 use App\Http\Controllers\Admin\FornecedorController;
 use App\Http\Controllers\Admin\PlanoContasController;
+use App\Http\Controllers\Admin\ClienteController;
 
 // Rota principal - redireciona para admin login
 Route::get('/', function () {
@@ -48,6 +49,10 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     
     Route::resource('contas-bancarias', ContaBancariaController::class)->parameters([
         'contas-bancarias' => 'conta_bancaria'
+    ]);
+    
+    Route::resource('clientes', ClienteController::class)->parameters([
+        'clientes' => 'cliente'
     ]);
     
     Route::resource('fornecedores', FornecedorController::class)->parameters([

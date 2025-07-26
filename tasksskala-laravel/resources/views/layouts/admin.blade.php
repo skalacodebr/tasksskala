@@ -109,6 +109,11 @@
                         <span class="font-medium">Contas Bancárias</span>
                     </a>
                     
+                    <a href="{{ route('admin.clientes.index') }}" class="nav-item {{ request()->routeIs('admin.clientes.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-users w-5"></i>
+                        <span class="font-medium">Clientes</span>
+                    </a>
+                    
                     <a href="{{ route('admin.contas-pagar.index') }}" class="nav-item {{ request()->routeIs('admin.contas-pagar.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-money-bill-wave w-5"></i>
                         <span class="font-medium">Contas a Pagar</span>

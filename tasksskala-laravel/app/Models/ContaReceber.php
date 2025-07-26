@@ -14,6 +14,7 @@ class ContaReceber extends Model
         'data_vencimento',
         'data_recebimento',
         'conta_bancaria_id',
+        'cliente_id',
         'cliente_nome',
         'categoria_id',
         'tipo',
@@ -40,6 +41,11 @@ class ContaReceber extends Model
     public function categoria()
     {
         return $this->belongsTo(CategoriaFinanceira::class, 'categoria_id');
+    }
+    
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);
     }
 
     public function scopePendentes($query)
