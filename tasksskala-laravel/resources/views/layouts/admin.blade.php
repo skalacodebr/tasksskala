@@ -89,6 +89,11 @@
                         <span class="font-medium">Fluxo de Caixa</span>
                     </a>
                     
+                    <a href="{{ route('admin.plano-contas.index') }}" class="nav-item {{ request()->routeIs('admin.plano-contas.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-sitemap w-5"></i>
+                        <span class="font-medium">Plano de Contas</span>
+                    </a>
+                    
                     <a href="{{ route('admin.tipos-custo.index') }}" class="nav-item {{ request()->routeIs('admin.tipos-custo.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-layer-group w-5"></i>
                         <span class="font-medium">Tipos de Custo</span>

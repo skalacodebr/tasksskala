@@ -82,9 +82,8 @@
                             {{ $conta->descricao }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            @if($conta->cliente)
-                                {{ $conta->cliente->nome }}
-                                <br><span class="text-xs text-gray-500">{{ $conta->cliente->cpf_cnpj }}</span>
+                            @if($conta->cliente_nome)
+                                {{ $conta->cliente_nome }}
                             @else
                                 <span class="text-gray-400">-</span>
                             @endif

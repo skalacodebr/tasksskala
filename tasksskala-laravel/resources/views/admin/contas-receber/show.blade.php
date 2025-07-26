@@ -52,15 +52,8 @@
                     <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-gray-500">Cliente</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            @if($conta->cliente)
-                                {{ $conta->cliente->nome }}
-                                <br><span class="text-xs text-gray-500">{{ $conta->cliente->cpf_cnpj }}</span>
-                                @if($conta->cliente->email)
-                                    <br><span class="text-xs text-gray-500">{{ $conta->cliente->email }}</span>
-                                @endif
-                                @if($conta->cliente->telefone)
-                                    <br><span class="text-xs text-gray-500">{{ $conta->cliente->telefone }}</span>
-                                @endif
+                            @if($conta->cliente_nome)
+                                {{ $conta->cliente_nome }}
                             @else
                                 <span class="text-gray-400">Não definido</span>
                             @endif

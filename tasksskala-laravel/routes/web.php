@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\DashboardFinanceiraController;
 use App\Http\Controllers\Admin\ImportacaoOfxController;
 use App\Http\Controllers\Admin\TipoCustoController;
 use App\Http\Controllers\Admin\FornecedorController;
+use App\Http\Controllers\Admin\PlanoContasController;
 
 // Rota principal - redireciona para admin login
 Route::get('/', function () {
@@ -32,6 +33,10 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     // Rotas do Sistema Financeiro
     Route::get('dashboard-financeira', [DashboardFinanceiraController::class, 'index'])->name('dashboard-financeira.index');
     Route::get('fluxo-caixa', [FluxoCaixaController::class, 'index'])->name('fluxo-caixa.index');
+    
+    Route::resource('plano-contas', PlanoContasController::class)->parameters([
+        'plano-contas' => 'planoConta'
+    ]);
     
     Route::resource('tipos-custo', TipoCustoController::class)->parameters([
         'tipos-custo' => 'tipoCusto'

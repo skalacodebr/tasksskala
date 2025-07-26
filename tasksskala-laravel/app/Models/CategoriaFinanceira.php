@@ -13,6 +13,7 @@ class CategoriaFinanceira extends Model
         'tipo',
         'tipo_custo',
         'tipo_custo_id',
+        'plano_conta_id',
         'cor',
         'descricao',
         'ativo'
@@ -25,6 +26,11 @@ class CategoriaFinanceira extends Model
     public function tipoCusto()
     {
         return $this->belongsTo(TipoCusto::class, 'tipo_custo_id');
+    }
+    
+    public function planoConta()
+    {
+        return $this->belongsTo(PlanoContas::class, 'plano_conta_id');
     }
     
     public function contasPagar()
