@@ -44,11 +44,11 @@
             <div class="text-center">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center space-y-3 group">
                     <div class="w-16 h-16 glass-effect rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-crown text-2xl text-yellow-300"></i>
+                        <i class="fas fa-dollar-sign text-2xl text-yellow-300"></i>
                     </div>
                     <div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">SkalaCode</span>
-                        <p class="text-sm text-purple-200 font-medium">Admin Panel</p>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">Sistema Financeiro</span>
+                        <p class="text-sm text-purple-200 font-medium">Painel Admin</p>
                     </div>
                 </a>
             </div>
@@ -73,63 +73,6 @@
                     <span class="font-medium">Dashboard</span>
                 </a>
                 
-                <a href="{{ route('admin.colaboradores.index') }}" class="nav-item {{ request()->routeIs('admin.colaboradores.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                    <i class="fas fa-users w-5"></i>
-                    <span class="font-medium">Colaboradores</span>
-                </a>
-                
-                <a href="{{ route('admin.clientes.index') }}" class="nav-item {{ request()->routeIs('admin.clientes.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                    <i class="fas fa-handshake w-5"></i>
-                    <span class="font-medium">Clientes</span>
-                </a>
-                
-                <a href="{{ route('admin.projetos.index') }}" class="nav-item {{ request()->routeIs('admin.projetos.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                    <i class="fas fa-project-diagram w-5"></i>
-                    <span class="font-medium">Projetos</span>
-                </a>
-                
-                <a href="{{ route('admin.tarefas.index') }}" class="nav-item {{ request()->routeIs('admin.tarefas.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                    <i class="fas fa-tasks w-5"></i>
-                    <span class="font-medium">Tarefas</span>
-                </a>
-                
-                <!-- Configurações Seção -->
-                <div class="pt-6">
-                    <div class="text-xs uppercase text-purple-200 font-semibold tracking-wider mb-4 px-3">
-                        Configurações
-                    </div>
-                    
-                    <a href="{{ route('admin.setores.index') }}" class="nav-item {{ request()->routeIs('admin.setores.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                        <i class="fas fa-building w-5"></i>
-                        <span class="font-medium">Setores</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.conhecimentos.index') }}" class="nav-item {{ request()->routeIs('admin.conhecimentos.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                        <i class="fas fa-lightbulb w-5"></i>
-                        <span class="font-medium">Conhecimentos</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.status-projetos.index') }}" class="nav-item {{ request()->routeIs('admin.status-projetos.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                        <i class="fas fa-flag w-5"></i>
-                        <span class="font-medium">Status</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.agente-skala.index') }}" class="nav-item {{ request()->routeIs('admin.agente-skala.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                        <i class="fas fa-robot w-5"></i>
-                        <span class="font-medium">Agente Skala</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.tutoriais.index') }}" class="nav-item {{ request()->routeIs('admin.tutoriais.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                        <i class="fas fa-video w-5"></i>
-                        <span class="font-medium">Tutoriais</span>
-                    </a>
-                    
-                    <a href="{{ route('admin.feedbacks.index') }}" class="nav-item {{ request()->routeIs('admin.feedbacks.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
-                        <i class="fas fa-comments w-5"></i>
-                        <span class="font-medium">Feedbacks</span>
-                    </a>
-                </div>
-                
                 <!-- Financeiro Seção -->
                 <div class="pt-6">
                     <div class="text-xs uppercase text-purple-200 font-semibold tracking-wider mb-4 px-3">
@@ -146,6 +89,11 @@
                         <span class="font-medium">Fluxo de Caixa</span>
                     </a>
                     
+                    <a href="{{ route('admin.plano-contas.index') }}" class="nav-item {{ request()->routeIs('admin.plano-contas.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-sitemap w-5"></i>
+                        <span class="font-medium">Plano de Contas</span>
+                    </a>
+                    
                     <a href="{{ route('admin.tipos-custo.index') }}" class="nav-item {{ request()->routeIs('admin.tipos-custo.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-layer-group w-5"></i>
                         <span class="font-medium">Tipos de Custo</span>
@@ -159,6 +107,11 @@
                     <a href="{{ route('admin.contas-bancarias.index') }}" class="nav-item {{ request()->routeIs('admin.contas-bancarias.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
                         <i class="fas fa-university w-5"></i>
                         <span class="font-medium">Contas Bancárias</span>
+                    </a>
+                    
+                    <a href="{{ route('admin.clientes.index') }}" class="nav-item {{ request()->routeIs('admin.clientes.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">
+                        <i class="fas fa-users w-5"></i>
+                        <span class="font-medium">Clientes</span>
                     </a>
                     
                     <a href="{{ route('admin.contas-pagar.index') }}" class="nav-item {{ request()->routeIs('admin.contas-pagar.*') ? 'active' : '' }} flex items-center space-x-4 py-3 px-4 rounded-xl">

@@ -15,7 +15,7 @@ class ContaReceber extends Model
         'data_recebimento',
         'conta_bancaria_id',
         'cliente_id',
-        'projeto_id',
+        'cliente_nome',
         'categoria_id',
         'tipo',
         'parcela_atual',
@@ -28,9 +28,9 @@ class ContaReceber extends Model
 
     protected $casts = [
         'valor' => 'decimal:2',
-        'data_vencimento' => 'date',
-        'data_recebimento' => 'date',
-        'data_fim_recorrencia' => 'date'
+        'data_vencimento' => 'datetime',
+        'data_recebimento' => 'datetime',
+        'data_fim_recorrencia' => 'datetime'
     ];
 
     public function contaBancaria()
@@ -38,19 +38,14 @@ class ContaReceber extends Model
         return $this->belongsTo(ContaBancaria::class);
     }
 
-    public function cliente()
-    {
-        return $this->belongsTo(Cliente::class);
-    }
-    
     public function categoria()
     {
         return $this->belongsTo(CategoriaFinanceira::class, 'categoria_id');
     }
     
-    public function projeto()
+    public function cliente()
     {
-        return $this->belongsTo(Projeto::class);
+        return $this->belongsTo(Cliente::class);
     }
 
     public function scopePendentes($query)

@@ -28,9 +28,9 @@ class ContaPagar extends Model
 
     protected $casts = [
         'valor' => 'decimal:2',
-        'data_vencimento' => 'date',
-        'data_pagamento' => 'date',
-        'data_fim_recorrencia' => 'date'
+        'data_vencimento' => 'datetime',
+        'data_pagamento' => 'datetime',
+        'data_fim_recorrencia' => 'datetime'
     ];
 
     public function contaBancaria()

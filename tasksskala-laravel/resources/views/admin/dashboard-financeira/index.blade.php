@@ -141,7 +141,9 @@
             <h2 class="text-lg font-semibold mb-4">Despesas por Categoria</h2>
             
             @if($despesasPorCategoria->count() > 0)
-                <canvas id="despesasChart" width="400" height="300"></canvas>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="despesasChart"></canvas>
+                </div>
                 
                 <div class="mt-4 space-y-2">
                     @foreach($despesasPorCategoria as $item)
@@ -170,7 +172,9 @@
             <h2 class="text-lg font-semibold mb-4">Receitas por Categoria</h2>
             
             @if($receitasPorCategoria->count() > 0)
-                <canvas id="receitasChart" width="400" height="300"></canvas>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="receitasChart"></canvas>
+                </div>
                 
                 <div class="mt-4 space-y-2">
                     @foreach($receitasPorCategoria as $item)
@@ -195,7 +199,9 @@
     <!-- Evolução Mensal -->
     <div class="mt-8 bg-white rounded-lg shadow p-6">
         <h2 class="text-lg font-semibold mb-4">Evolução Mensal (Últimos 12 meses)</h2>
-        <canvas id="evolucaoChart" width="400" height="200"></canvas>
+        <div style="position: relative; height: 400px; width: 100%;">
+            <canvas id="evolucaoChart"></canvas>
+        </div>
     </div>
 </div>
 
@@ -208,15 +214,24 @@ Chart.defaults.elements.line.borderWidth = 2;
 Chart.defaults.elements.point.radius = 0;
 Chart.defaults.elements.point.hoverRadius = 4;
 
+// Armazenar instâncias dos gráficos
+let chartInstances = {};
+
 // Função para criar gráficos com lazy loading
 function createChartWhenVisible(elementId, createChartFn) {
     const element = document.getElementById(elementId);
     if (!element) return;
     
+    // Se o gráfico já existe, não criar novamente
+    if (chartInstances[elementId]) return;
+    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                createChartFn();
+            if (entry.isIntersecting && !chartInstances[elementId]) {
+                const chart = createChartFn();
+                if (chart) {
+                    chartInstances[elementId] = chart;
+                }
                 observer.disconnect();
             }
         });
@@ -227,6 +242,13 @@ function createChartWhenVisible(elementId, createChartFn) {
     observer.observe(element);
 }
 
+// Destruir gráficos existentes antes de sair da página
+window.addEventListener('beforeunload', function() {
+    Object.values(chartInstances).forEach(chart => {
+        if (chart) chart.destroy();
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     // Gráfico de Despesas com otimizações
     @if($despesasPorCategoria->count() > 0)
@@ -236,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alpha: false 
             });
             
-            new Chart(despesasCtx, {
+            return new Chart(despesasCtx, {
                 type: 'doughnut',
                 data: {
                     labels: {!! json_encode($despesasPorCategoria->pluck('categoria')) !!},
@@ -262,6 +284,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     interaction: {
                         intersect: false,
                         mode: 'index'
+                    },
+                    layout: {
+                        padding: 10
                     }
                 }
             });
@@ -276,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alpha: false 
             });
             
-            new Chart(receitasCtx, {
+            return new Chart(receitasCtx, {
                 type: 'doughnut',
                 data: {
                     labels: {!! json_encode($receitasPorCategoria->pluck('categoria')) !!},
@@ -302,6 +327,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     interaction: {
                         intersect: false,
                         mode: 'index'
+                    },
+                    layout: {
+                        padding: 10
                     }
                 }
             });
@@ -315,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alpha: false 
         });
         
-        new Chart(evolucaoCtx, {
+        return new Chart(evolucaoCtx, {
             type: 'line',
             data: {
                 labels: {!! json_encode(collect($evolucaoMensal)->map(function($item) { return $item['mes'] . '/' . $item['ano']; })) !!},

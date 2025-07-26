@@ -41,9 +41,9 @@
                 @enderror
             </div>
 
-            <div class="mb-4" id="campo-tipo-custo" style="display: {{ $categoria->tipo == 'saida' ? 'block' : 'none' }};">
+            <div class="mb-4" id="campo-tipo-custo" style="display: {{ in_array($categoria->tipo, ['entrada', 'saida']) ? 'block' : 'none' }};">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo_custo_id">
-                    Tipo de Custo (para despesas)
+                    Tipo de Custo
                 </label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tipo_custo_id') border-red-500 @enderror" 
                         id="tipo_custo_id" 
@@ -117,11 +117,11 @@ function mostrarTipoCusto() {
     const tipo = document.getElementById('tipo').value;
     const campoTipoCusto = document.getElementById('campo-tipo-custo');
     
-    if (tipo === 'saida') {
+    if (tipo === 'entrada' || tipo === 'saida') {
         campoTipoCusto.style.display = 'block';
     } else {
         campoTipoCusto.style.display = 'none';
-        document.getElementById('tipo_custo').value = '';
+        document.getElementById('tipo_custo_id').value = '';
     }
 }
 
