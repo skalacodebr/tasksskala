@@ -141,7 +141,9 @@
             <h2 class="text-lg font-semibold mb-4">Despesas por Categoria</h2>
             
             @if($despesasPorCategoria->count() > 0)
-                <canvas id="despesasChart" width="400" height="300"></canvas>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="despesasChart"></canvas>
+                </div>
                 
                 <div class="mt-4 space-y-2">
                     @foreach($despesasPorCategoria as $item)
@@ -170,7 +172,9 @@
             <h2 class="text-lg font-semibold mb-4">Receitas por Categoria</h2>
             
             @if($receitasPorCategoria->count() > 0)
-                <canvas id="receitasChart" width="400" height="300"></canvas>
+                <div style="position: relative; height: 300px; width: 100%;">
+                    <canvas id="receitasChart"></canvas>
+                </div>
                 
                 <div class="mt-4 space-y-2">
                     @foreach($receitasPorCategoria as $item)
@@ -195,7 +199,9 @@
     <!-- Evolução Mensal -->
     <div class="mt-8 bg-white rounded-lg shadow p-6">
         <h2 class="text-lg font-semibold mb-4">Evolução Mensal (Últimos 12 meses)</h2>
-        <canvas id="evolucaoChart" width="400" height="200"></canvas>
+        <div style="position: relative; height: 400px; width: 100%;">
+            <canvas id="evolucaoChart"></canvas>
+        </div>
     </div>
 </div>
 
@@ -262,6 +268,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     interaction: {
                         intersect: false,
                         mode: 'index'
+                    },
+                    layout: {
+                        padding: 10
                     }
                 }
             });
@@ -302,6 +311,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     interaction: {
                         intersect: false,
                         mode: 'index'
+                    },
+                    layout: {
+                        padding: 10
                     }
                 }
             });
