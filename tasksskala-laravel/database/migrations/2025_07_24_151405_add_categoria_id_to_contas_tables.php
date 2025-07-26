@@ -18,7 +18,7 @@ return new class extends Migration
         
         Schema::table('contas_receber', function (Blueprint $table) {
             $table->dropColumn('categoria');
-            $table->foreignId('categoria_id')->nullable()->after('cliente_id')->constrained('categorias_financeiras');
+            $table->foreignId('categoria_id')->nullable()->after('cliente_nome')->constrained('categorias_financeiras');
         });
     }
 

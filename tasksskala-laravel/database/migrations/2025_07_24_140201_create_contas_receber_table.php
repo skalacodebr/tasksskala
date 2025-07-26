@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('data_vencimento');
             $table->date('data_recebimento')->nullable();
             $table->foreignId('conta_bancaria_id')->nullable()->constrained('contas_bancarias');
-            $table->foreignId('cliente_id')->nullable()->constrained('clientes');
+            $table->string('cliente_nome')->nullable();
             $table->string('tipo'); // fixa, parcelada, recorrente
             $table->integer('parcela_atual')->nullable();
             $table->integer('total_parcelas')->nullable();

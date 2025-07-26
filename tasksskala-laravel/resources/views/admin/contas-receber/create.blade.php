@@ -24,21 +24,16 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="cliente_id">
-                    Cliente
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="cliente_nome">
+                    Nome do Cliente
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('cliente_id') border-red-500 @enderror" 
-                        id="cliente_id" 
-                        name="cliente_id" 
-                        required>
-                    <option value="">Selecione um cliente...</option>
-                    @foreach($clientes as $cliente)
-                        <option value="{{ $cliente->id }}" {{ old('cliente_id') == $cliente->id ? 'selected' : '' }}>
-                            {{ $cliente->nome }} - {{ $cliente->cpf_cnpj }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('cliente_id')
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('cliente_nome') border-red-500 @enderror" 
+                       id="cliente_nome" 
+                       type="text" 
+                       name="cliente_nome" 
+                       value="{{ old('cliente_nome') }}" 
+                       placeholder="Digite o nome do cliente">
+                @error('cliente_nome')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
@@ -148,15 +143,20 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria_id">
                     Categoria (opcional)
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('categoria') border-red-500 @enderror" 
-                       id="categoria" 
-                       type="text" 
-                       name="categoria" 
-                       value="{{ old('categoria') }}">
-                @error('categoria')
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('categoria_id') border-red-500 @enderror" 
+                        id="categoria_id" 
+                        name="categoria_id">
+                    <option value="">Selecione...</option>
+                    @foreach($categorias as $categoria)
+                        <option value="{{ $categoria->id }}" {{ old('categoria_id') == $categoria->id ? 'selected' : '' }}>
+                            {{ $categoria->nome }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('categoria_id')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>

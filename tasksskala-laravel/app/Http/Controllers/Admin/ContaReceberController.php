@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContaReceber;
 use App\Models\ContaBancaria;
-use App\Models\Cliente;
 use App\Models\CategoriaFinanceira;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -34,7 +33,7 @@ class ContaReceberController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ContaReceber::with(['contaBancaria', 'cliente', 'categoria']);
+        $query = ContaReceber::with(['contaBancaria', 'categoria']);
 
         if ($request->filled('status')) {
             $query->where('status', $request->status);
@@ -59,9 +58,8 @@ class ContaReceberController extends Controller
     public function create()
     {
         $contasBancarias = ContaBancaria::where('ativo', true)->orderBy('nome')->get();
-        $clientes = Cliente::orderBy('nome')->get();
         $categorias = CategoriaFinanceira::where('tipo', 'entrada')->orderBy('nome')->get();
-        return view('admin.contas-receber.create', compact('contasBancarias', 'clientes', 'categorias'));
+        return view('admin.contas-receber.create', compact('contasBancarias', 'categorias'));
     }
 
     /**
@@ -74,7 +72,7 @@ class ContaReceberController extends Controller
             'valor' => 'required|numeric|min:0.01',
             'data_vencimento' => 'required|date',
             'conta_bancaria_id' => 'nullable|exists:contas_bancarias,id',
-            'cliente_id' => 'nullable|exists:clientes,id',
+            'cliente_nome' => 'nullable|string|max:255',
             'tipo' => 'required|in:fixa,parcelada,recorrente',
             'total_parcelas' => 'required_if:tipo,parcelada|nullable|integer|min:2',
             'periodicidade' => 'required_if:tipo,recorrente|nullable|in:semanal,mensal,bimestral,trimestral,semestral,anual',
@@ -145,9 +143,8 @@ class ContaReceberController extends Controller
     {
         $conta = ContaReceber::findOrFail($id);
         $contasBancarias = ContaBancaria::where('ativo', true)->orderBy('nome')->get();
-        $clientes = Cliente::orderBy('nome')->get();
         $categorias = CategoriaFinanceira::where('tipo', 'entrada')->orderBy('nome')->get();
-        return view('admin.contas-receber.edit', compact('conta', 'contasBancarias', 'clientes', 'categorias'));
+        return view('admin.contas-receber.edit', compact('conta', 'contasBancarias', 'categorias'));
     }
 
     /**
@@ -163,7 +160,7 @@ class ContaReceberController extends Controller
             'data_vencimento' => 'required|date',
             'data_recebimento' => 'nullable|date',
             'conta_bancaria_id' => 'nullable|exists:contas_bancarias,id',
-            'cliente_id' => 'nullable|exists:clientes,id',
+            'cliente_nome' => 'nullable|string|max:255',
             'status' => 'required|in:pendente,recebido,vencido,cancelado',
             'categoria_id' => 'nullable|exists:categorias_financeiras,id',
             'observacoes' => 'nullable|string'
