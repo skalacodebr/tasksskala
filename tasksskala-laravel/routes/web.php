@@ -117,6 +117,26 @@ Route::prefix('cliente')->name('cliente.')->middleware(['web', App\Http\Middlewa
     Route::patch('/tickets/{ticket}/close', [TicketController::class, 'close'])->name('tickets.close');
 });
 
+// Rota pública para teste do agente SRS
+Route::get('/teste_agente', [App\Http\Controllers\AgenteSRSController::class, 'index'])->name('agente-srs.index');
+Route::post('/teste_agente/enriquecer-descricao', [App\Http\Controllers\AgenteSRSController::class, 'enriquecerDescricao'])->name('agente-srs.enriquecer-descricao');
+Route::post('/teste_agente/gerar-perguntas', [App\Http\Controllers\AgenteSRSController::class, 'gerarPerguntas'])->name('agente-srs.gerar-perguntas');
+Route::post('/teste_agente/gerar-srs', [App\Http\Controllers\AgenteSRSController::class, 'gerarSRS'])->name('agente-srs.gerar-srs');
+Route::get('/teste_agente/download-srs', [App\Http\Controllers\AgenteSRSController::class, 'downloadSRS'])->name('agente-srs.download');
+
+// Rota pública para teste do agente SRS v2 (perguntas fixas)
+Route::get('/teste_agente2', [App\Http\Controllers\AgenteSRS2Controller::class, 'index'])->name('agente-srs2.index');
+Route::post('/teste_agente2/gerar-srs', [App\Http\Controllers\AgenteSRS2Controller::class, 'gerarSRS'])->name('agente-srs2.gerar-srs');
+Route::post('/teste_agente2/sugerir-resposta', [App\Http\Controllers\AgenteSRS2Controller::class, 'sugerirResposta'])->name('agente-srs2.sugerir');
+Route::get('/teste_agente2/download-srs', [App\Http\Controllers\AgenteSRS2Controller::class, 'downloadSRS'])->name('agente-srs2.download');
+Route::get('/teste_agente2/historico', [App\Http\Controllers\AgenteSRS2Controller::class, 'historico'])->name('agente-srs2.historico');
+Route::get('/teste_agente2/historico/{id}', [App\Http\Controllers\AgenteSRS2Controller::class, 'verHistorico'])->name('agente-srs2.ver-historico');
+
+// Rota pública para o agente de chat
+Route::get('/agente_chat', [App\Http\Controllers\ChatController::class, 'index'])->name('agente-chat.index');
+Route::post('/agente_chat/start', [App\Http\Controllers\ChatController::class, 'start'])->name('agente-chat.start');
+Route::post('/agente_chat/send', [App\Http\Controllers\ChatController::class, 'send'])->name('agente-chat.send');
+
 // Rotas de autenticação do admin
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
