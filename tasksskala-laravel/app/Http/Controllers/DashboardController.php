@@ -1414,21 +1414,35 @@ Retorne APENAS o JSON, sem explicações adicionais.";
             $tempoMedio = 0;
             $tarefasComTempo = $colab->tarefas->where('status', 'concluida')
                 ->filter(function($tarefa) {
-                    return $tarefa->tempo_inicial && $tarefa->updated_at;
+                    return $tarefa->created_at && $tarefa->updated_at;
                 });
             
             if ($tarefasComTempo->count() > 0) {
                 $totalHoras = 0;
                 foreach ($tarefasComTempo as $tarefa) {
-                    $inicio = Carbon::parse($tarefa->tempo_inicial);
+                    $inicio = Carbon::parse($tarefa->created_at);
                     $fim = Carbon::parse($tarefa->updated_at);
-                    $totalHoras += $fim->diffInHours($inicio);
+                    $horasDiff = $fim->diffInHours($inicio);
+                    // Limitar a 720 horas (30 dias) para evitar distorções
+                    $totalHoras += min($horasDiff, 720);
                 }
                 $tempoMedio = round($totalHoras / $tarefasComTempo->count(), 1);
             }
             
+            // Buscar projetos onde o colaborador é responsável e estão concluídos no período
+            $projetosResponsavel = Projeto::where('responsavel_id', $colab->id)
+                ->where('status_id', function($query) {
+                    $query->select('id')
+                        ->from('status_projetos')
+                        ->where('nome', 'Concluído')
+                        ->orWhere('nome', 'concluido')
+                        ->first();
+                })
+                ->whereBetween('updated_at', [$dataInicio, $dataFim])
+                ->count();
+            
             // Pontuação total (base para ranking)
-            $pontuacao = ($tarefasConcluidas * 10) + ($mediaPorDia * 5) + ($projetosTrabalhados * 3);
+            $pontuacao = ($tarefasConcluidas * 10) + ($mediaPorDia * 5) + ($projetosTrabalhados * 3) + ($projetosResponsavel * 100);
             
             $metricas[] = [
                 'colaborador' => $colab,
@@ -1436,6 +1450,7 @@ Retorne APENAS o JSON, sem explicações adicionais.";
                 'tarefas_total' => $tarefasTotal,
                 'media_por_dia' => $mediaPorDia,
                 'projetos_trabalhados' => $projetosTrabalhados,
+                'projetos_responsavel' => $projetosResponsavel,
                 'tempo_medio' => $tempoMedio,
                 'pontuacao' => $pontuacao
             ];

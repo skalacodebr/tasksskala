@@ -66,6 +66,9 @@
                                 Projetos
                             </th>
                             <th class="px-6 py-3 text-center text-xs font-medium text-muted-dark uppercase tracking-wider">
+                                Projetos Concluídos<br>(Responsável)
+                            </th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-muted-dark uppercase tracking-wider">
                                 Tempo Médio (h)
                             </th>
                             <th class="px-6 py-3 text-center text-xs font-medium text-muted-dark uppercase tracking-wider">
@@ -104,6 +107,13 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-muted-dark">
                                     {{ $metrica['projetos_trabalhados'] }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    @if($metrica['projetos_responsavel'] > 0)
+                                        <span class="text-sm font-bold text-yellow-400">{{ $metrica['projetos_responsavel'] }}</span>
+                                    @else
+                                        <span class="text-sm text-muted-dark">0</span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-muted-dark">
                                     {{ $metrica['tempo_medio'] }}h
@@ -238,6 +248,7 @@
                     <li>• <span class="text-green-400 font-medium">Tarefas Concluídas:</span> 10 pontos por tarefa</li>
                     <li>• <span class="text-blue-400 font-medium">Média por Dia:</span> 5 pontos por tarefa/dia</li>
                     <li>• <span class="text-purple-400 font-medium">Projetos Trabalhados:</span> 3 pontos por projeto</li>
+                    <li>• <span class="text-yellow-400 font-medium">Projetos Concluídos (Responsável):</span> 100 pontos por projeto concluído onde você é o responsável</li>
                 </ul>
             </div>
         </div>
