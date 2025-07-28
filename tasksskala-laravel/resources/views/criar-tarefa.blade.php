@@ -669,7 +669,24 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                 modalIA.classList.add('hidden');
                 resetModal();
             } else {
-                alert(result.message || 'Erro ao processar com IA');
+                console.error('Erro ao processar com IA:', result.message || 'Erro desconhecido');
+                
+                // Mensagem de erro mais detalhada
+                let mensagemErro = 'Erro ao processar com IA:\n\n';
+                mensagemErro += result.message || 'Erro desconhecido';
+                
+                if (result.message && result.message.includes('API Key')) {
+                    mensagemErro += '\n\nPara configurar a API Key:\n';
+                    mensagemErro += '1. Crie uma conta em https://platform.openai.com\n';
+                    mensagemErro += '2. Gere uma API Key em https://platform.openai.com/api-keys\n';
+                    mensagemErro += '3. Adicione no arquivo .env: OPENAI_API_KEY=sua-chave-aqui\n';
+                    mensagemErro += '4. Execute: php artisan config:clear';
+                    
+                    // Adicionar link para testar API
+                    mensagemErro += '\n\nPara testar sua API Key, acesse: ' + window.location.origin + '/tarefa/testar-api';
+                }
+                
+                alert(mensagemErro);
             }
             
         } catch (error) {
