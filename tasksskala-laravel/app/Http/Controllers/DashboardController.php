@@ -346,7 +346,15 @@ class DashboardController extends Controller
                 \Log::info('ProcessarTarefaIA: Áudio salvo temporariamente', ['path' => $audioPath]);
                 
                 // Usar OpenAI Whisper para transcrever
-                $apiKey = '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';
+                $apiKey = config('services.openai.api_key');
+                
+                if (!$apiKey) {
+                    \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada');
+                    Storage::delete($audioPath);
+                    return response()->json(['success' => false, 'message' => 'API Key da OpenAI não configurada'], 500);
+                }
+                
+                \Log::info('ProcessarTarefaIA: Usando API Key', ['key_length' => strlen($apiKey), 'key_prefix' => substr($apiKey, 0, 10) . '...']);
                 
                 try {
                     \Log::info('ProcessarTarefaIA: Enviando áudio para Whisper API');
@@ -428,8 +436,15 @@ Retorne APENAS o JSON, sem explicações adicionais.";
             \Log::info('ProcessarTarefaIA: Enviando para ChatGPT');
             
             try {
+                $apiKey = config('services.openai.api_key');
+                
+                if (!$apiKey) {
+                    \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada para ChatGPT');
+                    return response()->json(['success' => false, 'message' => 'API Key da OpenAI não configurada'], 500);
+                }
+                
                 $response = Http::withHeaders([
-                    'Authorization' => 'Bearer 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',
+                    'Authorization' => 'Bearer ' . $apiKey,
                     'Content-Type' => 'application/json',
                 ])->post('https://api.openai.com/v1/chat/completions', [
                     'model' => 'gpt-4o-mini',
