@@ -38,6 +38,15 @@ Route::get('/', function () {
     return redirect('/login');
 })->name('home');
 
+// Rotas para cronjob (sem autenticação)
+Route::get('/cron/run-scheduler', [App\Http\Controllers\CronController::class, 'runScheduler'])
+    ->name('cron.scheduler')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+Route::get('/cron/daily-report', [App\Http\Controllers\CronController::class, 'runDailyReport'])
+    ->name('cron.daily-report')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
 // Rotas de autenticação do colaborador
 Route::get('/login', [ColaboradorAuthController::class, 'showLoginForm'])->name('colaborador.login.form');
 Route::post('/login', [ColaboradorAuthController::class, 'login'])->name('colaborador.login');

@@ -43,6 +43,18 @@
                         @enderror
                     </div>
 
+                    <!-- WhatsApp -->
+                    <div>
+                        <label for="whatsapp" class="block text-sm font-medium text-gray-700">WhatsApp</label>
+                        <input type="text" name="whatsapp" id="whatsapp" value="{{ old('whatsapp', $colaborador->whatsapp) }}" 
+                               placeholder="+5519991234567"
+                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('whatsapp') border-red-500 @enderror">
+                        <p class="mt-1 text-xs text-gray-500">Formato: +5519991234567</p>
+                        @error('whatsapp')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <!-- Setor -->
                     <div>
                         <label for="setor_id" class="block text-sm font-medium text-gray-700">Setor</label>

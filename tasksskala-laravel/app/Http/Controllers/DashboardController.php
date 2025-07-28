@@ -11,6 +11,7 @@ use App\Models\Tutorial;
 use App\Models\TarefaTransferencia;
 use App\Services\GoogleCalendarService;
 use App\Services\OpenAIService;
+use App\Traits\WhatsAppNotification;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
+    use WhatsAppNotification;
+    
     private GoogleCalendarService $googleCalendarService;
     private OpenAIService $openAIService;
     
@@ -267,7 +270,26 @@ class DashboardController extends Controller
                     'created_by' => $colaborador->id,
                 ];
 
-                Tarefa::create($tarefaData);
+                $tarefa = Tarefa::create($tarefaData);
+                
+                // Enviar notificação WhatsApp se a tarefa é para outro colaborador
+                if ($validated['colaborador_id'] != $colaborador->id) {
+                    $colaboradorDestino = Colaborador::find($validated['colaborador_id']);
+                    if ($colaboradorDestino && $colaboradorDestino->whatsapp) {
+                        $mensagem = "🔔 *Nova Tarefa Atribuída*\n\n";
+                        $mensagem .= "Olá {$colaboradorDestino->nome}!\n\n";
+                        $mensagem .= "{$colaborador->nome} adicionou uma nova tarefa para você:\n\n";
+                        $mensagem .= "📋 *Título:* {$tarefa->titulo}\n";
+                        $mensagem .= "🎯 *Prioridade:* " . ucfirst($tarefa->prioridade) . "\n";
+                        if ($tarefa->data_vencimento) {
+                            $mensagem .= "📅 *Prazo:* " . Carbon::parse($tarefa->data_vencimento)->format('d/m/Y') . "\n";
+                        }
+                        $mensagem .= "\n💻 Acesse o intranet para mais detalhes.";
+                        
+                        $this->enviarNotificacaoWhatsApp($colaboradorDestino->whatsapp, $mensagem);
+                    }
+                }
+                
                 $tarefasCriadas++;
             }
 
@@ -291,7 +313,25 @@ class DashboardController extends Controller
             $validated['status'] = 'pendente';
             $validated['created_by'] = $colaborador->id;
 
-            Tarefa::create($validated);
+            $tarefa = Tarefa::create($validated);
+            
+            // Enviar notificação WhatsApp se a tarefa é para outro colaborador
+            if ($validated['colaborador_id'] != $colaborador->id) {
+                $colaboradorDestino = Colaborador::find($validated['colaborador_id']);
+                if ($colaboradorDestino && $colaboradorDestino->whatsapp) {
+                    $mensagem = "🔔 *Nova Tarefa Atribuída*\n\n";
+                    $mensagem .= "Olá {$colaboradorDestino->nome}!\n\n";
+                    $mensagem .= "{$colaborador->nome} adicionou uma nova tarefa para você:\n\n";
+                    $mensagem .= "📋 *Título:* {$tarefa->titulo}\n";
+                    $mensagem .= "🎯 *Prioridade:* " . ucfirst($tarefa->prioridade) . "\n";
+                    if ($tarefa->data_vencimento) {
+                        $mensagem .= "📅 *Prazo:* " . Carbon::parse($tarefa->data_vencimento)->format('d/m/Y') . "\n";
+                    }
+                    $mensagem .= "\n💻 Acesse o intranet para mais detalhes.";
+                    
+                    $this->enviarNotificacaoWhatsApp($colaboradorDestino->whatsapp, $mensagem);
+                }
+            }
 
             return redirect('/minhas-tarefas')->with('success', 'Tarefa criada com sucesso!');
         }

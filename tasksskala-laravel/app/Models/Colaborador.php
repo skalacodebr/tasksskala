@@ -14,6 +14,7 @@ class Colaborador extends Model
         'email',
         'senha',
         'setor_id',
+        'whatsapp',
     ];
     
     protected $hidden = [

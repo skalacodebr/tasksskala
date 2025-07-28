@@ -7,10 +7,13 @@ use App\Models\Tarefa;
 use App\Models\Colaborador;
 use App\Models\Projeto;
 use App\Models\TarefaTransferencia;
+use App\Traits\WhatsAppNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TarefaController extends Controller
 {
+    use WhatsAppNotification;
     public function index(Request $request)
     {
         $query = Tarefa::with(['colaborador', 'projeto']);
@@ -72,7 +75,26 @@ class TarefaController extends Controller
 
         $validated['recorrente'] = $request->has('recorrente');
 
-        Tarefa::create($validated);
+        $tarefa = Tarefa::create($validated);
+
+        // Enviar notificação WhatsApp se a tarefa é para outro colaborador
+        $colaborador = Colaborador::find($validated['colaborador_id']);
+        if ($colaborador && $colaborador->whatsapp) {
+            $admin = Auth::guard('admin')->user();
+            $criadorNome = $admin ? $admin->name : 'Administrador';
+            
+            $mensagem = "🔔 *Nova Tarefa Atribuída*\n\n";
+            $mensagem .= "Olá {$colaborador->nome}!\n\n";
+            $mensagem .= "{$criadorNome} adicionou uma nova tarefa para você:\n\n";
+            $mensagem .= "📋 *Título:* {$tarefa->titulo}\n";
+            $mensagem .= "🎯 *Prioridade:* " . ucfirst($tarefa->prioridade) . "\n";
+            if ($tarefa->data_vencimento) {
+                $mensagem .= "📅 *Prazo:* " . $tarefa->data_vencimento->format('d/m/Y') . "\n";
+            }
+            $mensagem .= "\n💻 Acesse o intranet para mais detalhes.";
+            
+            $this->enviarNotificacaoWhatsApp($colaborador->whatsapp, $mensagem);
+        }
 
         return redirect()->route('admin.tarefas.index')
             ->with('success', 'Tarefa criada com sucesso!');
