@@ -297,6 +297,45 @@ class DashboardController extends Controller
         }
     }
 
+    public function testarApiKey()
+    {
+        try {
+            $apiKey = config('services.openai.api_key');
+            
+            if (!$apiKey) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'API Key não configurada no arquivo .env'
+                ]);
+            }
+            
+            // Teste simples com a API
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiKey,
+            ])->get('https://api.openai.com/v1/models');
+            
+            if ($response->successful()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'API Key válida e funcionando!',
+                    'modelos_disponiveis' => count($response->json()['data'] ?? [])
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'API Key inválida ou erro na API',
+                    'status' => $response->status(),
+                    'erro' => $response->json()
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao testar API Key: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
     public function processarTarefaIA(Request $request)
     {
         \Log::info('ProcessarTarefaIA iniciado', ['tipo' => $request->input('tipo')]);

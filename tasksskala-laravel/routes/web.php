@@ -55,6 +55,7 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::get('/tarefa/criar', [DashboardController::class, 'criarTarefa'])->name('tarefa.criar');
     Route::post('/tarefa/criar', [DashboardController::class, 'armazenarTarefa'])->name('tarefa.store');
     Route::post('/tarefa/processar-ia', [DashboardController::class, 'processarTarefaIA'])->name('tarefa.processar-ia');
+    Route::get('/tarefa/testar-api', [DashboardController::class, 'testarApiKey'])->name('tarefa.testar-api');
     Route::patch('/tarefa/{tarefa}/iniciar', [DashboardController::class, 'iniciarTarefa'])->name('tarefa.iniciar');
     Route::patch('/tarefa/{tarefa}/concluir', [DashboardController::class, 'concluirTarefa'])->name('tarefa.concluir');
     Route::patch('/tarefa/{tarefa}/pausar', [DashboardController::class, 'pausarTarefa'])->name('tarefa.pausar');
