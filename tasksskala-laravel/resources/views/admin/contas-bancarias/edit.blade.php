@@ -5,15 +5,15 @@
     <div class="max-w-2xl mx-auto">
         <h1 class="text-2xl font-bold mb-6">Editar Conta Bancária</h1>
 
-        <form action="{{ route('admin.contas-bancarias.update', $conta->id) }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form action="{{ route('admin.contas-bancarias.update', $conta->id) }}" method="POST" class="card-dark shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
             @method('PUT')
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="nome">
                     Nome da Conta
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('nome') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('nome') border-red-500 @enderror" 
                        id="nome" 
                        type="text" 
                        name="nome" 
@@ -25,10 +25,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="banco">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="banco">
                     Banco
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('banco') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('banco') border-red-500 @enderror" 
                        id="banco" 
                        type="text" 
                        name="banco" 
@@ -40,10 +40,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="agencia">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="agencia">
                     Agência (opcional)
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('agencia') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('agencia') border-red-500 @enderror" 
                        id="agencia" 
                        type="text" 
                        name="agencia" 
@@ -54,10 +54,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="conta">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="conta">
                     Número da Conta
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('conta') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('conta') border-red-500 @enderror" 
                        id="conta" 
                        type="text" 
                        name="conta" 
@@ -69,10 +69,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo_conta">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="tipo_conta">
                     Tipo de Conta
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tipo_conta') border-red-500 @enderror" 
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('tipo_conta') border-red-500 @enderror" 
                         id="tipo_conta" 
                         name="tipo_conta" 
                         required>
@@ -85,10 +85,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="saldo_atual">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="saldo_atual">
                     Saldo Atual
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('saldo_atual') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('saldo_atual') border-red-500 @enderror" 
                        id="saldo_atual" 
                        type="number" 
                        step="0.01" 
@@ -100,17 +100,17 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">
+                <label class="block text-muted-dark text-sm font-bold mb-2">
                     <input type="checkbox" name="ativo" value="1" {{ old('ativo', $conta->ativo) ? 'checked' : '' }}>
                     Conta Ativa
                 </label>
             </div>
 
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="observacoes">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="observacoes">
                     Observações
                 </label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('observacoes') border-red-500 @enderror" 
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('observacoes') border-red-500 @enderror" 
                           id="observacoes" 
                           name="observacoes" 
                           rows="3">{{ old('observacoes', $conta->observacoes) }}</textarea>
@@ -120,10 +120,10 @@
             </div>
 
             <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                <button class="btn-primary-dark font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Atualizar
                 </button>
-                <a href="{{ route('admin.contas-bancarias.index') }}" class="text-gray-600 hover:text-gray-800">
+                <a href="{{ route('admin.contas-bancarias.index') }}" class="text-muted-dark hover:text-primary-dark">
                     Cancelar
                 </a>
             </div>

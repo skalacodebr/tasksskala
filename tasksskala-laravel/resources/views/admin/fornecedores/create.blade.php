@@ -5,32 +5,32 @@
     <div class="max-w-4xl mx-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold">Novo Fornecedor</h1>
-            <a href="{{ route('admin.fornecedores.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.fornecedores.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                 Voltar
             </a>
         </div>
 
-        <div class="bg-white shadow rounded-lg p-6">
+        <div class="card-dark shadow rounded-lg p-6">
             <form method="POST" action="{{ route('admin.fornecedores.store') }}">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Dados Básicos -->
                     <div class="col-span-2">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-700">Dados Básicos</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-muted-dark">Dados Básicos</h3>
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Nome <span class="text-red-500">*</span></label>
-                        <input type="text" name="nome" value="{{ old('nome') }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('nome') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Nome <span class="text-red-500">*</span></label>
+                        <input type="text" name="nome" value="{{ old('nome') }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('nome') border-red-500 @enderror">
                         @error('nome')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Tipo de Pessoa <span class="text-red-500">*</span></label>
-                        <select name="tipo_pessoa" id="tipo_pessoa" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tipo_pessoa') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Tipo de Pessoa <span class="text-red-500">*</span></label>
+                        <select name="tipo_pessoa" id="tipo_pessoa" required class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('tipo_pessoa') border-red-500 @enderror">
                             <option value="">Selecione</option>
                             <option value="fisica" {{ old('tipo_pessoa') == 'fisica' ? 'selected' : '' }}>Pessoa Física</option>
                             <option value="juridica" {{ old('tipo_pessoa') == 'juridica' ? 'selected' : '' }}>Pessoa Jurídica</option>
@@ -41,34 +41,34 @@
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">
                             <span id="label_documento">CPF/CNPJ</span>
                         </label>
-                        <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="{{ old('cpf_cnpj') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('cpf_cnpj') border-red-500 @enderror">
+                        <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="{{ old('cpf_cnpj') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('cpf_cnpj') border-red-500 @enderror">
                         @error('cpf_cnpj')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('email') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Email</label>
+                        <input type="email" name="email" value="{{ old('email') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('email') border-red-500 @enderror">
                         @error('email')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Telefone</label>
-                        <input type="text" name="telefone" id="telefone" value="{{ old('telefone') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('telefone') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Telefone</label>
+                        <input type="text" name="telefone" id="telefone" value="{{ old('telefone') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('telefone') border-red-500 @enderror">
                         @error('telefone')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Celular</label>
-                        <input type="text" name="celular" id="celular" value="{{ old('celular') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('celular') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Celular</label>
+                        <input type="text" name="celular" id="celular" value="{{ old('celular') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('celular') border-red-500 @enderror">
                         @error('celular')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
@@ -76,60 +76,60 @@
 
                     <!-- Endereço -->
                     <div class="col-span-2 mt-6">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-700">Endereço</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-muted-dark">Endereço</h3>
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">CEP</label>
-                        <input type="text" name="cep" id="cep" value="{{ old('cep') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('cep') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">CEP</label>
+                        <input type="text" name="cep" id="cep" value="{{ old('cep') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('cep') border-red-500 @enderror">
                         @error('cep')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Endereço</label>
-                        <input type="text" name="endereco" id="endereco" value="{{ old('endereco') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('endereco') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Endereço</label>
+                        <input type="text" name="endereco" id="endereco" value="{{ old('endereco') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('endereco') border-red-500 @enderror">
                         @error('endereco')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Número</label>
-                        <input type="text" name="numero" value="{{ old('numero') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('numero') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Número</label>
+                        <input type="text" name="numero" value="{{ old('numero') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('numero') border-red-500 @enderror">
                         @error('numero')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Complemento</label>
-                        <input type="text" name="complemento" value="{{ old('complemento') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('complemento') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Complemento</label>
+                        <input type="text" name="complemento" value="{{ old('complemento') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('complemento') border-red-500 @enderror">
                         @error('complemento')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Bairro</label>
-                        <input type="text" name="bairro" id="bairro" value="{{ old('bairro') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('bairro') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Bairro</label>
+                        <input type="text" name="bairro" id="bairro" value="{{ old('bairro') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('bairro') border-red-500 @enderror">
                         @error('bairro')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Cidade</label>
-                        <input type="text" name="cidade" id="cidade" value="{{ old('cidade') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('cidade') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Cidade</label>
+                        <input type="text" name="cidade" id="cidade" value="{{ old('cidade') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('cidade') border-red-500 @enderror">
                         @error('cidade')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Estado</label>
-                        <select name="estado" id="estado" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('estado') border-red-500 @enderror">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Estado</label>
+                        <select name="estado" id="estado" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('estado') border-red-500 @enderror">
                             <option value="">Selecione</option>
                             <option value="AC" {{ old('estado') == 'AC' ? 'selected' : '' }}>AC</option>
                             <option value="AL" {{ old('estado') == 'AL' ? 'selected' : '' }}>AL</option>
@@ -166,12 +166,12 @@
 
                     <!-- Observações -->
                     <div class="col-span-2 mt-6">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-700">Informações Adicionais</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-muted-dark">Informações Adicionais</h3>
                     </div>
 
                     <div class="col-span-2">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Observações</label>
-                        <textarea name="observacoes" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('observacoes') border-red-500 @enderror">{{ old('observacoes') }}</textarea>
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Observações</label>
+                        <textarea name="observacoes" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('observacoes') border-red-500 @enderror">{{ old('observacoes') }}</textarea>
                         @error('observacoes')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                         @enderror
@@ -180,16 +180,16 @@
                     <div class="col-span-2">
                         <label class="flex items-center">
                             <input type="checkbox" name="ativo" value="1" {{ old('ativo', true) ? 'checked' : '' }} class="mr-2">
-                            <span class="text-sm text-gray-700">Fornecedor ativo</span>
+                            <span class="text-sm text-muted-dark">Fornecedor ativo</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between mt-6">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <button type="submit" class="btn-primary-dark font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Salvar
                     </button>
-                    <a href="{{ route('admin.fornecedores.index') }}" class="text-gray-600 hover:text-gray-800">
+                    <a href="{{ route('admin.fornecedores.index') }}" class="text-muted-dark hover:text-primary-dark">
                         Cancelar
                     </a>
                 </div>

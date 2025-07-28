@@ -5,14 +5,14 @@
     <div class="max-w-2xl mx-auto">
         <h1 class="text-2xl font-bold mb-6">Nova Conta a Pagar</h1>
 
-        <form action="{{ route('admin.contas-pagar.store') }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form action="{{ route('admin.contas-pagar.store') }}" method="POST" class="card-dark shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="descricao">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="descricao">
                     Descrição
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('descricao') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('descricao') border-red-500 @enderror" 
                        id="descricao" 
                        type="text" 
                        name="descricao" 
@@ -24,10 +24,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="fornecedor_id">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="fornecedor_id">
                     Fornecedor
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('fornecedor_id') border-red-500 @enderror" 
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('fornecedor_id') border-red-500 @enderror" 
                         id="fornecedor_id" 
                         name="fornecedor_id">
                     <option value="">Selecione um fornecedor...</option>
@@ -51,10 +51,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="valor">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="valor">
                     Valor
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('valor') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('valor') border-red-500 @enderror" 
                        id="valor" 
                        type="number" 
                        step="0.01" 
@@ -67,10 +67,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="tipo">
                     Tipo de Conta
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('tipo') border-red-500 @enderror" 
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('tipo') border-red-500 @enderror" 
                         id="tipo" 
                         name="tipo" 
                         required onchange="mostrarCamposTipo()">
@@ -85,10 +85,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="data_vencimento">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="data_vencimento">
                     Data de Vencimento
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('data_vencimento') border-red-500 @enderror" 
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('data_vencimento') border-red-500 @enderror" 
                        id="data_vencimento" 
                        type="date" 
                        name="data_vencimento" 
@@ -102,10 +102,10 @@
             <!-- Campos para conta parcelada -->
             <div id="campos-parcelada" class="hidden">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="total_parcelas">
+                    <label class="block text-muted-dark text-sm font-bold mb-2" for="total_parcelas">
                         Número de Parcelas
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('total_parcelas') border-red-500 @enderror" 
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('total_parcelas') border-red-500 @enderror" 
                            id="total_parcelas" 
                            type="number" 
                            min="2" 
@@ -120,10 +120,10 @@
             <!-- Campos para conta recorrente -->
             <div id="campos-recorrente" class="hidden">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="periodicidade">
+                    <label class="block text-muted-dark text-sm font-bold mb-2" for="periodicidade">
                         Periodicidade
                     </label>
-                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('periodicidade') border-red-500 @enderror" 
+                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('periodicidade') border-red-500 @enderror" 
                             id="periodicidade" 
                             name="periodicidade">
                         <option value="">Selecione...</option>
@@ -140,10 +140,10 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="data_fim_recorrencia">
+                    <label class="block text-muted-dark text-sm font-bold mb-2" for="data_fim_recorrencia">
                         Data Final da Recorrência
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('data_fim_recorrencia') border-red-500 @enderror" 
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('data_fim_recorrencia') border-red-500 @enderror" 
                            id="data_fim_recorrencia" 
                            type="date" 
                            name="data_fim_recorrencia" 
@@ -155,10 +155,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria_id">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="categoria_id">
                     Categoria
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('categoria_id') border-red-500 @enderror" 
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('categoria_id') border-red-500 @enderror" 
                         id="categoria_id" 
                         name="categoria_id" 
                         required>
@@ -199,10 +199,10 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="conta_bancaria_id">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="conta_bancaria_id">
                     Conta Bancária (opcional)
                 </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('conta_bancaria_id') border-red-500 @enderror" 
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('conta_bancaria_id') border-red-500 @enderror" 
                         id="conta_bancaria_id" 
                         name="conta_bancaria_id">
                     <option value="">Selecione...</option>
@@ -218,10 +218,10 @@
             </div>
 
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="observacoes">
+                <label class="block text-muted-dark text-sm font-bold mb-2" for="observacoes">
                     Observações
                 </label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('observacoes') border-red-500 @enderror" 
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline @error('observacoes') border-red-500 @enderror" 
                           id="observacoes" 
                           name="observacoes" 
                           rows="3">{{ old('observacoes') }}</textarea>
@@ -231,10 +231,10 @@
             </div>
 
             <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                <button class="btn-primary-dark font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Cadastrar
                 </button>
-                <a href="{{ route('admin.contas-pagar.index') }}" class="text-gray-600 hover:text-gray-800">
+                <a href="{{ route('admin.contas-pagar.index') }}" class="text-muted-dark hover:text-primary-dark">
                     Cancelar
                 </a>
             </div>

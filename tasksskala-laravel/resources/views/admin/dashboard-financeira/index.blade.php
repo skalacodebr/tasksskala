@@ -7,14 +7,14 @@
         <h1 class="text-2xl font-bold">Dashboard Financeira</h1>
         
         <form method="GET" action="{{ route('admin.dashboard-financeira.index') }}" class="flex space-x-2">
-            <select name="mes" class="rounded-md border-gray-300" onchange="this.form.submit()">
+            <select name="mes" class="rounded-md border-gray-600" onchange="this.form.submit()">
                 @for($i = 1; $i <= 12; $i++)
                     <option value="{{ $i }}" {{ $mesAtual == $i ? 'selected' : '' }}>
                         {{ \Carbon\Carbon::create()->month($i)->locale('pt_BR')->monthName }}
                     </option>
                 @endfor
             </select>
-            <select name="ano" class="rounded-md border-gray-300" onchange="this.form.submit()">
+            <select name="ano" class="rounded-md border-gray-600" onchange="this.form.submit()">
                 @for($i = date('Y') - 2; $i <= date('Y') + 2; $i++)
                     <option value="{{ $i }}" {{ $anoAtual == $i ? 'selected' : '' }}>{{ $i }}</option>
                 @endfor
@@ -24,30 +24,30 @@
 
     <!-- Cards de Resumo -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Receitas</p>
+                    <p class="text-sm text-muted-dark">Receitas</p>
                     <p class="text-2xl font-bold text-green-600">R$ {{ number_format($receitasMes, 2, ',', '.') }}</p>
                 </div>
                 <i class="fas fa-arrow-up text-3xl text-green-500"></i>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Despesas</p>
+                    <p class="text-sm text-muted-dark">Despesas</p>
                     <p class="text-2xl font-bold text-red-600">R$ {{ number_format($despesasMes, 2, ',', '.') }}</p>
                 </div>
                 <i class="fas fa-arrow-down text-3xl text-red-500"></i>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Lucro/Prejuízo</p>
+                    <p class="text-sm text-muted-dark">Lucro/Prejuízo</p>
                     <p class="text-2xl font-bold {{ $lucroMes >= 0 ? 'text-green-600' : 'text-red-600' }}">
                         R$ {{ number_format($lucroMes, 2, ',', '.') }}
                     </p>
@@ -56,10 +56,10 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-600">Margem de Lucro</p>
+                    <p class="text-sm text-muted-dark">Margem de Lucro</p>
                     <p class="text-2xl font-bold {{ $margemLucro >= 0 ? 'text-green-600' : 'text-red-600' }}">
                         {{ $margemLucro }}%
                     </p>
@@ -71,7 +71,7 @@
 
     <!-- Indicadores de Custo -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <h3 class="font-semibold mb-4">Custo com Pessoal</h3>
             <div class="relative pt-1">
                 <div class="flex mb-2 items-center justify-between">
@@ -92,7 +92,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <h3 class="font-semibold mb-4">Custos Fixos</h3>
             <div class="relative pt-1">
                 <div class="flex mb-2 items-center justify-between">
@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <h3 class="font-semibold mb-4">Custos Variáveis</h3>
             <div class="relative pt-1">
                 <div class="flex mb-2 items-center justify-between">
@@ -137,7 +137,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Despesas por Categoria -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <h2 class="text-lg font-semibold mb-4">Despesas por Categoria</h2>
             
             @if($despesasPorCategoria->count() > 0)
@@ -145,28 +145,28 @@
                 
                 <div class="mt-4 space-y-2">
                     @foreach($despesasPorCategoria as $item)
-                        <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                        <div class="flex items-center justify-between p-2 hover:bg-gray-800 rounded">
                             <div class="flex items-center">
                                 <div class="w-4 h-4 rounded mr-2" style="background-color: {{ $item['cor'] }}"></div>
                                 <span class="text-sm">{{ $item['categoria'] }}</span>
                                 @if($item['tipo_custo'])
-                                    <span class="text-xs text-gray-500 ml-2">({{ ucfirst($item['tipo_custo']) }})</span>
+                                    <span class="text-xs text-muted-dark ml-2">({{ ucfirst($item['tipo_custo']) }})</span>
                                 @endif
                             </div>
                             <div class="text-right">
                                 <span class="text-sm font-semibold">R$ {{ number_format($item['valor'], 2, ',', '.') }}</span>
-                                <span class="text-xs text-gray-500 ml-2">{{ $item['percentual'] }}%</span>
+                                <span class="text-xs text-muted-dark ml-2">{{ $item['percentual'] }}%</span>
                             </div>
                         </div>
                     @endforeach
                 </div>
             @else
-                <p class="text-gray-500 text-center py-8">Nenhuma despesa registrada no período.</p>
+                <p class="text-muted-dark text-center py-8">Nenhuma despesa registrada no período.</p>
             @endif
         </div>
 
         <!-- Receitas por Categoria -->
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="card-dark rounded-lg shadow p-6">
             <h2 class="text-lg font-semibold mb-4">Receitas por Categoria</h2>
             
             @if($receitasPorCategoria->count() > 0)
@@ -174,26 +174,26 @@
                 
                 <div class="mt-4 space-y-2">
                     @foreach($receitasPorCategoria as $item)
-                        <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                        <div class="flex items-center justify-between p-2 hover:bg-gray-800 rounded">
                             <div class="flex items-center">
                                 <div class="w-4 h-4 rounded mr-2" style="background-color: {{ $item['cor'] }}"></div>
                                 <span class="text-sm">{{ $item['categoria'] }}</span>
                             </div>
                             <div class="text-right">
                                 <span class="text-sm font-semibold">R$ {{ number_format($item['valor'], 2, ',', '.') }}</span>
-                                <span class="text-xs text-gray-500 ml-2">{{ $item['percentual'] }}%</span>
+                                <span class="text-xs text-muted-dark ml-2">{{ $item['percentual'] }}%</span>
                             </div>
                         </div>
                     @endforeach
                 </div>
             @else
-                <p class="text-gray-500 text-center py-8">Nenhuma receita registrada no período.</p>
+                <p class="text-muted-dark text-center py-8">Nenhuma receita registrada no período.</p>
             @endif
         </div>
     </div>
 
     <!-- Evolução Mensal -->
-    <div class="mt-8 bg-white rounded-lg shadow p-6">
+    <div class="mt-8 card-dark rounded-lg shadow p-6">
         <h2 class="text-lg font-semibold mb-4">Evolução Mensal (Últimos 12 meses)</h2>
         <canvas id="evolucaoChart" width="400" height="200"></canvas>
     </div>

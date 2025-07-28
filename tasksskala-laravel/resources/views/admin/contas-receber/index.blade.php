@@ -5,10 +5,10 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Contas a Receber</h1>
         <div class="flex gap-2">
-            <a href="{{ route('admin.importacao-ofx.create') }}?tipo_conta=receber" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.importacao-ofx.create') }}?tipo_conta=receber" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 <i class="fas fa-file-import mr-2"></i>Importar OFX
             </a>
-            <a href="{{ route('admin.contas-receber.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('admin.contas-receber.create') }}" class="btn-primary-dark font-bold py-2 px-4 rounded">
                 Nova Conta
             </a>
         </div>
@@ -21,11 +21,11 @@
     @endif
 
     <!-- Filtros -->
-    <div class="bg-white p-4 rounded-lg shadow mb-6">
+    <div class="card-dark p-4 rounded-lg shadow mb-6">
         <form method="GET" action="{{ route('admin.contas-receber.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select name="status" class="w-full rounded-md border-gray-300">
+                <label class="block text-sm font-medium text-muted-dark mb-1">Status</label>
+                <select name="status" class="w-full rounded-md border-gray-600">
                     <option value="">Todos</option>
                     <option value="pendente" {{ request('status') == 'pendente' ? 'selected' : '' }}>Pendente</option>
                     <option value="recebido" {{ request('status') == 'recebido' ? 'selected' : '' }}>Recebido</option>
@@ -34,8 +34,8 @@
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Mês</label>
-                <select name="mes" class="w-full rounded-md border-gray-300">
+                <label class="block text-sm font-medium text-muted-dark mb-1">Mês</label>
+                <select name="mes" class="w-full rounded-md border-gray-600">
                     <option value="">Todos</option>
                     @for($i = 1; $i <= 12; $i++)
                         <option value="{{ $i }}" {{ request('mes') == $i ? 'selected' : '' }}>
@@ -45,8 +45,8 @@
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Ano</label>
-                <select name="ano" class="w-full rounded-md border-gray-300">
+                <label class="block text-sm font-medium text-muted-dark mb-1">Ano</label>
+                <select name="ano" class="w-full rounded-md border-gray-600">
                     <option value="">Todos</option>
                     @for($i = date('Y') - 2; $i <= date('Y') + 2; $i++)
                         <option value="{{ $i }}" {{ request('ano') == $i ? 'selected' : '' }}>{{ $i }}</option>
@@ -54,28 +54,28 @@
                 </select>
             </div>
             <div class="flex items-end">
-                <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     Filtrar
                 </button>
             </div>
         </form>
     </div>
 
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+    <div class="card-dark shadow overflow-hidden sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-700 table-dark-custom">
+            <thead class="bg-gray-800">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vencimento</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Conta Bancária</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Descrição</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Cliente</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Valor</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Vencimento</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Tipo</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Conta Bancária</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">Ações</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="card-dark divide-y divide-gray-200">
                 @forelse($contas as $conta)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -84,7 +84,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($conta->cliente)
                                 {{ $conta->cliente->nome }}
-                                <br><span class="text-xs text-gray-500">{{ $conta->cliente->cpf_cnpj }}</span>
+                                <br><span class="text-xs text-muted-dark">{{ $conta->cliente->cpf_cnpj }}</span>
                             @else
                                 <span class="text-gray-400">-</span>
                             @endif
@@ -103,14 +103,14 @@
                                 {{ $conta->status == 'recebido' ? 'bg-green-100 text-green-800' : '' }}
                                 {{ $conta->status == 'pendente' ? 'bg-yellow-100 text-yellow-800' : '' }}
                                 {{ $conta->status == 'vencido' ? 'bg-red-100 text-red-800' : '' }}
-                                {{ $conta->status == 'cancelado' ? 'bg-gray-100 text-gray-800' : '' }}">
+                                {{ $conta->status == 'cancelado' ? 'bg-gray-800 text-primary-dark' : '' }}">
                                 {{ ucfirst($conta->status) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="text-sm text-gray-900">{{ ucfirst($conta->tipo) }}</span>
+                            <span class="text-sm text-primary-dark">{{ ucfirst($conta->tipo) }}</span>
                             @if($conta->parcela_atual && $conta->total_parcelas)
-                                <br><span class="text-xs text-gray-500">{{ $conta->parcela_atual }}/{{ $conta->total_parcelas }}</span>
+                                <br><span class="text-xs text-muted-dark">{{ $conta->parcela_atual }}/{{ $conta->total_parcelas }}</span>
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -133,7 +133,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">
+                        <td colspan="8" class="px-6 py-4 text-center text-muted-dark">
                             Nenhuma conta a receber encontrada.
                         </td>
                     </tr>
@@ -151,21 +151,21 @@
 <div id="modalReceber" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
         </div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="inline-block align-bottom card-dark rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
             <form id="formReceber" method="POST">
                 @csrf
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Confirmar Recebimento</h3>
+                <div class="card-dark px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">Confirmar Recebimento</h3>
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Data do Recebimento</label>
-                        <input type="date" name="data_recebimento" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ date('Y-m-d') }}">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Data do Recebimento</label>
+                        <input type="date" name="data_recebimento" required class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline" value="{{ date('Y-m-d') }}">
                     </div>
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Conta Bancária</label>
-                        <select name="conta_bancaria_id" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <label class="block text-muted-dark text-sm font-bold mb-2">Conta Bancária</label>
+                        <select name="conta_bancaria_id" required class="shadow appearance-none border rounded w-full py-2 px-3 text-muted-dark leading-tight focus:outline-none focus:shadow-outline">
                             <option value="">Selecione uma conta</option>
                             @foreach(\App\Models\ContaBancaria::where('ativo', true)->get() as $contaBancaria)
                                 <option value="{{ $contaBancaria->id }}">{{ $contaBancaria->nome }} - {{ $contaBancaria->banco }}</option>
@@ -173,11 +173,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div class="bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Confirmar Recebimento
                     </button>
-                    <button type="button" onclick="fecharModalReceber()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="button" onclick="fecharModalReceber()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-600 shadow-sm px-4 py-2 card-dark text-base font-medium text-muted-dark hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         Cancelar
                     </button>
                 </div>
