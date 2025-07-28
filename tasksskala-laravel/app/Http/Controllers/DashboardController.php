@@ -1374,4 +1374,131 @@ Retorne APENAS o JSON, sem explicações adicionais.";
 
         return view('todas-tarefas', compact('tarefas', 'colaboradores', 'projetos'));
     }
+    
+    public function desempenhoTime(Request $request)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador) {
+            return redirect('/login');
+        }
+        
+        // Período selecionado (padrão: últimos 30 dias)
+        $periodo = $request->get('periodo', '30');
+        $dataInicio = Carbon::now()->subDays($periodo);
+        $dataFim = Carbon::now();
+        
+        // Buscar todos os colaboradores
+        $colaboradores = Colaborador::with(['tarefas' => function($query) use ($dataInicio, $dataFim) {
+            $query->whereBetween('updated_at', [$dataInicio, $dataFim]);
+        }])->get();
+        
+        // Calcular métricas para cada colaborador
+        $metricas = [];
+        foreach ($colaboradores as $colab) {
+            $tarefasConcluidas = $colab->tarefas->where('status', 'concluida')->count();
+            $tarefasTotal = $colab->tarefas->count();
+            
+            // Média de tarefas concluídas por dia
+            $diasTrabalhados = $colab->tarefas->where('status', 'concluida')
+                ->groupBy(function($tarefa) {
+                    return $tarefa->updated_at->format('Y-m-d');
+                })->count();
+            
+            $mediaPorDia = $diasTrabalhados > 0 ? round($tarefasConcluidas / $diasTrabalhados, 2) : 0;
+            
+            // Projetos trabalhados
+            $projetosTrabalhados = $colab->tarefas->pluck('projeto_id')->filter()->unique()->count();
+            
+            // Tempo médio para finalizar tarefas (em horas)
+            $tempoMedio = 0;
+            $tarefasComTempo = $colab->tarefas->where('status', 'concluida')
+                ->filter(function($tarefa) {
+                    return $tarefa->tempo_inicial && $tarefa->updated_at;
+                });
+            
+            if ($tarefasComTempo->count() > 0) {
+                $totalHoras = 0;
+                foreach ($tarefasComTempo as $tarefa) {
+                    $inicio = Carbon::parse($tarefa->tempo_inicial);
+                    $fim = Carbon::parse($tarefa->updated_at);
+                    $totalHoras += $fim->diffInHours($inicio);
+                }
+                $tempoMedio = round($totalHoras / $tarefasComTempo->count(), 1);
+            }
+            
+            // Pontuação total (base para ranking)
+            $pontuacao = ($tarefasConcluidas * 10) + ($mediaPorDia * 5) + ($projetosTrabalhados * 3);
+            
+            $metricas[] = [
+                'colaborador' => $colab,
+                'tarefas_concluidas' => $tarefasConcluidas,
+                'tarefas_total' => $tarefasTotal,
+                'media_por_dia' => $mediaPorDia,
+                'projetos_trabalhados' => $projetosTrabalhados,
+                'tempo_medio' => $tempoMedio,
+                'pontuacao' => $pontuacao
+            ];
+        }
+        
+        // Ordenar por pontuação (ranking)
+        usort($metricas, function($a, $b) {
+            return $b['pontuacao'] <=> $a['pontuacao'];
+        });
+        
+        // Definir prêmios
+        $premiosMensais = [
+            1 => [
+                'titulo' => '1º Lugar - Campeão do Mês',
+                'premio' => 'Almoço no Wecker + Dia de Folga',
+                'descricao' => 'Dia de folga em qualquer dia útil (segunda a sexta)'
+            ],
+            2 => [
+                'titulo' => '2º Lugar - Vice-Campeão',
+                'premio' => 'Dia de Folga',
+                'descricao' => 'Dia de folga de segunda a quinta (exceto sexta)'
+            ],
+            3 => [
+                'titulo' => '3º Lugar - Bronze',
+                'premio' => 'Certificado de Reconhecimento',
+                'descricao' => 'Certificado especial de destaque do mês'
+            ]
+        ];
+        
+        $premiosAnuais = [
+            1 => [
+                'titulo' => '1º Lugar - Campeão Anual',
+                'premio' => 'MacBook M1',
+                'descricao' => 'Notebook Apple MacBook Air M1 (sorteado em dezembro)'
+            ],
+            2 => [
+                'titulo' => '2º Lugar - Vice-Campeão Anual',
+                'premio' => 'iPhone 14',
+                'descricao' => 'iPhone 14 128GB (sorteado em dezembro)'
+            ]
+        ];
+        
+        // Ranking atual
+        $rankingAtual = [];
+        foreach ($metricas as $index => $metrica) {
+            if ($index < 3) {
+                $rankingAtual[] = [
+                    'posicao' => $index + 1,
+                    'colaborador' => $metrica['colaborador'],
+                    'pontuacao' => $metrica['pontuacao'],
+                    'premio' => $premiosMensais[$index + 1] ?? null
+                ];
+            }
+        }
+        
+        return view('desempenho-time', compact(
+            'metricas',
+            'rankingAtual',
+            'premiosMensais',
+            'premiosAnuais',
+            'periodo',
+            'dataInicio',
+            'dataFim'
+        ));
+    }
 }

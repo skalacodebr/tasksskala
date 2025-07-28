@@ -111,6 +111,19 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     
     // Desempenho do Time
     Route::get('/desempenho-time', [DashboardController::class, 'desempenhoTime'])->name('desempenho-time');
+    
+    // Rotas Financeiras para colaboradores (Administrativo e Financeiro)
+    Route::prefix('financeiro')->name('financeiro.')->group(function () {
+        Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardFinanceiraController::class, 'index'])->name('dashboard');
+        Route::get('/fluxo-caixa', [App\Http\Controllers\Admin\FluxoCaixaController::class, 'index'])->name('fluxo-caixa');
+        Route::get('/tipos-custo', [App\Http\Controllers\Admin\TipoCustoController::class, 'index'])->name('tipos-custo');
+        Route::get('/categorias', [App\Http\Controllers\Admin\CategoriaFinanceiraController::class, 'index'])->name('categorias');
+        Route::get('/contas-bancarias', [App\Http\Controllers\Admin\ContaBancariaController::class, 'index'])->name('contas-bancarias');
+        Route::get('/contas-pagar', [App\Http\Controllers\Admin\ContaPagarController::class, 'index'])->name('contas-pagar');
+        Route::get('/contas-receber', [App\Http\Controllers\Admin\ContaReceberController::class, 'index'])->name('contas-receber');
+        Route::get('/fornecedores', [App\Http\Controllers\Admin\FornecedorController::class, 'index'])->name('fornecedores');
+        Route::get('/importacao-ofx', [App\Http\Controllers\Admin\ImportacaoOfxController::class, 'index'])->name('importacao-ofx');
+    });
 });
 
 // Rotas do Cliente (protegidas)
