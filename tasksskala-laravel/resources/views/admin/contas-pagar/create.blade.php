@@ -44,7 +44,7 @@
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
                 <div class="mt-1">
-                    <a href="{{ route('admin.fornecedores.create') }}" class="text-sm text-blue-600 hover:text-blue-800">
+                    <a href="{{ route('admin.fornecedores.create') }}" class="text-sm text-blue-400 hover:text-blue-300">
                         Cadastrar novo fornecedor
                     </a>
                 </div>

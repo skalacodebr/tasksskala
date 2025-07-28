@@ -15,7 +15,7 @@
     </div>
 
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div class="alert-success-dark px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
@@ -105,15 +105,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                {{ $conta->status == 'pago' ? 'bg-green-100 text-green-800' : '' }}
-                                {{ $conta->status == 'pendente' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                {{ $conta->status == 'vencido' ? 'bg-red-100 text-red-800' : '' }}
+                                {{ $conta->status == 'pago' ? 'bg-green-900 text-green-200' : '' }}
+                                {{ $conta->status == 'pendente' ? 'bg-yellow-900 text-yellow-200' : '' }}
+                                {{ $conta->status == 'vencido' ? 'bg-red-900 text-red-200' : '' }}
                                 {{ $conta->status == 'cancelado' ? 'bg-gray-800 text-primary-dark' : '' }}">
                                 {{ ucfirst($conta->status) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('admin.contas-pagar.show', $conta->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Ver</a>
+                            <a href="{{ route('admin.contas-pagar.show', $conta->id) }}" class="text-indigo-400 hover:text-indigo-300 mr-3">Ver</a>
                             <a href="{{ route('admin.contas-pagar.edit', $conta->id) }}" class="text-yellow-600 hover:text-yellow-900 mr-3">Editar</a>
                             @if($conta->status == 'pendente')
                                 <button onclick="abrirModalPagar({{ $conta->id }})" class="text-green-600 hover:text-green-900 mr-3">Pagar</button>

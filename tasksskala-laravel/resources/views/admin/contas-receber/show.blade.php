@@ -41,9 +41,9 @@
                         <dt class="text-sm font-medium text-muted-dark">Status</dt>
                         <dd class="mt-1 text-sm text-primary-dark sm:mt-0 sm:col-span-2">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                {{ $conta->status == 'recebido' ? 'bg-green-100 text-green-800' : '' }}
-                                {{ $conta->status == 'pendente' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                {{ $conta->status == 'vencido' ? 'bg-red-100 text-red-800' : '' }}
+                                {{ $conta->status == 'recebido' ? 'bg-green-900 text-green-200' : '' }}
+                                {{ $conta->status == 'pendente' ? 'bg-yellow-900 text-yellow-200' : '' }}
+                                {{ $conta->status == 'vencido' ? 'bg-red-900 text-red-200' : '' }}
                                 {{ $conta->status == 'cancelado' ? 'bg-gray-800 text-primary-dark' : '' }}">
                                 {{ ucfirst($conta->status) }}
                             </span>

@@ -12,13 +12,13 @@
     </div>
 
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div class="alert-success-dark px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
 
     @if(session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div class="alert-error-dark px-4 py-3 rounded mb-4">
             {{ session('error') }}
         </div>
     @endif
@@ -58,12 +58,12 @@
                             <div class="text-sm text-primary-dark">{{ $tipo->ordem }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap border-b border-gray-700">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $tipo->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $tipo->ativo ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200' }}">
                                 {{ $tipo->ativo ? 'Ativo' : 'Inativo' }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap border-b border-gray-700 text-sm font-medium">
-                            <a href="{{ route('admin.tipos-custo.show', $tipo) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Ver</a>
+                            <a href="{{ route('admin.tipos-custo.show', $tipo) }}" class="text-indigo-400 hover:text-indigo-300 mr-2">Ver</a>
                             <a href="{{ route('admin.tipos-custo.edit', $tipo) }}" class="text-yellow-600 hover:text-yellow-900 mr-2">Editar</a>
                             <form action="{{ route('admin.tipos-custo.destroy', $tipo) }}" method="POST" class="inline">
                                 @csrf

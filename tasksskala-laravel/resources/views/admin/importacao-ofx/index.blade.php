@@ -19,13 +19,13 @@
 
         <div class="p-6">
             @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                <div class="alert-success-dark px-4 py-3 rounded mb-4">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <div class="alert-error-dark px-4 py-3 rounded mb-4">
                     {{ session('error') }}
                 </div>
             @endif
@@ -53,12 +53,12 @@
                             <td class="px-6 py-4 text-sm text-primary-dark">{{ Str::limit($transacao->descricao, 50) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-dark">{{ $transacao->beneficiario }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-red-900 text-red-200' : 'bg-green-900 text-green-200' }}">
                                     R$ {{ number_format($transacao->valor, 2, ',', '.') }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800' }}">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-yellow-900 text-yellow-200' : 'bg-blue-900 text-blue-200' }}">
                                     {{ $transacao->tipo_conta == 'pagar' ? 'A Pagar' : 'A Receber' }}
                                 </span>
                             </td>
@@ -69,11 +69,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 @if($transacao->conta_pagar_id)
-                                    <a href="{{ route('admin.contas-pagar.show', $transacao->conta_pagar_id) }}" class="text-blue-600 hover:text-blue-900">
+                                    <a href="{{ route('admin.contas-pagar.show', $transacao->conta_pagar_id) }}" class="text-blue-600 hover:text-blue-200">
                                         Conta #{{ $transacao->conta_pagar_id }}
                                     </a>
                                 @elseif($transacao->conta_receber_id)
-                                    <a href="{{ route('admin.contas-receber.show', $transacao->conta_receber_id) }}" class="text-blue-600 hover:text-blue-900">
+                                    <a href="{{ route('admin.contas-receber.show', $transacao->conta_receber_id) }}" class="text-blue-600 hover:text-blue-200">
                                         Conta #{{ $transacao->conta_receber_id }}
                                     </a>
                                 @else

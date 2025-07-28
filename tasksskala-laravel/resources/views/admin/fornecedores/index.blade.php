@@ -10,13 +10,13 @@
     </div>
 
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div class="alert-success-dark px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
 
     @if(session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div class="alert-error-dark px-4 py-3 rounded mb-4">
             {{ session('error') }}
         </div>
     @endif
@@ -98,17 +98,17 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-dark">
-                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            <span class="text-xs bg-blue-900 text-blue-200 px-2 py-1 rounded">
                                 {{ $fornecedor->contas_pagar_count }} conta(s)
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $fornecedor->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $fornecedor->ativo ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200' }}">
                                 {{ $fornecedor->ativo ? 'Ativo' : 'Inativo' }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('admin.fornecedores.show', $fornecedor->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Ver</a>
+                            <a href="{{ route('admin.fornecedores.show', $fornecedor->id) }}" class="text-indigo-400 hover:text-indigo-300 mr-3">Ver</a>
                             <a href="{{ route('admin.fornecedores.edit', $fornecedor->id) }}" class="text-yellow-600 hover:text-yellow-900 mr-3">Editar</a>
                             <form action="{{ route('admin.fornecedores.destroy', $fornecedor->id) }}" method="POST" class="inline">
                                 @csrf

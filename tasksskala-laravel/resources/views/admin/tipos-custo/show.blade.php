@@ -36,7 +36,7 @@
                     <div>
                         <p class="text-sm text-muted-dark">Status:</p>
                         <p>
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $tipoCusto->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $tipoCusto->ativo ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200' }}">
                                 {{ $tipoCusto->ativo ? 'Ativo' : 'Inativo' }}
                             </span>
                         </p>
@@ -69,7 +69,7 @@
                                         <td class="py-2">{{ $categoria->nome }}</td>
                                         <td class="py-2">{{ ucfirst($categoria->tipo) }}</td>
                                         <td class="py-2">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $categoria->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $categoria->ativo ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200' }}">
                                                 {{ $categoria->ativo ? 'Ativo' : 'Inativo' }}
                                             </span>
                                         </td>

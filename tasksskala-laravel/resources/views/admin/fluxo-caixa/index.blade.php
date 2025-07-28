@@ -161,7 +161,7 @@
                                     R$ {{ number_format($saldoDia, 2, ',', '.') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                    <button onclick="mostrarDetalhes('{{ $dia['data']->format('Y-m-d') }}')" class="text-indigo-600 hover:text-indigo-900">
+                                    <button onclick="mostrarDetalhes('{{ $dia['data']->format('Y-m-d') }}')" class="text-indigo-400 hover:text-indigo-300">
                                         <i class="fas fa-eye"></i> Ver detalhes
                                     </button>
                                 </td>
@@ -187,9 +187,9 @@
                                                             <div class="text-right">
                                                                 <span class="text-sm font-semibold">R$ {{ number_format($conta->valor, 2, ',', '.') }}</span>
                                                                 <span class="text-xs block px-2 inline-flex leading-5 font-semibold rounded-full 
-                                                                    {{ $conta->status == 'recebido' ? 'bg-green-100 text-green-800' : '' }}
-                                                                    {{ $conta->status == 'pendente' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                                                    {{ $conta->status == 'vencido' ? 'bg-red-100 text-red-800' : '' }}">
+                                                                    {{ $conta->status == 'recebido' ? 'bg-green-900 text-green-200' : '' }}
+                                                                    {{ $conta->status == 'pendente' ? 'bg-yellow-900 text-yellow-200' : '' }}
+                                                                    {{ $conta->status == 'vencido' ? 'bg-red-900 text-red-200' : '' }}">
                                                                     {{ ucfirst($conta->status) }}
                                                                 </span>
                                                             </div>
@@ -215,9 +215,9 @@
                                                             <div class="text-right">
                                                                 <span class="text-sm font-semibold">R$ {{ number_format($conta->valor, 2, ',', '.') }}</span>
                                                                 <span class="text-xs block px-2 inline-flex leading-5 font-semibold rounded-full 
-                                                                    {{ $conta->status == 'pago' ? 'bg-green-100 text-green-800' : '' }}
-                                                                    {{ $conta->status == 'pendente' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                                                    {{ $conta->status == 'vencido' ? 'bg-red-100 text-red-800' : '' }}">
+                                                                    {{ $conta->status == 'pago' ? 'bg-green-900 text-green-200' : '' }}
+                                                                    {{ $conta->status == 'pendente' ? 'bg-yellow-900 text-yellow-200' : '' }}
+                                                                    {{ $conta->status == 'vencido' ? 'bg-red-900 text-red-200' : '' }}">
                                                                     {{ ucfirst($conta->status) }}
                                                                 </span>
                                                             </div>

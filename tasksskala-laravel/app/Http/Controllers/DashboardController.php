@@ -1450,13 +1450,13 @@ Retorne APENAS o JSON, sem explicações adicionais.";
         $premiosMensais = [
             1 => [
                 'titulo' => '1º Lugar - Campeão do Mês',
-                'premio' => 'Almoço no Wecker + Dia de Folga',
-                'descricao' => 'Dia de folga em qualquer dia útil (segunda a sexta)'
+                'premio' => 'Almoço no Wecker + Dia de Folga + Certificado',
+                'descricao' => 'Dia de folga em qualquer dia útil (segunda a sexta) + Certificado especial de destaque do mês'
             ],
             2 => [
                 'titulo' => '2º Lugar - Vice-Campeão',
-                'premio' => 'Dia de Folga',
-                'descricao' => 'Dia de folga de segunda a quinta (exceto sexta)'
+                'premio' => 'Dia de Folga + Certificado',
+                'descricao' => 'Dia de folga de segunda a quinta (exceto sexta) + Certificado especial de destaque do mês'
             ],
             3 => [
                 'titulo' => '3º Lugar - Bronze',

@@ -49,9 +49,9 @@
                         </p>
                     </div>
 
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                        <h3 class="text-sm font-semibold text-blue-900 mb-2">Como funciona a importação:</h3>
-                        <ul class="text-sm text-blue-700 space-y-1">
+                    <div class="bg-blue-900 border border-blue-700 rounded-lg p-4 mb-6">
+                        <h3 class="text-sm font-semibold text-blue-200 mb-2">Como funciona a importação:</h3>
+                        <ul class="text-sm text-blue-300 space-y-1">
                             <li>• O sistema tentará conciliar automaticamente as transações com contas existentes</li>
                             <li>• Transações não conciliadas automaticamente ficarão pendentes para revisão manual</li>
                             <li>• Você poderá vincular manualmente ou criar novas contas para as transações pendentes</li>

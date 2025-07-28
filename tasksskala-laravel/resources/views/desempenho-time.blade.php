@@ -220,6 +220,17 @@
                 </div>
             </div>
 
+            <!-- Nota sobre certificados -->
+            <div class="mt-6 p-4 bg-green-900 bg-opacity-20 rounded-lg text-center">
+                <p class="text-sm text-green-400">
+                    <span class="text-lg">🏅</span> <strong>Todos os 3 primeiros colocados do mês recebem o Certificado de Reconhecimento!</strong> <span class="text-lg">🏅</span>
+                </p>
+                <p class="text-xs text-gray-400 mt-1">
+                    O certificado especial de destaque do mês é entregue para o 1º, 2º e 3º lugar como forma de reconhecimento pelo excelente desempenho.
+                </p>
+                </div>
+            </div>
+
             <!-- Critérios de Pontuação -->
             <div class="mt-8 p-6 bg-gray-800 rounded-lg">
                 <h3 class="text-lg font-semibold text-primary-dark mb-3">📊 Como são calculados os pontos?</h3>

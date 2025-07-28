@@ -41,7 +41,7 @@
                     <div class="card-dark px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-muted-dark">Tipo de Conta</dt>
                         <dd class="mt-1 text-sm text-primary-dark sm:mt-0 sm:col-span-2">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-900 text-blue-200">
                                 {{ ucfirst($conta->tipo_conta) }}
                             </span>
                         </dd>
@@ -55,7 +55,7 @@
                     <div class="card-dark px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-muted-dark">Status</dt>
                         <dd class="mt-1 text-sm text-primary-dark sm:mt-0 sm:col-span-2">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $conta->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $conta->ativo ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200' }}">
                                 {{ $conta->ativo ? 'Ativa' : 'Inativa' }}
                             </span>
                         </dd>

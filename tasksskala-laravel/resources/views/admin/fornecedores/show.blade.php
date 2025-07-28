@@ -19,7 +19,7 @@
         <div class="card-dark shadow rounded-lg p-6 mb-6">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-semibold">Informações Gerais</h2>
-                <span class="px-3 py-1 text-sm rounded-full {{ $fornecedor->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                <span class="px-3 py-1 text-sm rounded-full {{ $fornecedor->ativo ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200' }}">
                     {{ $fornecedor->ativo ? 'Ativo' : 'Inativo' }}
                 </span>
             </div>
@@ -130,7 +130,7 @@
         <div class="card-dark shadow rounded-lg p-6">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Últimas Contas a Pagar</h2>
-                <a href="{{ route('admin.contas-pagar.index', ['fornecedor_id' => $fornecedor->id]) }}" class="text-blue-600 hover:text-blue-800 text-sm">
+                <a href="{{ route('admin.contas-pagar.index', ['fornecedor_id' => $fornecedor->id]) }}" class="text-blue-400 hover:text-blue-300 text-sm">
                     Ver todas →
                 </a>
             </div>
@@ -161,15 +161,15 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            {{ $conta->status == 'pago' ? 'bg-green-100 text-green-800' : '' }}
-                                            {{ $conta->status == 'pendente' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                            {{ $conta->status == 'vencido' ? 'bg-red-100 text-red-800' : '' }}
+                                            {{ $conta->status == 'pago' ? 'bg-green-900 text-green-200' : '' }}
+                                            {{ $conta->status == 'pendente' ? 'bg-yellow-900 text-yellow-200' : '' }}
+                                            {{ $conta->status == 'vencido' ? 'bg-red-900 text-red-200' : '' }}
                                             {{ $conta->status == 'cancelado' ? 'bg-gray-800 text-primary-dark' : '' }}">
                                             {{ ucfirst($conta->status) }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('admin.contas-pagar.show', $conta->id) }}" class="text-indigo-600 hover:text-indigo-900">
+                                        <a href="{{ route('admin.contas-pagar.show', $conta->id) }}" class="text-indigo-400 hover:text-indigo-300">
                                             Ver
                                         </a>
                                     </td>

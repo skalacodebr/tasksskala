@@ -19,7 +19,7 @@
 
         <div class="p-6">
             @if($transacoesPendentes->isEmpty())
-                <div class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded">
+                <div class="bg-blue-900 border border-blue-700 text-blue-300 px-4 py-3 rounded">
                     <i class="fas fa-info-circle mr-2"></i>Não há transações pendentes de conciliação.
                 </div>
             @else
@@ -43,12 +43,12 @@
                                 <td class="px-6 py-4 text-sm text-primary-dark">{{ $transacao->descricao }}</td>
                                 <td class="px-6 py-4 text-sm text-primary-dark">{{ $transacao->beneficiario }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-red-900 text-red-200' : 'bg-green-900 text-green-200' }}">
                                         R$ {{ number_format($transacao->valor, 2, ',', '.') }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800' }}">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transacao->tipo_conta == 'pagar' ? 'bg-yellow-900 text-yellow-200' : 'bg-blue-900 text-blue-200' }}">
                                         {{ $transacao->tipo_conta == 'pagar' ? 'A Pagar' : 'A Receber' }}
                                     </span>
                                 </td>
@@ -120,7 +120,7 @@
             </div>
 
             <div id="criar" class="tab-content hidden">
-                <div class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded mb-4">
+                <div class="bg-blue-900 border border-blue-700 text-blue-300 px-4 py-3 rounded mb-4">
                     <i class="fas fa-info-circle mr-2"></i>Uma nova conta será criada com os dados da transação.
                 </div>
                 <div id="dadosNovaConta">

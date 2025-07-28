@@ -58,7 +58,7 @@
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
                 <div class="mt-2">
-                    <a href="{{ route('admin.tipos-custo.create') }}" class="text-sm text-blue-600 hover:text-blue-800">
+                    <a href="{{ route('admin.tipos-custo.create') }}" class="text-sm text-blue-400 hover:text-blue-300">
                         Gerenciar Tipos de Custo
                     </a>
                 </div>

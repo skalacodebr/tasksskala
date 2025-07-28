@@ -10,13 +10,13 @@
     </div>
 
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div class="alert-success-dark px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
 
     @if(session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div class="alert-error-dark px-4 py-3 rounded mb-4">
             {{ session('error') }}
         </div>
     @endif
@@ -46,7 +46,7 @@
                             {{ $conta->conta }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-900 text-blue-200">
                                 {{ ucfirst($conta->tipo_conta) }}
                             </span>
                         </td>
@@ -54,12 +54,12 @@
                             R$ {{ number_format($conta->saldo_atual, 2, ',', '.') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $conta->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $conta->ativo ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200' }}">
                                 {{ $conta->ativo ? 'Ativa' : 'Inativa' }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('admin.contas-bancarias.show', $conta->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Ver</a>
+                            <a href="{{ route('admin.contas-bancarias.show', $conta->id) }}" class="text-indigo-400 hover:text-indigo-300 mr-3">Ver</a>
                             <a href="{{ route('admin.contas-bancarias.edit', $conta->id) }}" class="text-yellow-600 hover:text-yellow-900 mr-3">Editar</a>
                             <form action="{{ route('admin.contas-bancarias.destroy', $conta->id) }}" method="POST" class="inline">
                                 @csrf
