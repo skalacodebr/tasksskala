@@ -22,9 +22,112 @@
         .sidebar-scroll::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.3);
         }
+        
+        /* Main content area following sidebar visual identity */
+        .main-content {
+            background-color: #111111;
+            color: #e5e5e5;
+        }
+        
+        /* Custom scrollbar for main content */
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Header styling */
+        .header-dark {
+            background-color: #1a1a1a;
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Card and panel styling */
+        .card-dark {
+            background-color: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Input and form elements */
+        .input-dark {
+            background-color: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e5e5e5;
+        }
+        
+        .input-dark:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Button styling following sidebar pattern */
+        .btn-primary-dark {
+            background-color: white;
+            color: black;
+            font-weight: 500;
+        }
+        
+        .btn-primary-dark:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .btn-secondary-dark {
+            background-color: transparent;
+            color: #e5e5e5;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary-dark:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Table styling */
+        .table-dark-custom thead {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .table-dark-custom tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .table-dark-custom tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Text color utilities */
+        .text-muted-dark {
+            color: #9ca3af;
+        }
+        
+        .text-primary-dark {
+            color: #e5e5e5;
+        }
+        
+        /* Alert styling */
+        .alert-success-dark {
+            background-color: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+        
+        .alert-error-dark {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-black">
     <div class="min-h-screen flex">
         <!-- Modern Sidebar -->
         <div class="relative bg-black text-white w-64 flex-shrink-0 flex flex-col">
@@ -160,23 +263,23 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top bar -->
-            <header class="bg-white shadow-sm border-b border-gray-200">
+            <header class="header-dark shadow-sm border-b">
                 <div class="px-6 py-4">
-                    <h1 class="text-2xl font-semibold text-gray-900">@yield('title', 'Dashboard')</h1>
+                    <h1 class="text-2xl font-semibold text-primary-dark">@yield('title', 'Dashboard')</h1>
                 </div>
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto main-content">
                 <div class="px-6 py-6">
                     @if(session('success'))
-                        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                        <div class="mb-4 alert-success-dark px-4 py-3 rounded">
                             {{ session('success') }}
                         </div>
                     @endif
 
                     @if(session('error'))
-                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        <div class="mb-4 alert-error-dark px-4 py-3 rounded">
                             {{ session('error') }}
                         </div>
                     @endif
