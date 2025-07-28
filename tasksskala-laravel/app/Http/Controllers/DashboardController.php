@@ -1325,4 +1325,53 @@ Retorne APENAS o JSON, sem explicações adicionais.";
             ->header('Content-Type', 'text/plain; charset=UTF-8')
             ->header('Content-Disposition', 'attachment; filename="tarefas_' . Str::slug($projeto->nome) . '_' . now()->format('Y-m-d') . '.txt"');
     }
+
+    // Tarefas de todos colaboradores (apenas para Administrativo)
+    public function todasTarefas(Request $request)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador || ($colaborador->setor_id !== 3 && $colaborador->setor->nome !== 'Administrativo')) {
+            return redirect()->route('dashboard')->with('error', 'Acesso negado. Esta página é exclusiva para o setor Administrativo.');
+        }
+
+        $query = Tarefa::with(['colaborador', 'projeto', 'criador']);
+
+        // Filtro por colaborador
+        if ($request->has('colaborador_id') && $request->colaborador_id) {
+            $query->where('colaborador_id', $request->colaborador_id);
+        }
+
+        // Filtro por status
+        if ($request->has('status') && $request->status) {
+            $query->where('status', $request->status);
+        }
+
+        // Filtro por data
+        if ($request->has('data_inicio') && $request->data_inicio) {
+            $query->whereDate('created_at', '>=', $request->data_inicio);
+        }
+        
+        if ($request->has('data_fim') && $request->data_fim) {
+            $query->whereDate('created_at', '<=', $request->data_fim);
+        }
+
+        // Filtro por prioridade
+        if ($request->has('prioridade') && $request->prioridade) {
+            $query->where('prioridade', $request->prioridade);
+        }
+
+        // Filtro por projeto
+        if ($request->has('projeto_id') && $request->projeto_id) {
+            $query->where('projeto_id', $request->projeto_id);
+        }
+
+        $tarefas = $query->orderBy('created_at', 'desc')->paginate(20);
+        
+        // Buscar todos colaboradores e projetos para os filtros
+        $colaboradores = Colaborador::orderBy('nome')->get();
+        $projetos = Projeto::orderBy('nome')->get();
+
+        return view('todas-tarefas', compact('tarefas', 'colaboradores', 'projetos'));
+    }
 }

@@ -103,8 +103,14 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     // Tarefas designadas
     Route::get('/tarefas-designadas', [DashboardController::class, 'tarefasDesignadas'])->name('tarefas-designadas');
     
+    // Todas as tarefas (apenas para Administrativo)
+    Route::get('/todas-tarefas', [DashboardController::class, 'todasTarefas'])->name('todas-tarefas');
+    
     // Exportar tarefas
     Route::get('/tarefas/exportar', [DashboardController::class, 'exportarTarefas'])->name('tarefas.exportar');
+    
+    // Desempenho do Time
+    Route::get('/desempenho-time', [DashboardController::class, 'desempenhoTime'])->name('desempenho-time');
 });
 
 // Rotas do Cliente (protegidas)
