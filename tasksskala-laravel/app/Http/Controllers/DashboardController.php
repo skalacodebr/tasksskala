@@ -340,6 +340,16 @@ class DashboardController extends Controller
     {
         \Log::info('ProcessarTarefaIA iniciado', ['tipo' => $request->input('tipo')]);
         
+        // Verificar API Key primeiro
+        $apiKey = config('services.openai.api_key');
+        if (!$apiKey) {
+            \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada');
+            return response()->json([
+                'success' => false, 
+                'message' => 'API Key da OpenAI não configurada. Configure OPENAI_API_KEY no arquivo .env'
+            ], 500);
+        }
+        
         // Tentar obter colaborador da sessão
         $colaboradorId = session('colaborador_id');
         \Log::info('ProcessarTarefaIA: ID do colaborador na sessão', ['id' => $colaboradorId]);

@@ -9,7 +9,7 @@ use App\Models\ChatSession;
 
 class ChatController extends Controller
 {
-    private $apiKey = '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';
+    private $apiKey = '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';
     
     public function index()
     {

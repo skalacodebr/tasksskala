@@ -5,12 +5,12 @@
 @section('content')
 <div class="space-y-6">
     <!-- Header -->
-    <div class="bg-white shadow rounded-lg">
+    <div class="card-dark shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <div class="flex justify-between items-center">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Criar Nova Tarefa</h1>
-                    <p class="text-gray-600 mt-1">Crie uma nova tarefa para você ou para outros colaboradores</p>
+                    <h1 class="text-2xl font-bold text-primary-dark">Criar Nova Tarefa</h1>
+                    <p class="text-gray-400 mt-1">Crie uma nova tarefa para você ou para outros colaboradores</p>
                 </div>
                 <div class="flex gap-2">
                     <button type="button" id="btn-assistente-ia" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2">
@@ -19,7 +19,7 @@
                         </svg>
                         Assistente IA
                     </button>
-                    <a href="{{ route('minhas-tarefas') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                    <a href="{{ route('minhas-tarefas') }}" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
                         Voltar
                     </a>
                 </div>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Formulário -->
-    <div class="bg-white shadow rounded-lg">
+    <div class="card-dark shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <form action="{{ route('tarefa.store') }}" method="POST" class="space-y-6">
                 @csrf
@@ -38,48 +38,48 @@
                     <div class="flex items-center">
                         <input type="checkbox" name="multiplas_tarefas" id="multiplas_tarefas" value="1" 
                                {{ old('multiplas_tarefas') ? 'checked' : '' }}
-                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                        <label for="multiplas_tarefas" class="ml-2 block text-sm text-gray-900 font-medium">
+                               class="h-4 w-4 text-blue-400 focus:ring-blue-500 border-gray-600 rounded">
+                        <label for="multiplas_tarefas" class="ml-2 block text-sm text-primary-dark font-medium">
                             Criar múltiplas tarefas para o mesmo projeto
                         </label>
                     </div>
-                    <p class="mt-2 text-sm text-gray-600">Marque esta opção para criar várias tarefas de uma vez. Cada linha de descrição criará uma tarefa separada.</p>
+                    <p class="mt-2 text-sm text-gray-400">Marque esta opção para criar várias tarefas de uma vez. Cada linha de descrição criará uma tarefa separada.</p>
                 </div>
 
                 <!-- Título - Modo único -->
                 <div id="titulo-unico">
-                    <label for="titulo" class="block text-sm font-medium text-gray-700">
+                    <label for="titulo" class="block text-sm font-medium text-muted-dark">
                         Título da Tarefa *
                     </label>
                     <input type="text" name="titulo" id="titulo" required 
                            value="{{ old('titulo') }}"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                           class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     @error('titulo')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Título Base - Modo múltiplo -->
                 <div id="titulo-multiplo" class="hidden">
-                    <label for="titulo_base" class="block text-sm font-medium text-gray-700">
+                    <label for="titulo_base" class="block text-sm font-medium text-muted-dark">
                         Título Base (Opcional)
                     </label>
                     <input type="text" name="titulo_base" id="titulo_base"
                            value="{{ old('titulo_base') }}"
                            placeholder="Ex: Implementar funcionalidade"
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    <p class="mt-1 text-sm text-gray-500">Se deixado em branco, o título será extraído da descrição de cada tarefa</p>
+                           class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <p class="mt-1 text-sm text-muted-dark">Se deixado em branco, o título será extraído da descrição de cada tarefa</p>
                 </div>
 
                 <!-- Grid de 2 colunas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Responsável -->
                     <div>
-                        <label for="colaborador_id" class="block text-sm font-medium text-gray-700">
+                        <label for="colaborador_id" class="block text-sm font-medium text-muted-dark">
                             Responsável *
                         </label>
                         <select name="colaborador_id" id="colaborador_id" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             @foreach($colaboradores as $colab)
                                 <option value="{{ $colab->id }}" {{ old('colaborador_id', $colaborador->id) == $colab->id ? 'selected' : '' }}>
                                     {{ $colab->nome }} @if($colab->id == $colaborador->id)(Você)@endif
@@ -87,17 +87,17 @@
                             @endforeach
                         </select>
                         @error('colaborador_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Projeto (Opcional) -->
                     <div>
-                        <label for="projeto_id" class="block text-sm font-medium text-gray-700">
+                        <label for="projeto_id" class="block text-sm font-medium text-muted-dark">
                             Projeto (Opcional)
                         </label>
                         <select name="projeto_id" id="projeto_id"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Sem projeto específico</option>
                             @foreach($projetos as $projeto)
                                 <option value="{{ $projeto->id }}" {{ old('projeto_id') == $projeto->id ? 'selected' : '' }}>
@@ -106,37 +106,37 @@
                             @endforeach
                         </select>
                         @error('projeto_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
                 <!-- Descrição - Modo único -->
                 <div id="descricao-unica">
-                    <label for="descricao" class="block text-sm font-medium text-gray-700">
+                    <label for="descricao" class="block text-sm font-medium text-muted-dark">
                         Descrição
                     </label>
                     <textarea name="descricao" id="descricao" rows="4"
-                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                               placeholder="Descreva em detalhes o que precisa ser feito...">{{ old('descricao') }}</textarea>
                     @error('descricao')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Descrições Múltiplas -->
                 <div id="descricoes-multiplas" class="hidden">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Tarefas * <span class="text-gray-500">(uma por linha)</span>
+                    <label class="block text-sm font-medium text-muted-dark mb-2">
+                        Tarefas * <span class="text-muted-dark">(uma por linha)</span>
                     </label>
                     <div id="tarefas-container" class="space-y-3">
                         <div class="tarefa-item">
                             <div class="flex gap-2">
                                 <textarea name="descricoes[]" rows="2"
-                                          class="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                          class="flex-1 border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                           placeholder="Descrição da tarefa..." required></textarea>
                                 <input type="date" name="prazos[]" 
-                                       class="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                       class="border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                        placeholder="Prazo (opcional)">
                                 <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 hidden">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,42 +146,42 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" id="adicionar-tarefa" class="mt-3 text-sm text-blue-600 hover:text-blue-800">
+                    <button type="button" id="adicionar-tarefa" class="mt-3 text-sm text-blue-400 hover:text-blue-300">
                         + Adicionar mais uma tarefa
                     </button>
-                    <p class="mt-2 text-sm text-gray-500">Cada linha criará uma tarefa separada. O título será extraído do início da descrição ou usará o título base.</p>
+                    <p class="mt-2 text-sm text-muted-dark">Cada linha criará uma tarefa separada. O título será extraído do início da descrição ou usará o título base.</p>
                 </div>
 
                 <!-- Grid de 2 colunas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Prioridade -->
                     <div>
-                        <label for="prioridade" class="block text-sm font-medium text-gray-700">
+                        <label for="prioridade" class="block text-sm font-medium text-muted-dark">
                             Prioridade *
                         </label>
                         <select name="prioridade" id="prioridade" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <option value="baixa" {{ old('prioridade') == 'baixa' ? 'selected' : '' }}>Baixa</option>
                             <option value="media" {{ old('prioridade', 'media') == 'media' ? 'selected' : '' }}>Média</option>
                             <option value="alta" {{ old('prioridade') == 'alta' ? 'selected' : '' }}>Alta</option>
                             <option value="urgente" {{ old('prioridade') == 'urgente' ? 'selected' : '' }}>Urgente</option>
                         </select>
                         @error('prioridade')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Data de Vencimento -->
                     <div id="data-vencimento-unica">
-                        <label for="data_vencimento" class="block text-sm font-medium text-gray-700">
+                        <label for="data_vencimento" class="block text-sm font-medium text-muted-dark">
                             Data de Vencimento (Opcional)
                         </label>
                         <input type="datetime-local" name="data_vencimento" id="data_vencimento"
                                value="{{ old('data_vencimento') }}"
                                min="{{ now()->format('Y-m-d\TH:i') }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                               class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                         @error('data_vencimento')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -191,25 +191,25 @@
                     <div class="flex items-center">
                         <input type="checkbox" name="recorrente" id="recorrente" value="1" 
                                {{ old('recorrente') ? 'checked' : '' }}
-                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                        <label for="recorrente" class="ml-2 block text-sm text-gray-900">
+                               class="h-4 w-4 text-blue-400 focus:ring-blue-500 border-gray-600 rounded">
+                        <label for="recorrente" class="ml-2 block text-sm text-primary-dark">
                             Tarefa recorrente
                         </label>
                     </div>
 
                     <div id="frequencia-container" class="hidden">
-                        <label for="frequencia_recorrencia" class="block text-sm font-medium text-gray-700">
+                        <label for="frequencia_recorrencia" class="block text-sm font-medium text-muted-dark">
                             Frequência
                         </label>
                         <select name="frequencia_recorrencia" id="frequencia_recorrencia"
-                                class="mt-1 block w-full md:w-1/3 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full md:w-1/3 border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Selecione...</option>
                             <option value="diaria" {{ old('frequencia_recorrencia') == 'diaria' ? 'selected' : '' }}>Diária</option>
                             <option value="semanal" {{ old('frequencia_recorrencia') == 'semanal' ? 'selected' : '' }}>Semanal</option>
                             <option value="mensal" {{ old('frequencia_recorrencia') == 'mensal' ? 'selected' : '' }}>Mensal</option>
                         </select>
                         @error('frequencia_recorrencia')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -219,18 +219,18 @@
                     <div class="flex items-center">
                         <input type="checkbox" name="criar_tarefa_teste" id="criar_tarefa_teste" value="1" 
                                {{ old('criar_tarefa_teste') ? 'checked' : '' }}
-                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                        <label for="criar_tarefa_teste" class="ml-2 block text-sm text-gray-900">
+                               class="h-4 w-4 text-blue-400 focus:ring-blue-500 border-gray-600 rounded">
+                        <label for="criar_tarefa_teste" class="ml-2 block text-sm text-primary-dark">
                             Criar tarefa de teste após conclusão
                         </label>
                     </div>
 
                     <div id="testador-container" class="hidden">
-                        <label for="testador_id" class="block text-sm font-medium text-gray-700">
+                        <label for="testador_id" class="block text-sm font-medium text-muted-dark">
                             Responsável pelos testes
                         </label>
                         <select name="testador_id" id="testador_id"
-                                class="mt-1 block w-full md:w-1/2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full md:w-1/2 border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Selecione um colaborador...</option>
                             @foreach($colaboradores as $colab)
                                 <option value="{{ $colab->id }}" {{ old('testador_id') == $colab->id ? 'selected' : '' }}>
@@ -239,20 +239,20 @@
                             @endforeach
                         </select>
                         @error('testador_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-2 text-sm text-gray-500">Uma tarefa de teste será criada automaticamente para este colaborador quando a tarefa principal for concluída.</p>
+                        <p class="mt-2 text-sm text-muted-dark">Uma tarefa de teste será criada automaticamente para este colaborador quando a tarefa principal for concluída.</p>
                     </div>
                 </div>
 
                 <!-- Botões de Ação -->
-                <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                <div class="flex justify-end space-x-3 pt-6 border-t border-gray-700">
                     <a href="{{ route('minhas-tarefas') }}" 
-                       class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                       class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
                         Cancelar
                     </a>
                     <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            class="btn-primary-dark font-bold py-2 px-4 rounded">
                         Criar Tarefa
                     </button>
                 </div>
@@ -313,10 +313,10 @@ document.getElementById('adicionar-tarefa').addEventListener('click', function()
     tarefaItem.innerHTML = `
         <div class="flex gap-2">
             <textarea name="descricoes[]" rows="2"
-                      class="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      class="flex-1 border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Descrição da tarefa..." required></textarea>
             <input type="date" name="prazos[]" 
-                   class="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   class="border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                    placeholder="Prazo (opcional)">
             <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -402,21 +402,21 @@ if (document.getElementById('criar_tarefa_teste').checked) {
 
 <!-- Modal do Assistente IA -->
 <div id="modal-assistente-ia" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md bg-white">
+    <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md card-dark">
         <div class="mt-3">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-bold text-gray-900">Assistente IA para Tarefas</h3>
-                <button type="button" id="fechar-modal-ia" class="text-gray-400 hover:text-gray-600">
+                <h3 class="text-2xl font-bold text-primary-dark">Assistente IA para Tarefas</h3>
+                <button type="button" id="fechar-modal-ia" class="text-gray-400 hover:text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
             
-            <p class="text-gray-600 mb-6">Descreva as tarefas por texto ou áudio e deixe a IA organizar para você!</p>
+            <p class="text-gray-400 mb-6">Descreva as tarefas por texto ou áudio e deixe a IA organizar para você!</p>
             
             <!-- Tabs -->
-            <div class="border-b border-gray-200 mb-6">
+            <div class="border-b border-gray-700 mb-6">
                 <nav class="-mb-px flex space-x-8">
                     <button type="button" 
                             class="tab-button border-b-2 border-purple-500 py-2 px-1 text-sm font-medium text-purple-600"
@@ -424,7 +424,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                         Texto
                     </button>
                     <button type="button" 
-                            class="tab-button border-b-2 border-transparent py-2 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                            class="tab-button border-b-2 border-transparent py-2 px-1 text-sm font-medium text-muted-dark hover:text-muted-dark hover:border-gray-600"
                             data-tab="audio">
                         Áudio
                     </button>
@@ -434,7 +434,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             <!-- Tab Content -->
             <div id="tab-texto" class="tab-content">
                 <textarea id="input-texto-ia" rows="6" 
-                          class="w-full border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                          class="w-full border-gray-600 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
                           placeholder="Exemplo: Preciso criar 3 tarefas para o projeto X:
 - Implementar login de usuários com prazo para sexta-feira
 - Criar tela de dashboard
@@ -452,7 +452,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                             <circle cx="12" cy="12" r="8"></circle>
                         </svg>
                     </button>
-                    <p id="status-gravacao" class="mt-4 text-gray-600">Clique para gravar</p>
+                    <p id="status-gravacao" class="mt-4 text-gray-400">Clique para gravar</p>
                     <div id="audio-preview" class="mt-4 hidden">
                         <audio id="audio-gravado" controls class="mx-auto"></audio>
                     </div>
@@ -461,8 +461,8 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             
             <!-- Exemplos -->
             <div class="mt-6 bg-gray-50 rounded-lg p-4">
-                <h4 class="text-sm font-medium text-gray-900 mb-2">Exemplos de como descrever:</h4>
-                <ul class="text-sm text-gray-600 space-y-1">
+                <h4 class="text-sm font-medium text-primary-dark mb-2">Exemplos de como descrever:</h4>
+                <ul class="text-sm text-gray-400 space-y-1">
                     <li>• "Criar 3 tarefas urgentes para João: revisar código, fazer testes, documentar API"</li>
                     <li>• "Tarefas do projeto ABC com prazo para próxima semana: design da home, implementar carrinho, integrar pagamento"</li>
                     <li>• "Setup inicial do projeto: configurar ambiente, criar banco de dados, fazer deploy inicial"</li>
@@ -472,7 +472,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             <!-- Botões -->
             <div class="mt-6 flex justify-end space-x-3">
                 <button type="button" id="cancelar-ia" 
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
                     Cancelar
                 </button>
                 <button type="button" id="processar-ia" 
@@ -548,9 +548,9 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             // Update button styles
             tabButtons.forEach(btn => {
                 btn.classList.remove('border-purple-500', 'text-purple-600');
-                btn.classList.add('border-transparent', 'text-gray-500');
+                btn.classList.add('border-transparent', 'text-muted-dark');
             });
-            button.classList.remove('border-transparent', 'text-gray-500');
+            button.classList.remove('border-transparent', 'text-muted-dark');
             button.classList.add('border-purple-500', 'text-purple-600');
             
             // Show/hide content
@@ -724,10 +724,10 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             primeiraDiv.innerHTML = `
                 <div class="flex gap-2">
                     <textarea name="descricoes[]" rows="2"
-                              class="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              class="flex-1 border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                               placeholder="Descrição da tarefa..." required></textarea>
                     <input type="date" name="prazos[]" 
-                           class="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                           class="border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                            placeholder="Prazo (opcional)">
                     <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 hidden">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

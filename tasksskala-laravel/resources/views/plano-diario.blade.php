@@ -5,16 +5,16 @@
 @section('content')
 <div class="space-y-6">
     <!-- Header -->
-    <div class="bg-white shadow rounded-lg">
+    <div class="card-dark shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <div class="flex justify-between items-start">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Plano de Ação Diário</h1>
-                    <p class="text-gray-600 mt-1">Organize suas tarefas com foco e produtividade usando a técnica Pomodoro</p>
+                    <h1 class="text-2xl font-bold text-primary-dark">Plano de Ação Diário</h1>
+                    <p class="text-gray-400 mt-1">Organize suas tarefas com foco e produtividade usando a técnica Pomodoro</p>
                 </div>
                 <div class="text-right">
-                    <div class="text-sm text-gray-500">{{ now()->format('d/m/Y') }}</div>
-                    <div class="font-medium text-gray-900">{{ now()->locale('pt')->translatedFormat('l') }}</div>
+                    <div class="text-sm text-muted-dark">{{ now()->format('d/m/Y') }}</div>
+                    <div class="font-medium text-primary-dark">{{ now()->locale('pt')->translatedFormat('l') }}</div>
                 </div>
             </div>
         </div>
@@ -25,12 +25,12 @@
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-8 w-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm font-medium text-blue-600">Tarefas Pendentes</p>
+                    <p class="text-sm font-medium text-blue-400">Tarefas Pendentes</p>
                     <p class="text-2xl font-bold text-blue-900">{{ $tarefasPendentes }}</p>
                 </div>
             </div>
@@ -53,12 +53,12 @@
         <div class="bg-red-50 border border-red-200 rounded-lg p-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <svg class="h-8 w-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-8 w-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm font-medium text-red-600">Atrasadas</p>
+                    <p class="text-sm font-medium text-red-400">Atrasadas</p>
                     <p class="text-2xl font-bold text-red-900">{{ $tarefasAtrasadas }}</p>
                 </div>
             </div>
@@ -66,9 +66,9 @@
     </div>
 
     <!-- Configuração do Plano -->
-    <div class="bg-white shadow rounded-lg" id="configuracao-plano">
+    <div class="card-dark shadow rounded-lg" id="configuracao-plano">
         <div class="px-4 py-5 sm:p-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+            <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">
                 <svg class="inline w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -80,11 +80,11 @@
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
-                        <label for="horas_trabalho" class="block text-sm font-medium text-gray-700">
+                        <label for="horas_trabalho" class="block text-sm font-medium text-muted-dark">
                             Horas de Trabalho
                         </label>
                         <select name="horas_trabalho" id="horas_trabalho" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <option value="4">4 horas</option>
                             <option value="6">6 horas</option>
                             <option value="8" selected>8 horas</option>
@@ -93,11 +93,11 @@
                     </div>
 
                     <div>
-                        <label for="tempo_pomodoro" class="block text-sm font-medium text-gray-700">
+                        <label for="tempo_pomodoro" class="block text-sm font-medium text-muted-dark">
                             Tempo Pomodoro
                         </label>
                         <select name="tempo_pomodoro" id="tempo_pomodoro" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <option value="25" selected>25 minutos</option>
                             <option value="30">30 minutos</option>
                             <option value="45">45 minutos</option>
@@ -106,11 +106,11 @@
                     </div>
 
                     <div>
-                        <label for="prioridade_minima" class="block text-sm font-medium text-gray-700">
+                        <label for="prioridade_minima" class="block text-sm font-medium text-muted-dark">
                             Prioridade Mínima
                         </label>
                         <select name="prioridade_minima" id="prioridade_minima" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             <option value="baixa">Baixa</option>
                             <option value="media" selected>Média</option>
                             <option value="alta">Alta</option>
@@ -121,15 +121,15 @@
                     <div class="flex items-end">
                         <label class="flex items-center">
                             <input type="checkbox" name="incluir_atrasadas" value="1" checked
-                                   class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">Incluir atrasadas</span>
+                                   class="rounded border-gray-600 text-blue-400 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-muted-dark">Incluir atrasadas</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="flex justify-center">
                     <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg flex items-center">
+                            class="btn-primary-dark font-bold py-3 px-6 rounded-lg flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                         </svg>
@@ -146,10 +146,10 @@
         <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
             <div class="px-4 py-5 sm:p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    <h3 class="text-lg leading-6 font-medium text-primary-dark">
                         🎯 Plano para Hoje
                     </h3>
-                    <div class="text-right text-sm text-gray-600">
+                    <div class="text-right text-sm text-gray-400">
                         <div>Tempo total: <span id="tempo-total" class="font-medium"></span></div>
                         <div>Pomodoros: <span id="pomodoros-necessarios" class="font-medium"></span></div>
                     </div>
@@ -161,11 +161,11 @@
 
                 <div class="mt-6 flex justify-center space-x-3">
                     <button id="btn-salvar-plano" onclick="salvarPlano()" 
-                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg">
+                            class="btn-primary-dark font-bold py-2 px-6 rounded-lg">
                         💾 Salvar e Iniciar Plano
                     </button>
                     <button id="btn-regerar-plano" onclick="mostrarConfiguracaoPlano()" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg hidden">
+                            class="btn-primary-dark font-bold py-2 px-6 rounded-lg hidden">
                         🔄 Gerar Novo Plano
                     </button>
                 </div>
@@ -173,9 +173,9 @@
         </div>
 
         <!-- Próximos Dias -->
-        <div class="bg-white shadow rounded-lg">
+        <div class="card-dark shadow rounded-lg">
             <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">
                     📅 Organização dos Próximos Dias
                 </h3>
                 <div id="proximos-dias" class="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -186,21 +186,21 @@
     </div>
 
     <!-- Timer Pomodoro -->
-    <div id="pomodoro-timer" class="hidden bg-white shadow rounded-lg">
+    <div id="pomodoro-timer" class="hidden card-dark shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <div class="text-center">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">
                     🍅 Timer Pomodoro
                 </h3>
                 
                 <div class="mb-6">
-                    <div id="timer-display" class="text-6xl font-bold text-gray-900 mb-2">25:00</div>
-                    <div id="timer-status" class="text-lg text-gray-600">Pronto para iniciar</div>
+                    <div id="timer-display" class="text-6xl font-bold text-primary-dark mb-2">25:00</div>
+                    <div id="timer-status" class="text-lg text-gray-400">Pronto para iniciar</div>
                 </div>
 
                 <div class="space-x-4">
                     <button id="btn-iniciar" onclick="iniciarPomodoro()" 
-                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            class="btn-primary-dark font-bold py-2 px-4 rounded">
                         ▶️ Iniciar
                     </button>
                     <button id="btn-pausar" onclick="pausarPomodoro()" class="hidden bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
@@ -212,7 +212,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <select id="tipo-sessao" class="border-gray-300 rounded-md shadow-sm">
+                    <select id="tipo-sessao" class="border-gray-600 rounded-md shadow-sm">
                         <option value="25">Foco (25 min)</option>
                         <option value="5">Pausa Curta (5 min)</option>
                         <option value="15">Pausa Longa (15 min)</option>
@@ -271,12 +271,12 @@ function exibirPlano(plano) {
     
     plano.tarefas_dia.forEach((tarefa, index) => {
         const tarefaDiv = document.createElement('div');
-        tarefaDiv.className = 'flex items-center p-3 bg-white border border-gray-200 rounded-lg';
+        tarefaDiv.className = 'flex items-center p-3 card-dark border border-gray-700 rounded-lg';
         tarefaDiv.innerHTML = `
             <input type="checkbox" class="tarefa-selecionada mr-3" value="${tarefa.id}" checked>
             <div class="flex-1">
-                <h4 class="font-medium text-gray-900">${tarefa.titulo}</h4>
-                <div class="text-sm text-gray-600">
+                <h4 class="font-medium text-primary-dark">${tarefa.titulo}</h4>
+                <div class="text-sm text-gray-400">
                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${getPrioridadeColor(tarefa.prioridade)}-100 text-${getPrioridadeColor(tarefa.prioridade)}-800 mr-2">
                         ${tarefa.prioridade.charAt(0).toUpperCase() + tarefa.prioridade.slice(1)}
                     </span>
@@ -303,8 +303,8 @@ function exibirPlano(plano) {
                 </div>
             </div>
             <div class="text-right">
-                <div class="text-2xl font-bold text-gray-600">${tarefa.pontuacao || 'N/A'}</div>
-                <div class="text-xs text-gray-500">pontos</div>
+                <div class="text-2xl font-bold text-gray-400">${tarefa.pontuacao || 'N/A'}</div>
+                <div class="text-xs text-muted-dark">pontos</div>
             </div>
         `;
         containerTarefasDia.appendChild(tarefaDiv);
@@ -318,11 +318,11 @@ function exibirPlano(plano) {
         const diaDiv = document.createElement('div');
         diaDiv.className = 'bg-gray-50 p-3 rounded-lg';
         diaDiv.innerHTML = `
-            <h4 class="font-medium text-gray-900 mb-2">${dia.dia_semana}</h4>
-            <div class="text-xs text-gray-500 mb-2">${dia.data_formatada}</div>
+            <h4 class="font-medium text-primary-dark mb-2">${dia.dia_semana}</h4>
+            <div class="text-xs text-muted-dark mb-2">${dia.data_formatada}</div>
             <div class="space-y-1">
                 ${dia.tarefas.map(tarefa => `
-                    <div class="text-sm text-gray-700">${tarefa.titulo}</div>
+                    <div class="text-sm text-muted-dark">${tarefa.titulo}</div>
                 `).join('')}
             </div>
         `;
@@ -570,7 +570,7 @@ function exibirPlanoExistente(plano) {
     
     plano.tarefas_dia.forEach((tarefa, index) => {
         const tarefaDiv = document.createElement('div');
-        tarefaDiv.className = 'flex items-center p-3 bg-white border border-gray-200 rounded-lg';
+        tarefaDiv.className = 'flex items-center p-3 card-dark border border-gray-700 rounded-lg';
         
         // Calcular tempo estimado se não estiver definido
         const tempoEstimado = tarefa.tempo_estimado || (function() {
@@ -590,8 +590,8 @@ function exibirPlanoExistente(plano) {
                 </svg>
             </div>
             <div class="flex-1">
-                <h4 class="font-medium text-gray-900">${tarefa.titulo}</h4>
-                <div class="text-sm text-gray-600">
+                <h4 class="font-medium text-primary-dark">${tarefa.titulo}</h4>
+                <div class="text-sm text-gray-400">
                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${getPrioridadeColor(tarefa.prioridade)}-100 text-${getPrioridadeColor(tarefa.prioridade)}-800 mr-2">
                         ${tarefa.prioridade.charAt(0).toUpperCase() + tarefa.prioridade.slice(1)}
                     </span>
@@ -618,7 +618,7 @@ function exibirPlanoExistente(plano) {
                 </div>
             </div>
             <div class="text-right">
-                <div class="text-sm font-medium text-gray-900">${tarefa.status === 'pendente' ? 'Pendente' : tarefa.status === 'em_andamento' ? 'Em Andamento' : 'Concluída'}</div>
+                <div class="text-sm font-medium text-primary-dark">${tarefa.status === 'pendente' ? 'Pendente' : tarefa.status === 'em_andamento' ? 'Em Andamento' : 'Concluída'}</div>
             </div>
         `;
         containerTarefasDia.appendChild(tarefaDiv);
@@ -639,23 +639,23 @@ function exibirPlanoExistente(plano) {
             const diaDiv = document.createElement('div');
             diaDiv.className = 'bg-gray-50 p-3 rounded-lg';
             diaDiv.innerHTML = `
-                <h4 class="font-medium text-gray-900 mb-2">${dia.dia_semana}</h4>
-                <div class="text-xs text-gray-500 mb-2">${dia.data_formatada}</div>
+                <h4 class="font-medium text-primary-dark mb-2">${dia.dia_semana}</h4>
+                <div class="text-xs text-muted-dark mb-2">${dia.data_formatada}</div>
                 <div class="space-y-1">
                     ${dia.tarefas.map(tarefa => `
-                        <div class="text-sm text-gray-700 p-2 bg-white rounded border">
+                        <div class="text-sm text-muted-dark p-2 card-dark rounded border">
                             <div class="font-medium">${tarefa.titulo}</div>
-                            <div class="text-xs text-gray-500">${tarefa.prioridade.charAt(0).toUpperCase() + tarefa.prioridade.slice(1)}</div>
+                            <div class="text-xs text-muted-dark">${tarefa.prioridade.charAt(0).toUpperCase() + tarefa.prioridade.slice(1)}</div>
                         </div>
                     `).join('')}
-                    ${dia.tarefas.length === 0 ? '<div class="text-sm text-gray-500 italic">Nenhuma tarefa</div>' : ''}
+                    ${dia.tarefas.length === 0 ? '<div class="text-sm text-muted-dark italic">Nenhuma tarefa</div>' : ''}
                 </div>
             `;
             containerProximosDias.appendChild(diaDiv);
         });
     } else {
         // Se não há próximos dias, esconder a seção
-        const secaoProximosDias = document.getElementById('proximos-dias').closest('.bg-white');
+        const secaoProximosDias = document.getElementById('proximos-dias').closest('.card-dark');
         if (secaoProximosDias) {
             secaoProximosDias.style.display = 'none';
         }
