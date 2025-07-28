@@ -299,9 +299,26 @@ class DashboardController extends Controller
 
     public function processarTarefaIA(Request $request)
     {
-        $colaborador = session('colaborador');
+        \Log::info('ProcessarTarefaIA iniciado', ['tipo' => $request->input('tipo')]);
+        
+        // Tentar obter colaborador da sessão
+        $colaboradorId = session('colaborador_id');
+        \Log::info('ProcessarTarefaIA: ID do colaborador na sessão', ['id' => $colaboradorId]);
+        
+        $colaborador = null;
+        if ($colaboradorId) {
+            $colaborador = Colaborador::find($colaboradorId);
+            \Log::info('ProcessarTarefaIA: Colaborador encontrado', ['colaborador' => $colaborador ? $colaborador->nome : 'não encontrado']);
+        }
         
         if (!$colaborador) {
+            // Tentar obter diretamente da sessão (método antigo)
+            $colaborador = session('colaborador');
+            \Log::info('ProcessarTarefaIA: Tentando método antigo de sessão', ['colaborador' => $colaborador ? 'encontrado' : 'não encontrado']);
+        }
+        
+        if (!$colaborador) {
+            \Log::error('ProcessarTarefaIA: Colaborador não autenticado');
             return response()->json(['success' => false, 'message' => 'Não autorizado'], 401);
         }
 
@@ -310,39 +327,71 @@ class DashboardController extends Controller
 
         try {
             if ($tipo === 'audio') {
+                \Log::info('ProcessarTarefaIA: Processando áudio');
+                
                 // Processar áudio
                 if (!$request->hasFile('audio')) {
+                    \Log::error('ProcessarTarefaIA: Nenhum arquivo de áudio enviado');
                     return response()->json(['success' => false, 'message' => 'Nenhum arquivo de áudio enviado'], 400);
                 }
 
                 $audioFile = $request->file('audio');
+                \Log::info('ProcessarTarefaIA: Arquivo de áudio recebido', [
+                    'nome' => $audioFile->getClientOriginalName(),
+                    'tamanho' => $audioFile->getSize(),
+                    'mime' => $audioFile->getMimeType()
+                ]);
+                
                 $audioPath = $audioFile->store('temp-audio');
+                \Log::info('ProcessarTarefaIA: Áudio salvo temporariamente', ['path' => $audioPath]);
                 
                 // Usar OpenAI Whisper para transcrever
                 $apiKey = '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';
                 
-                $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $apiKey,
-                ])->attach(
-                    'file', 
-                    file_get_contents(storage_path('app/' . $audioPath)), 
-                    'audio.wav'
-                )->post('https://api.openai.com/v1/audio/transcriptions', [
-                    'model' => 'whisper-1',
-                    'language' => 'pt'
-                ]);
+                try {
+                    \Log::info('ProcessarTarefaIA: Enviando áudio para Whisper API');
+                    
+                    $response = Http::withHeaders([
+                        'Authorization' => 'Bearer ' . $apiKey,
+                    ])->attach(
+                        'file', 
+                        file_get_contents(storage_path('app/' . $audioPath)), 
+                        'audio.wav'
+                    )->post('https://api.openai.com/v1/audio/transcriptions', [
+                        'model' => 'whisper-1',
+                        'language' => 'pt'
+                    ]);
+                    
+                    \Log::info('ProcessarTarefaIA: Resposta do Whisper', [
+                        'status' => $response->status(),
+                        'success' => $response->successful()
+                    ]);
+                } catch (\Exception $e) {
+                    \Log::error('ProcessarTarefaIA: Erro ao chamar Whisper API', [
+                        'erro' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                    Storage::delete($audioPath);
+                    throw $e;
+                }
 
                 if ($response->successful()) {
                     $conteudo = $response->json()['text'];
+                    \Log::info('ProcessarTarefaIA: Áudio transcrito com sucesso', ['texto' => substr($conteudo, 0, 100) . '...']);
                     // Limpar arquivo temporário
                     Storage::delete($audioPath);
                 } else {
+                    \Log::error('ProcessarTarefaIA: Erro na resposta do Whisper', [
+                        'status' => $response->status(),
+                        'body' => $response->body()
+                    ]);
                     Storage::delete($audioPath);
-                    return response()->json(['success' => false, 'message' => 'Erro ao transcrever áudio'], 500);
+                    return response()->json(['success' => false, 'message' => 'Erro ao transcrever áudio: ' . $response->body()], 500);
                 }
             } else {
                 // Texto direto
                 $conteudo = $request->input('conteudo');
+                \Log::info('ProcessarTarefaIA: Processando texto', ['tamanho' => strlen($conteudo)]);
             }
 
             // Processar conteúdo com ChatGPT
@@ -376,32 +425,66 @@ Regras importantes:
 
 Retorne APENAS o JSON, sem explicações adicionais.";
 
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer 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',
-                'Content-Type' => 'application/json',
-            ])->post('https://api.openai.com/v1/chat/completions', [
-                'model' => 'gpt-4o-mini',
-                'messages' => [
-                    ['role' => 'system', 'content' => $prompt],
-                    ['role' => 'user', 'content' => $conteudo]
-                ],
-                'temperature' => 0.3,
-                'response_format' => ['type' => 'json_object']
-            ]);
+            \Log::info('ProcessarTarefaIA: Enviando para ChatGPT');
+            
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer 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',
+                    'Content-Type' => 'application/json',
+                ])->post('https://api.openai.com/v1/chat/completions', [
+                    'model' => 'gpt-4o-mini',
+                    'messages' => [
+                        ['role' => 'system', 'content' => $prompt],
+                        ['role' => 'user', 'content' => $conteudo]
+                    ],
+                    'temperature' => 0.3,
+                    'response_format' => ['type' => 'json_object']
+                ]);
+                
+                \Log::info('ProcessarTarefaIA: Resposta do ChatGPT', [
+                    'status' => $response->status(),
+                    'success' => $response->successful()
+                ]);
+            } catch (\Exception $e) {
+                \Log::error('ProcessarTarefaIA: Erro ao chamar ChatGPT API', [
+                    'erro' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                throw $e;
+            }
 
             if ($response->successful()) {
-                $resultado = json_decode($response->json()['choices'][0]['message']['content'], true);
+                \Log::info('ProcessarTarefaIA: ChatGPT respondeu com sucesso');
+                
+                $responseContent = $response->json()['choices'][0]['message']['content'];
+                \Log::info('ProcessarTarefaIA: Conteúdo da resposta', ['content' => $responseContent]);
+                
+                $resultado = json_decode($responseContent, true);
+                
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    \Log::error('ProcessarTarefaIA: Erro ao decodificar JSON', [
+                        'erro' => json_last_error_msg(),
+                        'content' => $responseContent
+                    ]);
+                    return response()->json(['success' => false, 'message' => 'Erro ao processar resposta da IA'], 500);
+                }
                 
                 // Processar tarefas e tentar encontrar IDs
                 $tarefasProcessadas = [];
+                \Log::info('ProcessarTarefaIA: Processando tarefas', ['total' => count($resultado['tarefas'] ?? [])]);
+                
                 foreach ($resultado['tarefas'] as $tarefa) {
                     $tarefaProcessada = $tarefa;
                     
                     // Tentar encontrar colaborador por nome
                     if (!empty($tarefa['colaborador_nome'])) {
+                        \Log::info('ProcessarTarefaIA: Buscando colaborador', ['nome' => $tarefa['colaborador_nome']]);
                         $colaboradorEncontrado = Colaborador::where('nome', 'like', '%' . $tarefa['colaborador_nome'] . '%')->first();
                         if ($colaboradorEncontrado) {
                             $tarefaProcessada['colaborador_id'] = $colaboradorEncontrado->id;
+                            \Log::info('ProcessarTarefaIA: Colaborador encontrado', ['id' => $colaboradorEncontrado->id]);
+                        } else {
+                            \Log::warning('ProcessarTarefaIA: Colaborador não encontrado', ['nome' => $tarefa['colaborador_nome']]);
                         }
                     }
                     
@@ -412,14 +495,20 @@ Retorne APENAS o JSON, sem explicações adicionais.";
                     
                     // Tentar encontrar projeto por nome
                     if (!empty($tarefa['projeto_nome'])) {
+                        \Log::info('ProcessarTarefaIA: Buscando projeto', ['nome' => $tarefa['projeto_nome']]);
                         $projetoEncontrado = Projeto::where('nome', 'like', '%' . $tarefa['projeto_nome'] . '%')->first();
                         if ($projetoEncontrado) {
                             $tarefaProcessada['projeto_id'] = $projetoEncontrado->id;
+                            \Log::info('ProcessarTarefaIA: Projeto encontrado', ['id' => $projetoEncontrado->id]);
+                        } else {
+                            \Log::warning('ProcessarTarefaIA: Projeto não encontrado', ['nome' => $tarefa['projeto_nome']]);
                         }
                     }
                     
                     $tarefasProcessadas[] = $tarefaProcessada;
                 }
+                
+                \Log::info('ProcessarTarefaIA: Processamento concluído', ['total_tarefas' => count($tarefasProcessadas)]);
                 
                 return response()->json([
                     'success' => true,
@@ -427,11 +516,20 @@ Retorne APENAS o JSON, sem explicações adicionais.";
                 ]);
                 
             } else {
-                return response()->json(['success' => false, 'message' => 'Erro ao processar com IA'], 500);
+                \Log::error('ProcessarTarefaIA: Erro na resposta do ChatGPT', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return response()->json(['success' => false, 'message' => 'Erro ao processar com IA: ' . $response->body()], 500);
             }
             
         } catch (\Exception $e) {
-            \Log::error('Erro ao processar tarefa com IA: ' . $e->getMessage());
+            \Log::error('ProcessarTarefaIA: Erro geral', [
+                'mensagem' => $e->getMessage(),
+                'arquivo' => $e->getFile(),
+                'linha' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return response()->json(['success' => false, 'message' => 'Erro ao processar: ' . $e->getMessage()], 500);
         }
     }

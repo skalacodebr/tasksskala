@@ -644,6 +644,8 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                 formData.append('audio', inputData.conteudo, 'audio.wav');
             }
             
+            console.log('Enviando requisição para /tarefa/processar-ia');
+            
             const response = await fetch('/tarefa/processar-ia', {
                 method: 'POST',
                 headers: {
@@ -651,6 +653,14 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                 },
                 body: formData
             });
+            
+            console.log('Resposta recebida:', response.status, response.statusText);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Erro na resposta:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+            }
             
             const result = await response.json();
             
@@ -663,8 +673,16 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             }
             
         } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao processar a solicitação');
+            console.error('Erro completo:', error);
+            console.error('Stack trace:', error.stack);
+            
+            let mensagemErro = 'Erro ao processar a solicitação';
+            
+            if (error.message) {
+                mensagemErro += ': ' + error.message;
+            }
+            
+            alert(mensagemErro);
         } finally {
             loadingIA.classList.add('hidden');
             textoProcessar.textContent = 'Processar com IA';
