@@ -123,6 +123,18 @@
                             @endif
                         </a>
 
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('tarefas-designadas') ? 'bg-gradient-to-r from-indigo-500/20 to-blue-500/20 border border-indigo-500/30 shadow-lg' : '' }}" href="{{ route('tarefas-designadas') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('tarefas-designadas') ? 'bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </div>
+                            <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('tarefas-designadas') ? 'text-white' : 'text-slate-300' }}">Tarefas Designadas</span>
+                            @if(request()->routeIs('tarefas-designadas'))
+                                <div class="ml-auto w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
+
                         <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('tarefa.criar') ? 'bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 shadow-lg' : '' }}" href="{{ route('tarefa.criar') }}">
                             <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('tarefa.criar') ? 'bg-gradient-to-br from-orange-500 to-red-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

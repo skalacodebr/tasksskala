@@ -25,6 +25,19 @@
             <form action="{{ route('tarefa.store') }}" method="POST" class="space-y-6">
                 @csrf
 
+                <!-- Opção de criar múltiplas tarefas -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="multiplas_tarefas" id="multiplas_tarefas" value="1" 
+                               {{ old('multiplas_tarefas') ? 'checked' : '' }}
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="multiplas_tarefas" class="ml-2 block text-sm text-gray-900 font-medium">
+                            Criar múltiplas tarefas para o mesmo projeto
+                        </label>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-600">Marque esta opção para criar várias tarefas de uma vez. Cada linha de descrição criará uma tarefa separada.</p>
+                </div>
+
                 <!-- Título -->
                 <div>
                     <label for="titulo" class="block text-sm font-medium text-gray-700">

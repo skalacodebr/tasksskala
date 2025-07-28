@@ -1,12 +1,12 @@
 @extends('layouts.colaborador')
 
-@section('title', 'Minhas Tarefas')
+@section('title', 'Tarefas Designadas')
 
 @section('content')
 <div class="space-y-6">
     <!-- Filtros -->
     <div class="bg-white shadow rounded-lg p-4">
-        <form method="GET" action="{{ route('minhas-tarefas') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <form method="GET" action="{{ route('tarefas-designadas') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Status</label>
                 <select name="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
@@ -20,13 +20,14 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700">Prioridade</label>
-                <select name="prioridade" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">Todas</option>
-                    <option value="urgente" {{ request('prioridade') == 'urgente' ? 'selected' : '' }}>Urgente</option>
-                    <option value="alta" {{ request('prioridade') == 'alta' ? 'selected' : '' }}>Alta</option>
-                    <option value="media" {{ request('prioridade') == 'media' ? 'selected' : '' }}>Média</option>
-                    <option value="baixa" {{ request('prioridade') == 'baixa' ? 'selected' : '' }}>Baixa</option>
+                <label class="block text-sm font-medium text-gray-700">Colaborador</label>
+                <select name="colaborador_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Todos</option>
+                    @foreach($colaboradores as $colab)
+                        <option value="{{ $colab->id }}" {{ request('colaborador_id') == $colab->id ? 'selected' : '' }}>
+                            {{ $colab->nome }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
@@ -46,7 +47,7 @@
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Filtrar
                 </button>
-                <a href="{{ route('minhas-tarefas') }}" class="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                <a href="{{ route('tarefas-designadas') }}" class="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                     Limpar
                 </a>
             </div>
@@ -72,15 +73,14 @@
                                         </p>
                                     @endif
                                     <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                                        <span class="font-semibold">Responsável: {{ $tarefa->colaborador->nome }}</span>
                                         @if($tarefa->projeto)
                                             <span>Projeto: {{ $tarefa->projeto->nome }}</span>
                                         @endif
                                         @if($tarefa->data_vencimento)
                                             <span>Vencimento: {{ $tarefa->data_vencimento->format('d/m/Y H:i') }}</span>
                                         @endif
-                                        @if($tarefa->data_inicio && $tarefa->data_fim)
-                                            <span>Duração: {{ $tarefa->duracao_formatada }}</span>
-                                        @endif
+                                        <span>Criada em: {{ $tarefa->created_at->format('d/m/Y H:i') }}</span>
                                     </div>
                                     <div class="mt-2 flex items-center space-x-2">
                                         @php
@@ -132,46 +132,9 @@
                         </div>
                         
                         <div class="flex items-center space-x-2">
-                            <!-- Botões de Ação -->
-                            @if($tarefa->status == 'pendente')
-                                <form action="{{ route('tarefa.iniciar', $tarefa) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
-                                        Iniciar
-                                    </button>
-                                </form>
-                            @endif
-
-                            @if($tarefa->status == 'em_andamento')
-                                @if($tarefa->pausada)
-                                    <form action="{{ route('tarefa.continuar', $tarefa) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm">
-                                            Continuar
-                                        </button>
-                                    </form>
-                                @else
-                                    <form action="{{ route('tarefa.pausar', $tarefa) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm">
-                                            Pausar
-                                        </button>
-                                    </form>
-                                @endif
-                                <button type="button" onclick="openConcluirModal({{ $tarefa->id }})" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
-                                    Concluir
-                                </button>
-                            @endif
-
                             <!-- Botão Ver -->
-                            <a href="{{ route('tarefa.detalhes', $tarefa) }}" class="text-blue-600 hover:text-blue-900">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                </svg>
+                            <a href="{{ route('tarefa.detalhes', $tarefa) }}" class="text-blue-600 hover:text-blue-900 px-3 py-1 rounded text-sm border border-blue-600 hover:bg-blue-50">
+                                Ver Detalhes
                             </a>
                         </div>
                     </div>
@@ -179,7 +142,7 @@
             </li>
             @empty
             <li class="px-4 py-4 sm:px-6 text-center text-gray-500">
-                Nenhuma tarefa encontrada.
+                Você ainda não designou nenhuma tarefa para outros colaboradores.
             </li>
             @endforelse
         </ul>
@@ -192,41 +155,4 @@
     @endif
 </div>
 
-<!-- Modal Concluir Tarefa -->
-<div id="concluirModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <div class="mt-3">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Concluir Tarefa</h3>
-            <form id="concluirForm" method="POST">
-                @csrf
-                @method('PATCH')
-                <div class="mb-4">
-                    <label for="observacoes_concluir" class="block text-sm font-medium text-gray-700">Observações (opcional)</label>
-                    <textarea name="observacoes" id="observacoes_concluir" rows="3" 
-                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
-                </div>
-                <div class="flex justify-end space-x-3">
-                    <button type="button" onclick="closeConcluirModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Concluir
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-function openConcluirModal(tarefaId) {
-    document.getElementById('concluirForm').action = `/tarefa/${tarefaId}/concluir`;
-    document.getElementById('concluirModal').classList.remove('hidden');
-}
-
-function closeConcluirModal() {
-    document.getElementById('concluirModal').classList.add('hidden');
-    document.getElementById('observacoes_concluir').value = '';
-}
-</script>
 @endsection
