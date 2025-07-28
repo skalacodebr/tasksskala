@@ -102,6 +102,9 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     
     // Tarefas designadas
     Route::get('/tarefas-designadas', [DashboardController::class, 'tarefasDesignadas'])->name('tarefas-designadas');
+    
+    // Exportar tarefas
+    Route::get('/tarefas/exportar', [DashboardController::class, 'exportarTarefas'])->name('tarefas.exportar');
 });
 
 // Rotas do Cliente (protegidas)

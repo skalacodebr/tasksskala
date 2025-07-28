@@ -12,7 +12,7 @@
                     <h1 class="text-2xl font-bold text-primary-dark">Criar Novo Projeto</h1>
                     <p class="text-gray-400 mt-1">Preencha as informações do projeto</p>
                 </div>
-                <a href="{{ route('projetos.index') }}" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                <a href="{{ route('projetos.index') }}" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                     Voltar
                 </a>
             </div>
@@ -32,7 +32,7 @@
                     </label>
                     <input type="text" name="nome" id="nome" required 
                            value="{{ old('nome') }}"
-                           class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                           class="mt-1 block w-full input-dark rounded-md shadow-sm">
                     @error('nome')
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                     @enderror
@@ -46,7 +46,7 @@
                             Cliente *
                         </label>
                         <select name="cliente_id" id="cliente_id" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             <option value="">Selecione um cliente</option>
                             @foreach($clientes as $cliente)
                                 <option value="{{ $cliente->id }}" {{ old('cliente_id') == $cliente->id ? 'selected' : '' }}>
@@ -65,7 +65,7 @@
                             Responsável *
                         </label>
                         <select name="responsavel_id" id="responsavel_id" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             @foreach($colaboradores as $colab)
                                 <option value="{{ $colab->id }}" {{ old('responsavel_id', $colaborador->id) == $colab->id ? 'selected' : '' }}>
                                     {{ $colab->nome }} @if($colab->id == $colaborador->id)(Você)@endif
@@ -84,7 +84,7 @@
                         Descrição do Projeto
                     </label>
                     <textarea name="descricao" id="descricao" rows="4"
-                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              class="mt-1 block w-full input-dark rounded-md shadow-sm"
                               placeholder="Descreva os objetivos e escopo do projeto...">{{ old('descricao') }}</textarea>
                     @error('descricao')
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
@@ -99,7 +99,7 @@
                             Status *
                         </label>
                         <select name="status" id="status" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             <option value="planejamento" {{ old('status', 'planejamento') == 'planejamento' ? 'selected' : '' }}>Planejamento</option>
                             <option value="em_andamento" {{ old('status') == 'em_andamento' ? 'selected' : '' }}>Em Andamento</option>
                             <option value="em_teste" {{ old('status') == 'em_teste' ? 'selected' : '' }}>Em Teste</option>
@@ -120,7 +120,7 @@
                         <input type="date" name="prazo_entrega" id="prazo_entrega"
                                value="{{ old('prazo_entrega') }}"
                                min="{{ now()->addDay()->format('Y-m-d') }}"
-                               class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                               class="mt-1 block w-full input-dark rounded-md shadow-sm">
                         @error('prazo_entrega')
                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
@@ -134,7 +134,7 @@
                         <input type="url" name="link_repositorio" id="link_repositorio"
                                value="{{ old('link_repositorio') }}"
                                placeholder="https://github.com/..."
-                               class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                               class="mt-1 block w-full input-dark rounded-md shadow-sm">
                         @error('link_repositorio')
                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
@@ -163,7 +163,7 @@
                         Anotações Gerais
                     </label>
                     <textarea name="anotacoes" id="anotacoes" rows="3"
-                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              class="mt-1 block w-full input-dark rounded-md shadow-sm"
                               placeholder="Anotações importantes sobre o projeto...">{{ old('anotacoes') }}</textarea>
                     @error('anotacoes')
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
@@ -178,7 +178,7 @@
                             Instruções para Acesso ao Ambiente de Teste
                         </label>
                         <textarea name="instrucoes_ambiente_teste" id="instrucoes_ambiente_teste" rows="4"
-                                  class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                  class="mt-1 block w-full input-dark rounded-md shadow-sm"
                                   placeholder="Ex: URL, usuário, senha, informações específicas para acesso ao ambiente de teste...">{{ old('instrucoes_ambiente_teste') }}</textarea>
                         @error('instrucoes_ambiente_teste')
                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
@@ -192,7 +192,7 @@
                             Instruções para Acesso ao Ambiente de Produção
                         </label>
                         <textarea name="instrucoes_ambiente_producao" id="instrucoes_ambiente_producao" rows="4"
-                                  class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                  class="mt-1 block w-full input-dark rounded-md shadow-sm"
                                   placeholder="Ex: URL, usuário, senha, informações específicas para acesso ao ambiente de produção...">{{ old('instrucoes_ambiente_producao') }}</textarea>
                         @error('instrucoes_ambiente_producao')
                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
@@ -204,7 +204,7 @@
                 <!-- Botões de Ação -->
                 <div class="flex justify-end space-x-3 pt-6 border-t border-gray-700">
                     <a href="{{ route('projetos.index') }}" 
-                       class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                       class="btn-secondary-dark font-bold py-2 px-4 rounded">
                         Cancelar
                     </a>
                     <button type="submit" 

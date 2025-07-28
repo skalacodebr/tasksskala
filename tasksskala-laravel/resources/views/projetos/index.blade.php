@@ -35,7 +35,7 @@
                                id="search" 
                                value="{{ request('search') }}"
                                placeholder="Digite o nome do projeto..."
-                               class="w-full rounded-md border-gray-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                               class="w-full input-dark rounded-md shadow-sm">
                     </div>
 
                     <!-- Filtro por responsável -->
@@ -43,7 +43,7 @@
                         <label for="responsavel_id" class="block text-sm font-medium text-muted-dark mb-1">Responsável</label>
                         <select name="responsavel_id" 
                                 id="responsavel_id" 
-                                class="w-full rounded-md border-gray-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full input-dark rounded-md shadow-sm">
                             <option value="">Todos os responsáveis</option>
                             @foreach(\App\Models\Colaborador::orderBy('nome')->get() as $colaborador)
                                 <option value="{{ $colaborador->id }}" {{ request('responsavel_id') == $colaborador->id ? 'selected' : '' }}>
@@ -62,7 +62,7 @@
                             Filtrar
                         </button>
                         @if(request()->hasAny(['search', 'responsavel_id']))
-                            <a href="{{ route('projetos.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+                            <a href="{{ route('projetos.index') }}" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                                 Limpar
                             </a>
                         @endif
@@ -78,7 +78,7 @@
             @if($projetos->count() > 0)
                 <div class="space-y-4">
                     @foreach($projetos as $projeto)
-                        <div class="border border-gray-700 rounded-lg p-4 hover:bg-gray-50">
+                        <div class="border border-gray-700 rounded-lg p-4 hover:bg-gray-800">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
                                     <div class="flex items-center space-x-3">
@@ -91,15 +91,15 @@
                                         <!-- Status Badge -->
                                         @php
                                             $statusColors = [
-                                                'planejamento' => 'bg-gray-100 text-primary-dark',
-                                                'em_andamento' => 'bg-blue-100 text-blue-800',
-                                                'em_teste' => 'bg-yellow-100 text-yellow-800',
-                                                'aprovacao_app' => 'bg-purple-100 text-purple-800',
-                                                'concluido' => 'bg-green-100 text-green-800',
-                                                'cancelado' => 'bg-red-100 text-red-800'
+                                                'planejamento' => 'bg-gray-800 text-gray-200',
+                                                'em_andamento' => 'bg-blue-800 text-blue-200',
+                                                'em_teste' => 'bg-yellow-800 text-yellow-200',
+                                                'aprovacao_app' => 'bg-purple-800 text-purple-200',
+                                                'concluido' => 'bg-green-800 text-green-200',
+                                                'cancelado' => 'bg-red-800 text-red-200'
                                             ];
                                         @endphp
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$projeto->status] ?? 'bg-gray-100 text-primary-dark' }}">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$projeto->status] ?? 'bg-gray-800 text-gray-200' }}">
                                             {{ ucfirst(str_replace('_', ' ', $projeto->status)) }}
                                         </span>
                                     </div>

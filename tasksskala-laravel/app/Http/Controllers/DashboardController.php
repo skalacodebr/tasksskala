@@ -1274,4 +1274,55 @@ Retorne APENAS o JSON, sem explicações adicionais.";
 
         return redirect()->back()->with('success', 'Tarefa transferida com sucesso!');
     }
+    
+    public function exportarTarefas(Request $request)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador) {
+            return redirect('/login');
+        }
+
+        $validated = $request->validate([
+            'projeto_id' => 'required|exists:projetos,id'
+        ]);
+
+        // Buscar tarefas pendentes do projeto para o colaborador
+        $tarefas = Tarefa::where('colaborador_id', $colaborador->id)
+            ->where('projeto_id', $validated['projeto_id'])
+            ->whereIn('status', ['pendente', 'em_andamento'])
+            ->orderBy('prioridade', 'desc')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $projeto = Projeto::find($validated['projeto_id']);
+
+        // Formatar o texto
+        $texto = "TAREFAS DO PROJETO: " . $projeto->nome . "\n";
+        $texto .= "Data de exportação: " . now()->format('d/m/Y H:i') . "\n";
+        $texto .= "Total de tarefas pendentes: " . $tarefas->count() . "\n";
+        $texto .= str_repeat('=', 80) . "\n\n";
+
+        foreach ($tarefas as $index => $tarefa) {
+            $texto .= ($index + 1) . ". " . $tarefa->titulo . "\n";
+            
+            if ($tarefa->descricao) {
+                $texto .= "Descrição: " . $tarefa->descricao . "\n";
+            }
+            
+            $texto .= "Status: " . ucfirst(str_replace('_', ' ', $tarefa->status)) . "\n";
+            $texto .= "Prioridade: " . ucfirst($tarefa->prioridade) . "\n";
+            
+            if ($tarefa->data_vencimento) {
+                $texto .= "Vencimento: " . $tarefa->data_vencimento->format('d/m/Y') . "\n";
+            }
+            
+            $texto .= "\n" . str_repeat('-', 60) . "\n\n";
+        }
+
+        // Criar response com o texto
+        return response($texto)
+            ->header('Content-Type', 'text/plain; charset=UTF-8')
+            ->header('Content-Disposition', 'attachment; filename="tarefas_' . Str::slug($projeto->nome) . '_' . now()->format('Y-m-d') . '.txt"');
+    }
 }

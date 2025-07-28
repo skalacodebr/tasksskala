@@ -15,23 +15,23 @@
                     <div class="flex flex-wrap gap-3 mt-3">
                         @php
                             $statusColors = [
-                                'planejamento' => 'bg-gray-100 text-primary-dark',
-                                'em_andamento' => 'bg-blue-100 text-blue-800',
-                                'em_teste' => 'bg-yellow-100 text-yellow-800',
-                                'aprovacao_app' => 'bg-purple-100 text-purple-800',
-                                'concluido' => 'bg-green-100 text-green-800',
-                                'cancelado' => 'bg-red-100 text-red-800'
+                                'planejamento' => 'bg-gray-800 text-gray-200',
+                                'em_andamento' => 'bg-blue-800 text-blue-200',
+                                'em_teste' => 'bg-yellow-800 text-yellow-200',
+                                'aprovacao_app' => 'bg-purple-800 text-purple-200',
+                                'concluido' => 'bg-green-800 text-green-200',
+                                'cancelado' => 'bg-red-800 text-red-200'
                             ];
                         @endphp
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $statusColors[$projeto->status] ?? 'bg-gray-100 text-primary-dark' }}">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $statusColors[$projeto->status] ?? 'bg-gray-800 text-gray-200' }}">
                             {{ ucfirst(str_replace('_', ' ', $projeto->status)) }}
                         </span>
                         
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-800 text-blue-200">
                             Cliente: {{ $projeto->cliente->nome ?? 'Não informado' }}
                         </span>
                         
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-800 text-green-200">
                             Responsável: {{ $projeto->colaboradorResponsavel->nome ?? 'Não informado' }}
                         </span>
                     </div>
@@ -125,13 +125,13 @@
                                     <div class="text-right">
                                         @php
                                             $statusColors = [
-                                                'pendente' => 'bg-gray-100 text-primary-dark',
-                                                'em_andamento' => 'bg-blue-100 text-blue-800',
-                                                'concluida' => 'bg-green-100 text-green-800',
-                                                'cancelada' => 'bg-red-100 text-red-800'
+                                                'pendente' => 'bg-gray-800 text-gray-200',
+                                                'em_andamento' => 'bg-blue-800 text-blue-200',
+                                                'concluida' => 'bg-green-800 text-green-200',
+                                                'cancelada' => 'bg-red-800 text-red-200'
                                             ];
                                         @endphp
-                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-100 text-primary-dark' }}">
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-800 text-gray-200' }}">
                                             {{ ucfirst(str_replace('_', ' ', $tarefa->status)) }}
                                         </span>
                                     </div>

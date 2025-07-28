@@ -49,6 +49,9 @@
                 <a href="{{ route('minhas-tarefas') }}" class="ml-2 btn-secondary-dark font-bold py-2 px-4 rounded">
                     Limpar
                 </a>
+                <button type="button" onclick="openExportModal()" class="ml-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Exportar Tarefas
+                </button>
             </div>
         </form>
     </div>
@@ -218,6 +221,34 @@
     </div>
 </div>
 
+<!-- Modal Exportar Tarefas -->
+<div id="exportModal" class="fixed inset-0 bg-black bg-opacity-80 overflow-y-auto h-full w-full hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md card-dark">
+        <div class="mt-3">
+            <h3 class="text-lg font-medium text-primary-dark mb-4">Exportar Tarefas do Projeto</h3>
+            <form id="exportForm" action="{{ route('tarefas.exportar') }}" method="GET" target="_blank">
+                <div class="mb-4">
+                    <label for="projeto_export" class="block text-sm font-medium text-muted-dark">Selecione o Projeto</label>
+                    <select name="projeto_id" id="projeto_export" class="mt-1 block w-full input-dark rounded-md shadow-sm">
+                        <option value="">Selecione um projeto</option>
+                        @foreach($projetos as $projeto)
+                            <option value="{{ $projeto->id }}">{{ $projeto->nome }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeExportModal()" class="btn-secondary-dark font-bold py-2 px-4 rounded">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Exportar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
 function openConcluirModal(tarefaId) {
     document.getElementById('concluirForm').action = `/tarefa/${tarefaId}/concluir`;
@@ -227,6 +258,15 @@ function openConcluirModal(tarefaId) {
 function closeConcluirModal() {
     document.getElementById('concluirModal').classList.add('hidden');
     document.getElementById('observacoes_concluir').value = '';
+}
+
+function openExportModal() {
+    document.getElementById('exportModal').classList.remove('hidden');
+}
+
+function closeExportModal() {
+    document.getElementById('exportModal').classList.add('hidden');
+    document.getElementById('projeto_export').value = '';
 }
 </script>
 @endsection
