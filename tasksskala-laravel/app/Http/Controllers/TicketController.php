@@ -143,4 +143,34 @@ class TicketController extends Controller
         return redirect()->route('tickets.show', $ticket)
             ->with('success', 'Status alterado com sucesso!');
     }
+
+    public function transferir(Request $request, Ticket $ticket)
+    {
+        $validated = $request->validate([
+            'novo_responsavel_id' => 'required|exists:colaboradores,id'
+        ]);
+        
+        $colaboradorAnterior = $ticket->atribuidoPara;
+        
+        $ticket->update([
+            'atribuido_para' => $validated['novo_responsavel_id']
+        ]);
+        
+        // Adicionar mensagem interna sobre a transferência
+        $mensagem = 'Responsabilidade transferida';
+        if ($colaboradorAnterior) {
+            $mensagem .= ' de ' . $colaboradorAnterior->nome;
+        }
+        $mensagem .= ' para ' . $ticket->atribuidoPara->nome;
+        
+        TicketMensagem::create([
+            'ticket_id' => $ticket->id,
+            'mensagem' => $mensagem,
+            'colaborador_id' => session('colaborador_id'),
+            'is_internal' => true
+        ]);
+        
+        return redirect()->route('tickets.show', $ticket)
+            ->with('success', 'Responsabilidade transferida com sucesso!');
+    }
 }

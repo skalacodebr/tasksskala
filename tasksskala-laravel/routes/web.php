@@ -92,6 +92,7 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::post('/tickets/{ticket}/atribuir', [App\Http\Controllers\TicketController::class, 'atribuir'])->name('tickets.atribuir');
     Route::post('/tickets/{ticket}/responder', [App\Http\Controllers\TicketController::class, 'responder'])->name('tickets.responder');
     Route::patch('/tickets/{ticket}/status', [App\Http\Controllers\TicketController::class, 'alterarStatus'])->name('tickets.status');
+    Route::post('/tickets/{ticket}/transferir', [App\Http\Controllers\TicketController::class, 'transferir'])->name('tickets.transferir');
     
     // Tutoriais para colaboradores
     Route::get('/tutoriais', [DashboardController::class, 'tutoriais'])->name('tutoriais');
