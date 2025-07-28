@@ -47,7 +47,7 @@
                                             <p class="text-sm text-muted-dark">
                                                 {{ $mensagem->created_at->format('d/m/Y H:i') }}
                                                 @if($mensagem->is_internal)
-                                                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-800 text-yellow-200">
                                                         Nota Interna
                                                     </span>
                                                 @endif

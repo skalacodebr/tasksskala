@@ -13,19 +13,19 @@
             <div class="text-2xl font-bold text-primary-dark">{{ $stats['total'] }}</div>
             <div class="text-sm text-muted-dark">Total de Tickets</div>
         </div>
-        <div class="bg-blue-50 p-6 rounded-lg shadow">
+        <div class="bg-blue-900 bg-opacity-20 p-6 rounded-lg shadow">
             <div class="text-2xl font-bold text-blue-900">{{ $stats['abertos'] }}</div>
             <div class="text-sm text-blue-700">Abertos</div>
         </div>
-        <div class="bg-yellow-50 p-6 rounded-lg shadow">
+        <div class="bg-yellow-900 bg-opacity-20 p-6 rounded-lg shadow">
             <div class="text-2xl font-bold text-yellow-900">{{ $stats['em_andamento'] }}</div>
             <div class="text-sm text-yellow-700">Em Andamento</div>
         </div>
-        <div class="bg-purple-50 p-6 rounded-lg shadow">
+        <div class="bg-purple-900 bg-opacity-20 p-6 rounded-lg shadow">
             <div class="text-2xl font-bold text-purple-900">{{ $stats['respondidos'] }}</div>
             <div class="text-sm text-purple-700">Respondidos</div>
         </div>
-        <div class="bg-gray-50 p-6 rounded-lg shadow">
+        <div class="bg-gray-800 p-6 rounded-lg shadow">
             <div class="text-2xl font-bold text-primary-dark">{{ $stats['fechados'] }}</div>
             <div class="text-sm text-muted-dark">Fechados</div>
         </div>
@@ -67,7 +67,7 @@
         <ul class="divide-y divide-gray-700">
             @forelse($tickets as $ticket)
             <li>
-                <a href="{{ route('tickets.show', $ticket) }}" class="block hover:bg-gray-50 px-4 py-4 sm:px-6">
+                <a href="{{ route('tickets.show', $ticket) }}" class="block hover:bg-gray-800 px-4 py-4 sm:px-6">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">

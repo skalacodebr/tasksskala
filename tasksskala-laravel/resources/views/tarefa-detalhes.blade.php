@@ -15,35 +15,35 @@
                     <div class="flex flex-wrap gap-2 mt-3">
                         @php
                             $statusColors = [
-                                'pendente' => 'bg-gray-100 text-primary-dark',
-                                'em_andamento' => 'bg-blue-100 text-blue-800',
-                                'concluida' => 'bg-green-100 text-green-800',
-                                'cancelada' => 'bg-red-100 text-red-800'
+                                'pendente' => 'bg-gray-800 text-primary-dark',
+                                'em_andamento' => 'bg-blue-800 text-blue-200',
+                                'concluida' => 'bg-green-800 text-green-200',
+                                'cancelada' => 'bg-red-800 text-red-200'
                             ];
                             $prioridadeColors = [
-                                'baixa' => 'bg-green-100 text-green-800',
-                                'media' => 'bg-yellow-100 text-yellow-800',
-                                'alta' => 'bg-orange-100 text-orange-800',
-                                'urgente' => 'bg-red-100 text-red-800'
+                                'baixa' => 'bg-green-800 text-green-200',
+                                'media' => 'bg-yellow-800 text-yellow-200',
+                                'alta' => 'bg-orange-800 text-orange-200',
+                                'urgente' => 'bg-red-800 text-red-200'
                             ];
                         @endphp
                         
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-100 text-primary-dark' }}">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-800 text-primary-dark' }}">
                             {{ ucfirst(str_replace('_', ' ', $tarefa->status)) }}
                         </span>
                         
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $prioridadeColors[$tarefa->prioridade] ?? 'bg-gray-100 text-primary-dark' }}">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $prioridadeColors[$tarefa->prioridade] ?? 'bg-gray-800 text-primary-dark' }}">
                             Prioridade: {{ ucfirst($tarefa->prioridade) }}
                         </span>
 
                         @if($tarefa->recorrente)
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-800 text-blue-200">
                                 Recorrente ({{ ucfirst($tarefa->frequencia_recorrencia) }})
                             </span>
                         @endif
                         
                         @if($tarefa->pausada)
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-800 text-yellow-200">
                                 Pausada
                             </span>
                         @endif
@@ -134,7 +134,7 @@
                     </div>
                     
                     @if($tarefa->notas)
-                        <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="bg-gray-800 rounded-lg p-4">
                             <div class="whitespace-pre-line text-muted-dark">{{ $tarefa->notas }}</div>
                         </div>
                     @else
@@ -180,7 +180,7 @@
                                         <div class="relative pb-8">
                                             <div class="relative flex space-x-3">
                                                 <div>
-                                                    <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                    <span class="h-8 w-8 rounded-full bg-blue-900 bg-opacity-200 flex items-center justify-center ring-8 ring-white">
                                                         <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                                                         </svg>
@@ -232,7 +232,7 @@
                                         <div class="relative">
                                             <div class="relative flex space-x-3">
                                                 <div>
-                                                    <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                    <span class="h-8 w-8 rounded-full bg-green-900 bg-opacity-200 flex items-center justify-center ring-8 ring-white">
                                                         <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                                         </svg>
@@ -335,7 +335,7 @@
 </div>
 
 <!-- Modal Concluir Tarefa -->
-<div id="concluirModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+<div id="concluirModal" class="fixed inset-0 bg-black bg-opacity-80 overflow-y-auto h-full w-full hidden">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md card-dark">
         <div class="mt-3">
             <h3 class="text-lg font-medium text-primary-dark mb-4">Concluir Tarefa</h3>
@@ -345,7 +345,7 @@
                 <div class="mb-4">
                     <label for="observacoes_concluir" class="block text-sm font-medium text-muted-dark">Observações (opcional)</label>
                     <textarea name="observacoes" id="observacoes_concluir" rows="3" 
-                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                              class="mt-1 block w-full input-dark rounded-md shadow-sm"></textarea>
                 </div>
                 <div class="flex justify-end space-x-3">
                     <button type="button" onclick="closeConcluirModal()" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
@@ -361,7 +361,7 @@
 </div>
 
 <!-- Modal Adicionar Nota -->
-<div id="notaModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+<div id="notaModal" class="fixed inset-0 bg-black bg-opacity-80 overflow-y-auto h-full w-full hidden">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md card-dark">
         <div class="mt-3">
             <h3 class="text-lg font-medium text-primary-dark mb-4">Adicionar Nota</h3>
@@ -370,7 +370,7 @@
                 <div class="mb-4">
                     <label for="nota" class="block text-sm font-medium text-muted-dark">Nota</label>
                     <textarea name="nota" id="nota" rows="3" required
-                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                              class="mt-1 block w-full input-dark rounded-md shadow-sm"></textarea>
                 </div>
                 <div class="flex justify-end space-x-3">
                     <button type="button" onclick="closeNotaModal()" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
@@ -386,7 +386,7 @@
 </div>
 
 <!-- Modal Transferir Tarefa -->
-<div id="transferirModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+<div id="transferirModal" class="fixed inset-0 bg-black bg-opacity-80 overflow-y-auto h-full w-full hidden">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md card-dark">
         <div class="mt-3">
             <h3 class="text-lg font-medium text-primary-dark mb-4">Transferir Tarefa</h3>

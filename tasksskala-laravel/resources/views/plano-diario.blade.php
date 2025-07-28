@@ -22,7 +22,7 @@
 
     <!-- Estatísticas Rápidas -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div class="bg-blue-900 bg-opacity-20 border border-blue-700 rounded-lg p-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <svg class="h-8 w-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="bg-yellow-900 bg-opacity-20 border border-yellow-700 rounded-lg p-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <svg class="h-8 w-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div class="bg-red-900 bg-opacity-20 border border-red-700 rounded-lg p-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <svg class="h-8 w-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@
                             Horas de Trabalho
                         </label>
                         <select name="horas_trabalho" id="horas_trabalho" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             <option value="4">4 horas</option>
                             <option value="6">6 horas</option>
                             <option value="8" selected>8 horas</option>
@@ -97,7 +97,7 @@
                             Tempo Pomodoro
                         </label>
                         <select name="tempo_pomodoro" id="tempo_pomodoro" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             <option value="25" selected>25 minutos</option>
                             <option value="30">30 minutos</option>
                             <option value="45">45 minutos</option>
@@ -110,7 +110,7 @@
                             Prioridade Mínima
                         </label>
                         <select name="prioridade_minima" id="prioridade_minima" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             <option value="baixa">Baixa</option>
                             <option value="media" selected>Média</option>
                             <option value="alta">Alta</option>
@@ -143,7 +143,7 @@
     <!-- Resultado do Plano -->
     <div id="resultado-plano" class="hidden space-y-6">
         <!-- Plano do Dia -->
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-700 rounded-lg">
             <div class="px-4 py-5 sm:p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg leading-6 font-medium text-primary-dark">
@@ -212,7 +212,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <select id="tipo-sessao" class="border-gray-600 rounded-md shadow-sm">
+                    <select id="tipo-sessao" class="input-dark rounded-md shadow-sm">
                         <option value="25">Foco (25 min)</option>
                         <option value="5">Pausa Curta (5 min)</option>
                         <option value="15">Pausa Longa (15 min)</option>
@@ -284,19 +284,19 @@ function exibirPlano(plano) {
                     ${tarefa.projeto ? ' • Projeto: ' + tarefa.projeto.nome : ''}
                 </div>
                 <div class="flex space-x-2 mt-2">
-                    <a href="/tarefa/${tarefa.id}/detalhes" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200">Ver Detalhes</a>
+                    <a href="/tarefa/${tarefa.id}/detalhes" class="text-xs bg-blue-800 text-blue-200 px-2 py-1 rounded hover:bg-blue-200">Ver Detalhes</a>
                     ${tarefa.status === 'pendente' ? `
-                        <button onclick="iniciarTarefa(${tarefa.id})" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded hover:bg-green-200">
+                        <button onclick="iniciarTarefa(${tarefa.id})" class="text-xs bg-green-800 text-green-200 px-2 py-1 rounded hover:bg-green-200">
                             ▶️ Iniciar
                         </button>
                     ` : ''}
                     ${tarefa.status === 'em_andamento' ? `
-                        <button onclick="concluirTarefa(${tarefa.id})" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200">
+                        <button onclick="concluirTarefa(${tarefa.id})" class="text-xs bg-blue-800 text-blue-200 px-2 py-1 rounded hover:bg-blue-200">
                             ✅ Concluir
                         </button>
                     ` : ''}
                     ${tarefa.status === 'concluida' ? `
-                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                        <span class="text-xs bg-green-800 text-green-200 px-2 py-1 rounded">
                             ✅ Concluída
                         </span>
                     ` : ''}
@@ -316,7 +316,7 @@ function exibirPlano(plano) {
     
     plano.proximos_dias.forEach(dia => {
         const diaDiv = document.createElement('div');
-        diaDiv.className = 'bg-gray-50 p-3 rounded-lg';
+        diaDiv.className = 'bg-gray-800 p-3 rounded-lg';
         diaDiv.innerHTML = `
             <h4 class="font-medium text-primary-dark mb-2">${dia.dia_semana}</h4>
             <div class="text-xs text-muted-dark mb-2">${dia.data_formatada}</div>
@@ -371,7 +371,7 @@ async function salvarPlano() {
             
             // Mudar o botão para indicar que foi salvo
             btnSalvar.textContent = '✅ Plano Salvo';
-            btnSalvar.className = 'bg-gray-500 text-white font-bold py-2 px-6 rounded-lg cursor-not-allowed';
+            btnSalvar.className = 'bg-gray-8000 text-white font-bold py-2 px-6 rounded-lg cursor-not-allowed';
             
             // Esconder o formulário de configuração
             document.getElementById('configuracao-plano').style.display = 'none';
@@ -457,7 +457,7 @@ function mostrarToast(message, type = 'success') {
     // Criar elemento de toast
     const toast = document.createElement('div');
     toast.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${
-        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+        type === 'success' ? 'bg-green-900 bg-opacity-200 text-white' : 'bg-red-900 bg-opacity-200 text-white'
     }`;
     toast.textContent = message;
     
@@ -599,19 +599,19 @@ function exibirPlanoExistente(plano) {
                     ${tarefa.projeto ? ' • Projeto: ' + tarefa.projeto.nome : ''}
                 </div>
                 <div class="flex space-x-2 mt-2">
-                    <a href="/tarefa/${tarefa.id}/detalhes" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200">Ver Detalhes</a>
+                    <a href="/tarefa/${tarefa.id}/detalhes" class="text-xs bg-blue-800 text-blue-200 px-2 py-1 rounded hover:bg-blue-200">Ver Detalhes</a>
                     ${tarefa.status === 'pendente' ? `
-                        <button onclick="iniciarTarefa(${tarefa.id})" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded hover:bg-green-200">
+                        <button onclick="iniciarTarefa(${tarefa.id})" class="text-xs bg-green-800 text-green-200 px-2 py-1 rounded hover:bg-green-200">
                             ▶️ Iniciar
                         </button>
                     ` : ''}
                     ${tarefa.status === 'em_andamento' ? `
-                        <button onclick="concluirTarefa(${tarefa.id})" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200">
+                        <button onclick="concluirTarefa(${tarefa.id})" class="text-xs bg-blue-800 text-blue-200 px-2 py-1 rounded hover:bg-blue-200">
                             ✅ Concluir
                         </button>
                     ` : ''}
                     ${tarefa.status === 'concluida' ? `
-                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                        <span class="text-xs bg-green-800 text-green-200 px-2 py-1 rounded">
                             ✅ Concluída
                         </span>
                     ` : ''}
@@ -637,7 +637,7 @@ function exibirPlanoExistente(plano) {
         
         plano.proximos_dias.forEach(dia => {
             const diaDiv = document.createElement('div');
-            diaDiv.className = 'bg-gray-50 p-3 rounded-lg';
+            diaDiv.className = 'bg-gray-800 p-3 rounded-lg';
             diaDiv.innerHTML = `
                 <h4 class="font-medium text-primary-dark mb-2">${dia.dia_semana}</h4>
                 <div class="text-xs text-muted-dark mb-2">${dia.data_formatada}</div>
@@ -664,7 +664,7 @@ function exibirPlanoExistente(plano) {
     // Atualizar botões
     const btnSalvar = document.getElementById('btn-salvar-plano');
     btnSalvar.textContent = '✅ Plano Salvo';
-    btnSalvar.className = 'bg-gray-500 text-white font-bold py-2 px-6 rounded-lg cursor-not-allowed';
+    btnSalvar.className = 'bg-gray-8000 text-white font-bold py-2 px-6 rounded-lg cursor-not-allowed';
     btnSalvar.disabled = true;
     
     // Mostrar botão de regerar

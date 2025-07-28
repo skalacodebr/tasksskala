@@ -85,44 +85,44 @@
                                     <div class="mt-2 flex items-center space-x-2">
                                         @php
                                             $statusColors = [
-                                                'pendente' => 'bg-gray-100 text-gray-800',
-                                                'em_andamento' => 'bg-blue-100 text-blue-800',
-                                                'concluida' => 'bg-green-100 text-green-800',
-                                                'cancelada' => 'bg-red-100 text-red-800'
+                                                'pendente' => 'bg-gray-800 text-gray-800',
+                                                'em_andamento' => 'bg-blue-800 text-blue-200',
+                                                'concluida' => 'bg-green-800 text-green-200',
+                                                'cancelada' => 'bg-red-800 text-red-200'
                                             ];
                                             $prioridadeColors = [
-                                                'baixa' => 'bg-green-100 text-green-800',
-                                                'media' => 'bg-yellow-100 text-yellow-800',
-                                                'alta' => 'bg-orange-100 text-orange-800',
-                                                'urgente' => 'bg-red-100 text-red-800'
+                                                'baixa' => 'bg-green-800 text-green-200',
+                                                'media' => 'bg-yellow-800 text-yellow-200',
+                                                'alta' => 'bg-orange-800 text-orange-200',
+                                                'urgente' => 'bg-red-800 text-red-200'
                                             ];
                                             $tipoColors = [
-                                                'manual' => 'bg-gray-100 text-gray-800',
-                                                'automatica_feedback' => 'bg-purple-100 text-purple-800',
-                                                'automatica_aprovacao' => 'bg-indigo-100 text-indigo-800'
+                                                'manual' => 'bg-gray-800 text-gray-800',
+                                                'automatica_feedback' => 'bg-purple-800 text-purple-200',
+                                                'automatica_aprovacao' => 'bg-indigo-800 text-indigo-200'
                                             ];
                                         @endphp
                                         
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-800 text-gray-800' }}">
                                             {{ ucfirst(str_replace('_', ' ', $tarefa->status)) }}
                                         </span>
                                         
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $prioridadeColors[$tarefa->prioridade] ?? 'bg-gray-100 text-gray-800' }}">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $prioridadeColors[$tarefa->prioridade] ?? 'bg-gray-800 text-gray-800' }}">
                                             {{ ucfirst($tarefa->prioridade) }}
                                         </span>
                                         
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $tipoColors[$tarefa->tipo] ?? 'bg-gray-100 text-gray-800' }}">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $tipoColors[$tarefa->tipo] ?? 'bg-gray-800 text-gray-800' }}">
                                             {{ str_replace(['automatica_', '_'], ['Auto ', ' '], ucfirst($tarefa->tipo)) }}
                                         </span>
 
                                         @if($tarefa->recorrente)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-800 text-blue-200">
                                                 Recorrente
                                             </span>
                                         @endif
                                         
                                         @if($tarefa->pausada)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-800 text-yellow-200">
                                                 Pausada
                                             </span>
                                         @endif
@@ -193,7 +193,7 @@
 </div>
 
 <!-- Modal Concluir Tarefa -->
-<div id="concluirModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+<div id="concluirModal" class="fixed inset-0 bg-black bg-opacity-80 overflow-y-auto h-full w-full hidden">
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md card-dark">
         <div class="mt-3">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Concluir Tarefa</h3>
@@ -203,7 +203,7 @@
                 <div class="mb-4">
                     <label for="observacoes_concluir" class="block text-sm font-medium text-muted-dark">Observações (opcional)</label>
                     <textarea name="observacoes" id="observacoes_concluir" rows="3" 
-                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-400 focus:border-blue-400"></textarea>
+                              class="mt-1 block w-full input-dark rounded-md shadow-sm"></textarea>
                 </div>
                 <div class="flex justify-end space-x-3">
                     <button type="button" onclick="closeConcluirModal()" class="btn-secondary-dark font-bold py-2 px-4 rounded">

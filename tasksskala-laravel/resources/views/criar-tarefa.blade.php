@@ -34,7 +34,7 @@
                 @csrf
 
                 <!-- Opção de criar múltiplas tarefas -->
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div class="bg-blue-900 bg-opacity-20 border border-blue-700 rounded-lg p-4">
                     <div class="flex items-center">
                         <input type="checkbox" name="multiplas_tarefas" id="multiplas_tarefas" value="1" 
                                {{ old('multiplas_tarefas') ? 'checked' : '' }}
@@ -53,7 +53,7 @@
                     </label>
                     <input type="text" name="titulo" id="titulo" required 
                            value="{{ old('titulo') }}"
-                           class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                           class="mt-1 block w-full input-dark rounded-md shadow-sm">
                     @error('titulo')
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                     @enderror
@@ -67,7 +67,7 @@
                     <input type="text" name="titulo_base" id="titulo_base"
                            value="{{ old('titulo_base') }}"
                            placeholder="Ex: Implementar funcionalidade"
-                           class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                           class="mt-1 block w-full input-dark rounded-md shadow-sm">
                     <p class="mt-1 text-sm text-muted-dark">Se deixado em branco, o título será extraído da descrição de cada tarefa</p>
                 </div>
 
@@ -79,7 +79,7 @@
                             Responsável *
                         </label>
                         <select name="colaborador_id" id="colaborador_id" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             @foreach($colaboradores as $colab)
                                 <option value="{{ $colab->id }}" {{ old('colaborador_id', $colaborador->id) == $colab->id ? 'selected' : '' }}>
                                     {{ $colab->nome }} @if($colab->id == $colaborador->id)(Você)@endif
@@ -97,7 +97,7 @@
                             Projeto (Opcional)
                         </label>
                         <select name="projeto_id" id="projeto_id"
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             <option value="">Sem projeto específico</option>
                             @foreach($projetos as $projeto)
                                 <option value="{{ $projeto->id }}" {{ old('projeto_id') == $projeto->id ? 'selected' : '' }}>
@@ -117,7 +117,7 @@
                         Descrição
                     </label>
                     <textarea name="descricao" id="descricao" rows="4"
-                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              class="mt-1 block w-full input-dark rounded-md shadow-sm"
                               placeholder="Descreva em detalhes o que precisa ser feito...">{{ old('descricao') }}</textarea>
                     @error('descricao')
                         <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
@@ -138,7 +138,7 @@
                                 <input type="date" name="prazos[]" 
                                        class="border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                        placeholder="Prazo (opcional)">
-                                <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 hidden">
+                                <button type="button" class="remover-tarefa px-3 py-1 bg-red-900 bg-opacity-200 text-white rounded hover:bg-red-600 hidden">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                     </svg>
@@ -160,7 +160,7 @@
                             Prioridade *
                         </label>
                         <select name="prioridade" id="prioridade" required
-                                class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                class="mt-1 block w-full input-dark rounded-md shadow-sm">
                             <option value="baixa" {{ old('prioridade') == 'baixa' ? 'selected' : '' }}>Baixa</option>
                             <option value="media" {{ old('prioridade', 'media') == 'media' ? 'selected' : '' }}>Média</option>
                             <option value="alta" {{ old('prioridade') == 'alta' ? 'selected' : '' }}>Alta</option>
@@ -179,7 +179,7 @@
                         <input type="datetime-local" name="data_vencimento" id="data_vencimento"
                                value="{{ old('data_vencimento') }}"
                                min="{{ now()->format('Y-m-d\TH:i') }}"
-                               class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                               class="mt-1 block w-full input-dark rounded-md shadow-sm">
                         @error('data_vencimento')
                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
@@ -318,7 +318,7 @@ document.getElementById('adicionar-tarefa').addEventListener('click', function()
             <input type="date" name="prazos[]" 
                    class="border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                    placeholder="Prazo (opcional)">
-            <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+            <button type="button" class="remover-tarefa px-3 py-1 bg-red-900 bg-opacity-200 text-white rounded hover:bg-red-600">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -401,7 +401,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
 </script>
 
 <!-- Modal do Assistente IA -->
-<div id="modal-assistente-ia" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+<div id="modal-assistente-ia" class="fixed inset-0 bg-black bg-opacity-80 hidden overflow-y-auto h-full w-full z-50">
     <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md card-dark">
         <div class="mt-3">
             <div class="flex justify-between items-center mb-4">
@@ -444,7 +444,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             <div id="tab-audio" class="tab-content hidden">
                 <div class="text-center py-8">
                     <button type="button" id="btn-gravar-audio" 
-                            class="mx-auto bg-red-500 hover:bg-red-600 text-white rounded-full p-6 transition-all transform hover:scale-105">
+                            class="mx-auto bg-red-900 bg-opacity-200 hover:bg-red-600 text-white rounded-full p-6 transition-all transform hover:scale-105">
                         <svg id="icon-microfone" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
                         </svg>
@@ -460,7 +460,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             </div>
             
             <!-- Exemplos -->
-            <div class="mt-6 bg-gray-50 rounded-lg p-4">
+            <div class="mt-6 bg-gray-800 rounded-lg p-4">
                 <h4 class="text-sm font-medium text-primary-dark mb-2">Exemplos de como descrever:</h4>
                 <ul class="text-sm text-gray-400 space-y-1">
                     <li>• "Criar 3 tarefas urgentes para João: revisar código, fazer testes, documentar API"</li>
@@ -590,7 +590,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                 iconMicrofone.classList.add('hidden');
                 iconGravando.classList.remove('hidden');
                 statusGravacao.textContent = 'Gravando... Clique para parar';
-                btnGravarAudio.classList.remove('bg-red-500', 'hover:bg-red-600');
+                btnGravarAudio.classList.remove('bg-red-900 bg-opacity-200', 'hover:bg-red-600');
                 btnGravarAudio.classList.add('bg-red-600', 'hover:bg-red-700');
                 
             } catch (err) {
@@ -605,7 +605,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             iconMicrofone.classList.remove('hidden');
             iconGravando.classList.add('hidden');
             statusGravacao.textContent = 'Gravação concluída';
-            btnGravarAudio.classList.add('bg-red-500', 'hover:bg-red-600');
+            btnGravarAudio.classList.add('bg-red-900 bg-opacity-200', 'hover:bg-red-600');
             btnGravarAudio.classList.remove('bg-red-600', 'hover:bg-red-700');
         }
     });
@@ -729,7 +729,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                     <input type="date" name="prazos[]" 
                            class="border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                            placeholder="Prazo (opcional)">
-                    <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 hidden">
+                    <button type="button" class="remover-tarefa px-3 py-1 bg-red-900 bg-opacity-200 text-white rounded hover:bg-red-600 hidden">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -807,7 +807,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
     // Notificação
     function showNotification(message) {
         const notification = document.createElement('div');
-        notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        notification.className = 'fixed top-4 right-4 bg-green-900 bg-opacity-200 text-white px-6 py-3 rounded-lg shadow-lg z-50';
         notification.textContent = message;
         document.body.appendChild(notification);
         

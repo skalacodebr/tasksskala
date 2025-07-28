@@ -9,7 +9,7 @@
         <form method="GET" action="{{ route('tarefas-designadas') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-muted-dark">Status</label>
-                <select name="status" class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="status" class="mt-1 block w-full input-dark rounded-md shadow-sm">
                     <option value="">Todos</option>
                     <option value="pendente_em_andamento" {{ (!request()->hasAny(['status', 'prioridade', 'projeto_id']) || request('status') == 'pendente_em_andamento') ? 'selected' : '' }}>Pendente + Em Andamento</option>
                     <option value="pendente" {{ request('status') == 'pendente' ? 'selected' : '' }}>Pendente</option>
@@ -21,7 +21,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-muted-dark">Colaborador</label>
-                <select name="colaborador_id" class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="colaborador_id" class="mt-1 block w-full input-dark rounded-md shadow-sm">
                     <option value="">Todos</option>
                     @foreach($colaboradores as $colab)
                         <option value="{{ $colab->id }}" {{ request('colaborador_id') == $colab->id ? 'selected' : '' }}>
@@ -33,7 +33,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-muted-dark">Projeto</label>
-                <select name="projeto_id" class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="projeto_id" class="mt-1 block w-full input-dark rounded-md shadow-sm">
                     <option value="">Todos</option>
                     @foreach($projetos as $projeto)
                         <option value="{{ $projeto->id }}" {{ request('projeto_id') == $projeto->id ? 'selected' : '' }}>
@@ -85,44 +85,44 @@
                                     <div class="mt-2 flex items-center space-x-2">
                                         @php
                                             $statusColors = [
-                                                'pendente' => 'bg-gray-100 text-primary-dark',
-                                                'em_andamento' => 'bg-blue-100 text-blue-800',
-                                                'concluida' => 'bg-green-100 text-green-800',
-                                                'cancelada' => 'bg-red-100 text-red-800'
+                                                'pendente' => 'bg-gray-800 text-primary-dark',
+                                                'em_andamento' => 'bg-blue-800 text-blue-200',
+                                                'concluida' => 'bg-green-800 text-green-200',
+                                                'cancelada' => 'bg-red-800 text-red-200'
                                             ];
                                             $prioridadeColors = [
-                                                'baixa' => 'bg-green-100 text-green-800',
-                                                'media' => 'bg-yellow-100 text-yellow-800',
-                                                'alta' => 'bg-orange-100 text-orange-800',
-                                                'urgente' => 'bg-red-100 text-red-800'
+                                                'baixa' => 'bg-green-800 text-green-200',
+                                                'media' => 'bg-yellow-800 text-yellow-200',
+                                                'alta' => 'bg-orange-800 text-orange-200',
+                                                'urgente' => 'bg-red-800 text-red-200'
                                             ];
                                             $tipoColors = [
-                                                'manual' => 'bg-gray-100 text-primary-dark',
-                                                'automatica_feedback' => 'bg-purple-100 text-purple-800',
-                                                'automatica_aprovacao' => 'bg-indigo-100 text-indigo-800'
+                                                'manual' => 'bg-gray-800 text-primary-dark',
+                                                'automatica_feedback' => 'bg-purple-800 text-purple-200',
+                                                'automatica_aprovacao' => 'bg-indigo-800 text-indigo-200'
                                             ];
                                         @endphp
                                         
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-100 text-primary-dark' }}">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$tarefa->status] ?? 'bg-gray-800 text-primary-dark' }}">
                                             {{ ucfirst(str_replace('_', ' ', $tarefa->status)) }}
                                         </span>
                                         
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $prioridadeColors[$tarefa->prioridade] ?? 'bg-gray-100 text-primary-dark' }}">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $prioridadeColors[$tarefa->prioridade] ?? 'bg-gray-800 text-primary-dark' }}">
                                             {{ ucfirst($tarefa->prioridade) }}
                                         </span>
                                         
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $tipoColors[$tarefa->tipo] ?? 'bg-gray-100 text-primary-dark' }}">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $tipoColors[$tarefa->tipo] ?? 'bg-gray-800 text-primary-dark' }}">
                                             {{ str_replace(['automatica_', '_'], ['Auto ', ' '], ucfirst($tarefa->tipo)) }}
                                         </span>
 
                                         @if($tarefa->recorrente)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-800 text-blue-200">
                                                 Recorrente
                                             </span>
                                         @endif
                                         
                                         @if($tarefa->pausada)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-800 text-yellow-200">
                                                 Pausada
                                             </span>
                                         @endif
@@ -133,7 +133,7 @@
                         
                         <div class="flex items-center space-x-2">
                             <!-- Botão Ver -->
-                            <a href="{{ route('tarefa.detalhes', $tarefa) }}" class="text-blue-400 hover:text-blue-900 px-3 py-1 rounded text-sm border border-blue-600 hover:bg-blue-50">
+                            <a href="{{ route('tarefa.detalhes', $tarefa) }}" class="text-blue-400 hover:text-blue-900 px-3 py-1 rounded text-sm border border-blue-600 hover:bg-blue-900 bg-opacity-20">
                                 Ver Detalhes
                             </a>
                         </div>
