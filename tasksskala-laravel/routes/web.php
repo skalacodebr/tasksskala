@@ -97,6 +97,9 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     
     // Tutoriais para colaboradores
     Route::get('/tutoriais', [DashboardController::class, 'tutoriais'])->name('tutoriais');
+    
+    // Tarefas designadas
+    Route::get('/tarefas-designadas', [DashboardController::class, 'tarefasDesignadas'])->name('tarefas-designadas');
 });
 
 // Rotas do Cliente (protegidas)

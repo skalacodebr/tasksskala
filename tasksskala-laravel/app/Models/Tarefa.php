@@ -13,6 +13,7 @@ class Tarefa extends Model
         'titulo',
         'descricao',
         'colaborador_id',
+        'created_by',
         'projeto_id',
         'tipo',
         'prioridade',
@@ -202,6 +203,11 @@ class Tarefa extends Model
     public function transferencias()
     {
         return $this->hasMany(TarefaTransferencia::class);
+    }
+
+    public function criador()
+    {
+        return $this->belongsTo(Colaborador::class, 'created_by');
     }
 
     public function transferirResponsabilidade($paraColaboradorId, $motivo)

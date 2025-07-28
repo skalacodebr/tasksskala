@@ -35,13 +35,26 @@
                     </div>
                     
                     <div>
-                        <dt class="text-sm font-medium text-gray-500">Responsável</dt>
+                        <dt class="text-sm font-medium text-gray-500">Responsável Principal</dt>
                         <dd class="mt-1 text-sm text-gray-900">
                             <a href="{{ route('admin.colaboradores.show', $projeto->colaboradorResponsavel) }}" class="text-blue-600 hover:text-blue-800">
                                 {{ $projeto->colaboradorResponsavel->nome }}
                             </a>
                         </dd>
                     </div>
+                    
+                    @if($projeto->responsaveis->count() > 0)
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Responsáveis Adicionais</dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                            @foreach($projeto->responsaveis as $responsavel)
+                                <a href="{{ route('admin.colaboradores.show', $responsavel) }}" class="text-blue-600 hover:text-blue-800">
+                                    {{ $responsavel->nome }}@if(!$loop->last), @endif
+                                </a>
+                            @endforeach
+                        </dd>
+                    </div>
+                    @endif
                     
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Status</dt>

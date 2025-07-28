@@ -97,7 +97,7 @@
 
                     <!-- Colaborador Responsável -->
                     <div>
-                        <label for="colaborador_responsavel_id" class="block text-sm font-medium text-gray-700">Colaborador Responsável</label>
+                        <label for="colaborador_responsavel_id" class="block text-sm font-medium text-gray-700">Colaborador Responsável Principal</label>
                         <select name="colaborador_responsavel_id" id="colaborador_responsavel_id" 
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('colaborador_responsavel_id') border-red-500 @enderror">
                             <option value="">Selecione um colaborador</option>
@@ -110,6 +110,23 @@
                         @error('colaborador_responsavel_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
+                    </div>
+
+                    <!-- Responsáveis Adicionais -->
+                    <div class="lg:col-span-2">
+                        <label for="responsaveis" class="block text-sm font-medium text-gray-700">Responsáveis Adicionais</label>
+                        <select name="responsaveis[]" id="responsaveis" multiple
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('responsaveis') border-red-500 @enderror">
+                            @foreach($colaboradores as $colaborador)
+                                <option value="{{ $colaborador->id }}" {{ (is_array(old('responsaveis')) && in_array($colaborador->id, old('responsaveis'))) ? 'selected' : '' }}>
+                                    {{ $colaborador->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('responsaveis')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-sm text-gray-500">Segure Ctrl/Cmd para selecionar múltiplos colaboradores</p>
                     </div>
 
                     <!-- Prazo -->

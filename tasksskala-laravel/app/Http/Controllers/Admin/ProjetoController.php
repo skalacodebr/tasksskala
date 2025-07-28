@@ -14,7 +14,7 @@ class ProjetoController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Projeto::with(['cliente', 'colaboradorResponsavel', 'marcos'])
+        $query = Projeto::with(['cliente', 'colaboradorResponsavel', 'marcos', 'responsaveis'])
             ->withCount('marcos');
         
         if ($request->has('search') && !empty($request->search)) {
@@ -50,6 +50,8 @@ class ProjetoController extends Controller
             'descricao' => 'nullable|string',
             'repositorio_git' => 'nullable|url',
             'colaborador_responsavel_id' => 'required|exists:colaboradores,id',
+            'responsaveis' => 'nullable|array',
+            'responsaveis.*' => 'exists:colaboradores,id',
             'cliente_id' => 'required|exists:clientes,id',
             'prazo' => 'nullable|date',
             'anotacoes' => 'nullable|string',
@@ -63,9 +65,16 @@ class ProjetoController extends Controller
         ]);
 
         $marcos = $validated['marcos'] ?? [];
+        $responsaveis = $validated['responsaveis'] ?? [];
         unset($validated['marcos']);
+        unset($validated['responsaveis']);
 
         $projeto = Projeto::create($validated);
+
+        // Adicionar responsáveis adicionais
+        if (!empty($responsaveis)) {
+            $projeto->responsaveis()->attach($responsaveis);
+        }
 
         foreach ($marcos as $marco) {
             $marco['projeto_id'] = $projeto->id;
@@ -78,7 +87,7 @@ class ProjetoController extends Controller
 
     public function show(Projeto $projeto)
     {
-        $projeto->load(['cliente', 'colaboradorResponsavel', 'marcos']);
+        $projeto->load(['cliente', 'colaboradorResponsavel', 'marcos', 'responsaveis']);
         return view('admin.projetos.show', compact('projeto'));
     }
 
@@ -87,7 +96,7 @@ class ProjetoController extends Controller
         $clientes = Cliente::all();
         $colaboradores = Colaborador::all();
         $statusProjetos = StatusProjeto::ativos()->ordenados()->get();
-        $projeto->load('marcos');
+        $projeto->load(['marcos', 'responsaveis']);
         return view('admin.projetos.edit', compact('projeto', 'clientes', 'colaboradores', 'statusProjetos'));
     }
 
@@ -98,6 +107,8 @@ class ProjetoController extends Controller
             'descricao' => 'nullable|string',
             'repositorio_git' => 'nullable|url',
             'colaborador_responsavel_id' => 'required|exists:colaboradores,id',
+            'responsaveis' => 'nullable|array',
+            'responsaveis.*' => 'exists:colaboradores,id',
             'cliente_id' => 'required|exists:clientes,id',
             'prazo' => 'nullable|date',
             'anotacoes' => 'nullable|string',
@@ -113,9 +124,14 @@ class ProjetoController extends Controller
         ]);
 
         $marcos = $validated['marcos'] ?? [];
+        $responsaveis = $validated['responsaveis'] ?? [];
         unset($validated['marcos']);
+        unset($validated['responsaveis']);
 
         $projeto->update($validated);
+
+        // Atualizar responsáveis
+        $projeto->responsaveis()->sync($responsaveis);
 
         $existingMarcoIds = [];
         foreach ($marcos as $marco) {

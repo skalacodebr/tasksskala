@@ -242,6 +242,7 @@ class DashboardController extends Controller
 
         $validated['tipo'] = 'manual';
         $validated['status'] = 'pendente';
+        $validated['created_by'] = $colaborador->id;
 
         Tarefa::create($validated);
 
@@ -806,6 +807,50 @@ class DashboardController extends Controller
             ->get();
 
         return view('tutoriais-colaboradores', compact('tutoriais'));
+    }
+    
+    public function tarefasDesignadas(Request $request)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador) {
+            return redirect('/login');
+        }
+
+        $query = Tarefa::where('created_by', $colaborador->id)
+                       ->where('colaborador_id', '!=', $colaborador->id)
+                       ->with(['projeto', 'colaborador']);
+
+        // Filtros
+        if ($request->filled('status')) {
+            if ($request->status == 'pendente_em_andamento') {
+                $query->whereIn('status', ['pendente', 'em_andamento']);
+            } else {
+                $query->where('status', $request->status);
+            }
+        }
+
+        if ($request->filled('colaborador_id')) {
+            $query->where('colaborador_id', $request->colaborador_id);
+        }
+
+        if ($request->filled('projeto_id')) {
+            $query->where('projeto_id', $request->projeto_id);
+        }
+
+        $tarefas = $query->orderBy('created_at', 'desc')
+                        ->paginate(15);
+
+        // Para os filtros
+        $colaboradores = Colaborador::whereHas('tarefas', function($q) use ($colaborador) {
+            $q->where('created_by', $colaborador->id);
+        })->get();
+        
+        $projetos = Projeto::whereHas('tarefas', function($q) use ($colaborador) {
+            $q->where('created_by', $colaborador->id);
+        })->get();
+
+        return view('tarefas-designadas', compact('tarefas', 'colaboradores', 'projetos', 'colaborador'));
     }
 
     public function pausarTarefa(Tarefa $tarefa)
