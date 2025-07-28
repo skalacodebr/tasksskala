@@ -34,8 +34,8 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">Em Andamento</dt>
-                            <dd class="text-lg font-medium text-gray-900">{{ $tarefasEmAndamento }}</dd>
+                            <dt class="text-sm font-medium text-muted-dark truncate">Em Andamento</dt>
+                            <dd class="text-lg font-medium text-primary-dark">{{ $tarefasEmAndamento }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -52,8 +52,8 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">Concluídas Hoje</dt>
-                            <dd class="text-lg font-medium text-gray-900">{{ $tarefasConcluidas }}</dd>
+                            <dt class="text-sm font-medium text-muted-dark truncate">Concluídas Hoje</dt>
+                            <dd class="text-lg font-medium text-primary-dark">{{ $tarefasConcluidas }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -70,8 +70,8 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 truncate">Atrasadas</dt>
-                            <dd class="text-lg font-medium text-gray-900">{{ $tarefasAtrasadas }}</dd>
+                            <dt class="text-sm font-medium text-muted-dark truncate">Atrasadas</dt>
+                            <dd class="text-lg font-medium text-primary-dark">{{ $tarefasAtrasadas }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
         <!-- Próximas Tarefas -->
         <div class="card-dark shadow rounded-lg">
             <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Próximas Tarefas</h3>
+                <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">Próximas Tarefas</h3>
                 
                 @if($proximasTarefas->count() > 0)
                     <div class="space-y-3">
@@ -92,11 +92,11 @@
                             <div class="border-l-4 border-blue-400 pl-4 py-2">
                                 <div class="flex justify-between items-start">
                                     <div class="flex-1">
-                                        <h4 class="text-sm font-medium text-gray-900">{{ $tarefa->titulo }}</h4>
+                                        <h4 class="text-sm font-medium text-primary-dark">{{ $tarefa->titulo }}</h4>
                                         @if($tarefa->projeto)
-                                            <p class="text-xs text-gray-500">Projeto: {{ $tarefa->projeto->nome }}</p>
+                                            <p class="text-xs text-muted-dark">Projeto: {{ $tarefa->projeto->nome }}</p>
                                         @endif
-                                        <p class="text-xs text-gray-500">
+                                        <p class="text-xs text-muted-dark">
                                             Vence em: {{ $tarefa->data_vencimento->diffForHumans() }}
                                         </p>
                                     </div>
@@ -119,12 +119,12 @@
                     </div>
                     
                     <div class="mt-4">
-                        <a href="{{ route('minhas-tarefas') }}" class="text-blue-600 hover:text-blue-500 text-sm font-medium">
+                        <a href="{{ route('minhas-tarefas') }}" class="text-blue-400 hover:text-blue-300 text-sm font-medium">
                             Ver todas as tarefas →
                         </a>
                     </div>
                 @else
-                    <p class="text-gray-500 text-sm">Nenhuma tarefa com vencimento próximo.</p>
+                    <p class="text-muted-dark text-sm">Nenhuma tarefa com vencimento próximo.</p>
                 @endif
             </div>
         </div>
@@ -132,7 +132,7 @@
         <!-- Tarefas Recentes -->
         <div class="card-dark shadow rounded-lg">
             <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Atividade Recente</h3>
+                <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">Atividade Recente</h3>
                 
                 @if($tarefasRecentes->count() > 0)
                     <div class="space-y-3">
@@ -150,8 +150,8 @@
                                     <div class="w-2 h-2 {{ $statusColors[$tarefa->status] ?? 'bg-gray-400' }} rounded-full"></div>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-gray-900 truncate">{{ $tarefa->titulo }}</p>
-                                    <p class="text-xs text-gray-500">
+                                    <p class="text-sm font-medium text-primary-dark truncate">{{ $tarefa->titulo }}</p>
+                                    <p class="text-xs text-muted-dark">
                                         {{ ucfirst(str_replace('_', ' ', $tarefa->status)) }} • 
                                         {{ $tarefa->created_at->diffForHumans() }}
                                     </p>
@@ -160,12 +160,12 @@
                                     <form action="{{ route('tarefa.iniciar', $tarefa) }}" method="POST" class="inline">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="text-xs bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">
+                                        <button type="submit" class="text-xs btn-primary-dark px-2 py-1 rounded">
                                             Iniciar
                                         </button>
                                     </form>
                                 @elseif($tarefa->status == 'em_andamento')
-                                    <a href="{{ route('tarefa.detalhes', $tarefa) }}" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded">
+                                    <a href="{{ route('tarefa.detalhes', $tarefa) }}" class="text-xs btn-primary-dark px-2 py-1 rounded">
                                         Ver
                                     </a>
                                 @endif
@@ -173,7 +173,7 @@
                         @endforeach
                     </div>
                 @else
-                    <p class="text-gray-500 text-sm">Nenhuma tarefa recente.</p>
+                    <p class="text-muted-dark text-sm">Nenhuma tarefa recente.</p>
                 @endif
             </div>
         </div>
@@ -182,16 +182,16 @@
         <div class="card-dark shadow rounded-lg">
             <div class="px-4 py-5 sm:p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Agendamentos do Google Calendar</h3>
+                    <h3 class="text-lg leading-6 font-medium text-primary-dark">Agendamentos do Google Calendar</h3>
                     @if($isGoogleConnected)
                         <form action="{{ route('google.disconnect') }}" method="POST" class="inline">
                             @csrf
-                            <button type="submit" class="text-sm text-red-600 hover:text-red-800">
+                            <button type="submit" class="text-sm text-red-400 hover:text-red-300">
                                 Desconectar
                             </button>
                         </form>
                     @else
-                        <a href="{{ route('google.auth') }}" class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+                        <a href="{{ route('google.auth') }}" class="text-sm btn-primary-dark px-3 py-1 rounded">
                             Conectar Google Calendar
                         </a>
                     @endif
@@ -204,11 +204,11 @@
                                 <div class="border-l-4 border-purple-400 pl-4 py-2">
                                     <div class="flex justify-between items-start">
                                         <div class="flex-1">
-                                            <h4 class="text-sm font-medium text-gray-900">{{ $event['summary'] ?? 'Sem título' }}</h4>
+                                            <h4 class="text-sm font-medium text-primary-dark">{{ $event['summary'] ?? 'Sem título' }}</h4>
                                             @if(isset($event['location']))
-                                                <p class="text-xs text-gray-500">Local: {{ $event['location'] }}</p>
+                                                <p class="text-xs text-muted-dark">Local: {{ $event['location'] }}</p>
                                             @endif
-                                            <p class="text-xs text-gray-500">
+                                            <p class="text-xs text-muted-dark">
                                                 @if($event['is_all_day'])
                                                     Dia todo - {{ \Carbon\Carbon::parse($event['start'])->format('d/m/Y') }}
                                                 @else
@@ -217,7 +217,7 @@
                                                 @endif
                                             </p>
                                         </div>
-                                        <a href="{{ $event['html_link'] }}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800">
+                                        <a href="{{ $event['html_link'] }}" target="_blank" class="text-xs text-blue-400 hover:text-blue-300">
                                             Ver no Google
                                         </a>
                                     </div>
@@ -225,10 +225,10 @@
                             @endforeach
                         </div>
                     @else
-                        <p class="text-gray-500 text-sm">Nenhum agendamento nos próximos 30 dias.</p>
+                        <p class="text-muted-dark text-sm">Nenhum agendamento nos próximos 30 dias.</p>
                     @endif
                 @else
-                    <p class="text-gray-500 text-sm">Conecte sua conta Google para ver seus agendamentos.</p>
+                    <p class="text-muted-dark text-sm">Conecte sua conta Google para ver seus agendamentos.</p>
                 @endif
             </div>
         </div>
@@ -238,13 +238,13 @@
     @if(!empty($tarefasPrioridade))
     <div class="card-dark shadow rounded-lg">
         <div class="px-4 py-5 sm:p-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Tarefas por Prioridade</h3>
+            <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">Tarefas por Prioridade</h3>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 @foreach(['urgente' => 'Urgente', 'alta' => 'Alta', 'media' => 'Média', 'baixa' => 'Baixa'] as $key => $label)
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-gray-900">{{ $tarefasPrioridade[$key] ?? 0 }}</div>
-                        <div class="text-sm text-gray-500">{{ $label }}</div>
+                        <div class="text-2xl font-bold text-primary-dark">{{ $tarefasPrioridade[$key] ?? 0 }}</div>
+                        <div class="text-sm text-muted-dark">{{ $label }}</div>
                     </div>
                 @endforeach
             </div>
