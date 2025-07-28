@@ -3,19 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FinanceiroLayoutTrait;
 use App\Models\CategoriaFinanceira;
 use App\Models\TipoCusto;
 use Illuminate\Http\Request;
 
 class CategoriaFinanceiraController extends Controller
 {
+    use FinanceiroLayoutTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $categorias = CategoriaFinanceira::with('tipoCusto')->orderBy('tipo')->orderBy('nome')->paginate(10);
-        return view('admin.categorias-financeiras.index', compact('categorias'));
+        return $this->viewWithLayout('admin.categorias-financeiras.index', compact('categorias'));
     }
 
     /**

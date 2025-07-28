@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FinanceiroLayoutTrait;
 use App\Services\OfxParser;
 use App\Models\ContaPagar;
 use App\Models\ContaReceber;
@@ -13,18 +14,20 @@ use Carbon\Carbon;
 
 class ImportacaoOfxController extends Controller
 {
+    use FinanceiroLayoutTrait;
+
     public function index()
     {
         $importacoes = TransacaoOfx::with(['contaPagar', 'contaReceber'])
             ->orderBy('created_at', 'desc')
             ->paginate(20);
             
-        return view('admin.importacao-ofx.index', compact('importacoes'));
+        return $this->viewWithLayout('admin.importacao-ofx.index', compact('importacoes'));
     }
 
     public function create()
     {
-        return view('admin.importacao-ofx.create');
+        return $this->viewWithLayout('admin.importacao-ofx.create');
     }
 
     public function store(Request $request)

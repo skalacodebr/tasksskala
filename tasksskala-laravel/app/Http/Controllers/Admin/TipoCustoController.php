@@ -3,19 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FinanceiroLayoutTrait;
 use App\Models\TipoCusto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class TipoCustoController extends Controller
 {
+    use FinanceiroLayoutTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $tiposCusto = TipoCusto::ordenados()->paginate(10);
-        return view('admin.tipos-custo.index', compact('tiposCusto'));
+        return $this->viewWithLayout('admin.tipos-custo.index', compact('tiposCusto'));
     }
 
     /**
@@ -23,7 +26,7 @@ class TipoCustoController extends Controller
      */
     public function create()
     {
-        return view('admin.tipos-custo.create');
+        return $this->viewWithLayout('admin.tipos-custo.create');
     }
 
     /**

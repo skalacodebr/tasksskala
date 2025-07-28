@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FinanceiroLayoutTrait;
 use App\Models\ContaBancaria;
 use App\Models\ContaPagar;
 use App\Models\ContaReceber;
@@ -11,6 +12,8 @@ use Carbon\Carbon;
 
 class FluxoCaixaController extends Controller
 {
+    use FinanceiroLayoutTrait;
+
     public function index(Request $request)
     {
         // Atualizar status de contas vencidas
@@ -67,7 +70,7 @@ class FluxoCaixaController extends Controller
         // Fluxo diário
         $fluxoDiario = $this->calcularFluxoDiario($contasPagar, $contasReceber, $mesAtual, $anoAtual);
         
-        return view('admin.fluxo-caixa.index', compact(
+        return $this->viewWithLayout('admin.fluxo-caixa.index', compact(
             'contasBancarias',
             'contasPagar',
             'contasReceber',

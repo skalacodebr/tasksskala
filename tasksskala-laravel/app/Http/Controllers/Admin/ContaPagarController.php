@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FinanceiroLayoutTrait;
 use App\Models\ContaPagar;
 use App\Models\ContaBancaria;
 use App\Models\CategoriaFinanceira;
@@ -12,6 +13,8 @@ use Carbon\Carbon;
 
 class ContaPagarController extends Controller
 {
+    use FinanceiroLayoutTrait;
+
     public function pagar(Request $request, string $id)
     {
         $conta = ContaPagar::findOrFail($id);

@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FinanceiroLayoutTrait;
 use App\Models\ContaBancaria;
 use Illuminate\Http\Request;
 
 class ContaBancariaController extends Controller
 {
+    use FinanceiroLayoutTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $contas = ContaBancaria::orderBy('nome')->paginate(10);
-        return view('admin.contas-bancarias.index', compact('contas'));
+        return $this->viewWithLayout('admin.contas-bancarias.index', compact('contas'));
     }
 
     /**
@@ -22,7 +25,7 @@ class ContaBancariaController extends Controller
      */
     public function create()
     {
-        return view('admin.contas-bancarias.create');
+        return $this->viewWithLayout('admin.contas-bancarias.create');
     }
 
     /**

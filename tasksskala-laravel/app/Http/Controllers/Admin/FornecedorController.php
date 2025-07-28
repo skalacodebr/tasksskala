@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FinanceiroLayoutTrait;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class FornecedorController extends Controller
 {
+    use FinanceiroLayoutTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -42,7 +45,7 @@ class FornecedorController extends Controller
         
         $fornecedores = $query->orderBy('nome')->paginate(10)->appends($request->query());
         
-        return view('admin.fornecedores.index', compact('fornecedores'));
+        return $this->viewWithLayout('admin.fornecedores.index', compact('fornecedores'));
     }
 
     /**
@@ -50,7 +53,7 @@ class FornecedorController extends Controller
      */
     public function create()
     {
-        return view('admin.fornecedores.create');
+        return $this->viewWithLayout('admin.fornecedores.create');
     }
 
     /**

@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\ContaPagar;
 use App\Models\ContaReceber;
 use App\Models\CategoriaFinanceira;
+use App\Traits\FinanceiroLayoutTrait;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardFinanceiraController extends Controller
 {
+    use FinanceiroLayoutTrait;
     public function index(Request $request)
     {
         // Filtros
@@ -188,7 +190,7 @@ class DashboardFinanceiraController extends Controller
         $percentualFixo = $receitasMes > 0 ? round(($despesasPorTipoCusto['fixo'] / $receitasMes) * 100, 2) : 0;
         $percentualVariavel = $receitasMes > 0 ? round(($despesasPorTipoCusto['variavel'] / $receitasMes) * 100, 2) : 0;
         
-        return view('admin.dashboard-financeira.index', compact(
+        return $this->viewWithLayout('admin.dashboard-financeira.index', compact(
             'mesAtual',
             'anoAtual',
             'receitasMes',
