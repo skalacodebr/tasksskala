@@ -38,8 +38,8 @@
                     <p class="mt-2 text-sm text-gray-600">Marque esta opção para criar várias tarefas de uma vez. Cada linha de descrição criará uma tarefa separada.</p>
                 </div>
 
-                <!-- Título -->
-                <div>
+                <!-- Título - Modo único -->
+                <div id="titulo-unico">
                     <label for="titulo" class="block text-sm font-medium text-gray-700">
                         Título da Tarefa *
                     </label>
@@ -49,6 +49,18 @@
                     @error('titulo')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+                </div>
+
+                <!-- Título Base - Modo múltiplo -->
+                <div id="titulo-multiplo" class="hidden">
+                    <label for="titulo_base" class="block text-sm font-medium text-gray-700">
+                        Título Base (Opcional)
+                    </label>
+                    <input type="text" name="titulo_base" id="titulo_base"
+                           value="{{ old('titulo_base') }}"
+                           placeholder="Ex: Implementar funcionalidade"
+                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <p class="mt-1 text-sm text-gray-500">Se deixado em branco, o título será extraído da descrição de cada tarefa</p>
                 </div>
 
                 <!-- Grid de 2 colunas -->
@@ -91,8 +103,8 @@
                     </div>
                 </div>
 
-                <!-- Descrição -->
-                <div>
+                <!-- Descrição - Modo único -->
+                <div id="descricao-unica">
                     <label for="descricao" class="block text-sm font-medium text-gray-700">
                         Descrição
                     </label>
@@ -102,6 +114,34 @@
                     @error('descricao')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+                </div>
+
+                <!-- Descrições Múltiplas -->
+                <div id="descricoes-multiplas" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Tarefas * <span class="text-gray-500">(uma por linha)</span>
+                    </label>
+                    <div id="tarefas-container" class="space-y-3">
+                        <div class="tarefa-item">
+                            <div class="flex gap-2">
+                                <textarea name="descricoes[]" rows="2"
+                                          class="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Descrição da tarefa..." required></textarea>
+                                <input type="date" name="prazos[]" 
+                                       class="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Prazo (opcional)">
+                                <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 hidden">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="adicionar-tarefa" class="mt-3 text-sm text-blue-600 hover:text-blue-800">
+                        + Adicionar mais uma tarefa
+                    </button>
+                    <p class="mt-2 text-sm text-gray-500">Cada linha criará uma tarefa separada. O título será extraído do início da descrição ou usará o título base.</p>
                 </div>
 
                 <!-- Grid de 2 colunas -->
@@ -124,7 +164,7 @@
                     </div>
 
                     <!-- Data de Vencimento -->
-                    <div>
+                    <div id="data-vencimento-unica">
                         <label for="data_vencimento" class="block text-sm font-medium text-gray-700">
                             Data de Vencimento (Opcional)
                         </label>
@@ -139,7 +179,7 @@
                 </div>
 
                 <!-- Tarefa Recorrente -->
-                <div class="space-y-4">
+                <div class="space-y-4" id="secao-recorrente">
                     <div class="flex items-center">
                         <input type="checkbox" name="recorrente" id="recorrente" value="1" 
                                {{ old('recorrente') ? 'checked' : '' }}
@@ -167,7 +207,7 @@
                 </div>
 
                 <!-- Tarefa de Teste -->
-                <div class="space-y-4 border-t pt-4">
+                <div class="space-y-4 border-t pt-4" id="secao-teste">
                     <div class="flex items-center">
                         <input type="checkbox" name="criar_tarefa_teste" id="criar_tarefa_teste" value="1" 
                                {{ old('criar_tarefa_teste') ? 'checked' : '' }}
@@ -214,6 +254,102 @@
 </div>
 
 <script>
+// Múltiplas tarefas
+const multiplasCheckbox = document.getElementById('multiplas_tarefas');
+const tituloUnico = document.getElementById('titulo-unico');
+const tituloMultiplo = document.getElementById('titulo-multiplo');
+const descricaoUnica = document.getElementById('descricao-unica');
+const descricoesMultiplas = document.getElementById('descricoes-multiplas');
+const dataVencimentoUnica = document.getElementById('data-vencimento-unica');
+const secaoRecorrente = document.getElementById('secao-recorrente');
+const secaoTeste = document.getElementById('secao-teste');
+const tarefasContainer = document.getElementById('tarefas-container');
+
+multiplasCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+        // Modo múltiplas tarefas
+        tituloUnico.classList.add('hidden');
+        tituloMultiplo.classList.remove('hidden');
+        descricaoUnica.classList.add('hidden');
+        descricoesMultiplas.classList.remove('hidden');
+        dataVencimentoUnica.classList.add('hidden');
+        secaoRecorrente.classList.add('hidden');
+        secaoTeste.classList.add('hidden');
+        
+        // Desabilitar campos únicos
+        document.getElementById('titulo').required = false;
+        document.getElementById('descricao').required = false;
+        
+        // Habilitar campos múltiplos
+        const primeiraDescricao = document.querySelector('textarea[name="descricoes[]"]');
+        if (primeiraDescricao) primeiraDescricao.required = true;
+    } else {
+        // Modo tarefa única
+        tituloUnico.classList.remove('hidden');
+        tituloMultiplo.classList.add('hidden');
+        descricaoUnica.classList.remove('hidden');
+        descricoesMultiplas.classList.add('hidden');
+        dataVencimentoUnica.classList.remove('hidden');
+        secaoRecorrente.classList.remove('hidden');
+        secaoTeste.classList.remove('hidden');
+        
+        // Habilitar campos únicos
+        document.getElementById('titulo').required = true;
+    }
+});
+
+// Adicionar nova tarefa
+document.getElementById('adicionar-tarefa').addEventListener('click', function() {
+    const tarefaItem = document.createElement('div');
+    tarefaItem.className = 'tarefa-item';
+    tarefaItem.innerHTML = `
+        <div class="flex gap-2">
+            <textarea name="descricoes[]" rows="2"
+                      class="flex-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Descrição da tarefa..." required></textarea>
+            <input type="date" name="prazos[]" 
+                   class="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   placeholder="Prazo (opcional)">
+            <button type="button" class="remover-tarefa px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    `;
+    tarefasContainer.appendChild(tarefaItem);
+    
+    // Atualizar visibilidade dos botões de remover
+    atualizarBotoesRemover();
+});
+
+// Remover tarefa
+tarefasContainer.addEventListener('click', function(e) {
+    if (e.target.closest('.remover-tarefa')) {
+        const tarefaItem = e.target.closest('.tarefa-item');
+        tarefaItem.remove();
+        atualizarBotoesRemover();
+    }
+});
+
+function atualizarBotoesRemover() {
+    const tarefas = tarefasContainer.querySelectorAll('.tarefa-item');
+    tarefas.forEach((tarefa, index) => {
+        const botaoRemover = tarefa.querySelector('.remover-tarefa');
+        if (tarefas.length > 1) {
+            botaoRemover.classList.remove('hidden');
+        } else {
+            botaoRemover.classList.add('hidden');
+        }
+    });
+}
+
+// Verificar se modo múltiplo está ativo ao carregar
+if (multiplasCheckbox.checked) {
+    multiplasCheckbox.dispatchEvent(new Event('change'));
+}
+
+// Tarefa recorrente
 document.getElementById('recorrente').addEventListener('change', function() {
     const frequenciaContainer = document.getElementById('frequencia-container');
     const frequenciaSelect = document.getElementById('frequencia_recorrencia');

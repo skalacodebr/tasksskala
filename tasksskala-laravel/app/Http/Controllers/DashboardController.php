@@ -13,6 +13,7 @@ use App\Services\GoogleCalendarService;
 use App\Services\OpenAIService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -227,26 +228,71 @@ class DashboardController extends Controller
             return redirect('/login');
         }
 
-        $validated = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descricao' => 'nullable|string|max:2000',
-            'colaborador_id' => 'required|exists:colaboradores,id',
-            'projeto_id' => 'nullable|exists:projetos,id',
-            'prioridade' => 'required|in:baixa,media,alta,urgente',
-            'data_vencimento' => 'nullable|date|after:now',
-            'recorrente' => 'boolean',
-            'frequencia_recorrencia' => 'nullable|in:diaria,semanal,mensal|required_if:recorrente,1',
-            'criar_tarefa_teste' => 'boolean',
-            'testador_id' => 'nullable|exists:colaboradores,id|required_if:criar_tarefa_teste,1',
-        ]);
+        // Verificar se é criação múltipla
+        if ($request->input('multiplas_tarefas')) {
+            // Validação para múltiplas tarefas
+            $validated = $request->validate([
+                'titulo_base' => 'nullable|string|max:255',
+                'descricoes' => 'required|array|min:1',
+                'descricoes.*' => 'required|string|max:2000',
+                'prazos' => 'nullable|array',
+                'prazos.*' => 'nullable|date',
+                'colaborador_id' => 'required|exists:colaboradores,id',
+                'projeto_id' => 'nullable|exists:projetos,id',
+                'prioridade' => 'required|in:baixa,media,alta,urgente',
+            ]);
 
-        $validated['tipo'] = 'manual';
-        $validated['status'] = 'pendente';
-        $validated['created_by'] = $colaborador->id;
+            $tarefasCriadas = 0;
+            
+            foreach ($validated['descricoes'] as $index => $descricao) {
+                // Extrair título da descrição ou usar título base
+                if (!empty($validated['titulo_base'])) {
+                    $titulo = $validated['titulo_base'] . ' - ' . Str::limit($descricao, 50, '');
+                } else {
+                    // Pegar primeiros 60 caracteres da descrição como título
+                    $titulo = Str::limit($descricao, 60, '...');
+                }
 
-        Tarefa::create($validated);
+                $tarefaData = [
+                    'titulo' => $titulo,
+                    'descricao' => $descricao,
+                    'colaborador_id' => $validated['colaborador_id'],
+                    'projeto_id' => $validated['projeto_id'],
+                    'prioridade' => $validated['prioridade'],
+                    'data_vencimento' => $validated['prazos'][$index] ?? null,
+                    'tipo' => 'manual',
+                    'status' => 'pendente',
+                    'created_by' => $colaborador->id,
+                ];
 
-        return redirect('/minhas-tarefas')->with('success', 'Tarefa criada com sucesso!');
+                Tarefa::create($tarefaData);
+                $tarefasCriadas++;
+            }
+
+            return redirect('/minhas-tarefas')->with('success', $tarefasCriadas . ' tarefas criadas com sucesso!');
+        } else {
+            // Validação para tarefa única (código existente)
+            $validated = $request->validate([
+                'titulo' => 'required|string|max:255',
+                'descricao' => 'nullable|string|max:2000',
+                'colaborador_id' => 'required|exists:colaboradores,id',
+                'projeto_id' => 'nullable|exists:projetos,id',
+                'prioridade' => 'required|in:baixa,media,alta,urgente',
+                'data_vencimento' => 'nullable|date|after:now',
+                'recorrente' => 'boolean',
+                'frequencia_recorrencia' => 'nullable|in:diaria,semanal,mensal|required_if:recorrente,1',
+                'criar_tarefa_teste' => 'boolean',
+                'testador_id' => 'nullable|exists:colaboradores,id|required_if:criar_tarefa_teste,1',
+            ]);
+
+            $validated['tipo'] = 'manual';
+            $validated['status'] = 'pendente';
+            $validated['created_by'] = $colaborador->id;
+
+            Tarefa::create($validated);
+
+            return redirect('/minhas-tarefas')->with('success', 'Tarefa criada com sucesso!');
+        }
     }
 
     // MÉTODOS PARA PROJETOS
