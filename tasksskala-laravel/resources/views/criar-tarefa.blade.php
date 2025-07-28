@@ -35,7 +35,7 @@
 
                 <!-- Opção de criar múltiplas tarefas -->
                 <div class="bg-blue-900 bg-opacity-20 border border-blue-700 rounded-lg p-4">
-                    <div class="flex items-center">
+                    <div class="flex items-center d-none">
                         <input type="checkbox" name="multiplas_tarefas" id="multiplas_tarefas" value="1" 
                                {{ old('multiplas_tarefas', 1) ? 'checked' : '' }}
                                class="h-4 w-4 text-blue-400 focus:ring-blue-500 border-gray-600 rounded">
