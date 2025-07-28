@@ -86,6 +86,13 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::get('/agente-skala/{id}', [AgenteSkalaController::class, 'show'])->name('agente-skala.show');
     Route::patch('/agente-skala/plan/{planId}/status', [AgenteSkalaController::class, 'updatePlanStatus'])->name('agente-skala.plan.status');
     
+    // Tickets routes for colaboradores
+    Route::get('/tickets', [App\Http\Controllers\TicketController::class, 'index'])->name('tickets.index');
+    Route::get('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'show'])->name('tickets.show');
+    Route::post('/tickets/{ticket}/atribuir', [App\Http\Controllers\TicketController::class, 'atribuir'])->name('tickets.atribuir');
+    Route::post('/tickets/{ticket}/responder', [App\Http\Controllers\TicketController::class, 'responder'])->name('tickets.responder');
+    Route::patch('/tickets/{ticket}/status', [App\Http\Controllers\TicketController::class, 'alterarStatus'])->name('tickets.status');
+    
     // Tutoriais para colaboradores
     Route::get('/tutoriais', [DashboardController::class, 'tutoriais'])->name('tutoriais');
 });

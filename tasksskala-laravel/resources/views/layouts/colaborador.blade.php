@@ -152,6 +152,23 @@
                             @endif
                         </a>
                     </div>
+
+                    <!-- Support Section -->
+                    <div class="mb-6">
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Suporte</p>
+                        
+                        <a class="group flex items-center px-3 py-3 rounded-xl transition-all duration-200 hover:bg-slate-800/50 {{ request()->routeIs('tickets.*') ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg' : '' }}" href="{{ route('tickets.index') }}">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg {{ request()->routeIs('tickets.*') ? 'bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg' : 'bg-slate-700/50 group-hover:bg-slate-600/50' }} transition-all duration-200">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                                </svg>
+                            </div>
+                            <span class="ml-3 font-medium group-hover:text-white transition-colors {{ request()->routeIs('tickets.*') ? 'text-white' : 'text-slate-300' }}">Tickets</span>
+                            @if(request()->routeIs('tickets.*'))
+                                <div class="ml-auto w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+                            @endif
+                        </a>
+                    </div>
                       <!-- Bottom Section -->
                 <div class="mt-6 pt-4 border-t border-slate-700/50">
                     <div class="p-3 bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/20 rounded-xl backdrop-blur-sm">
