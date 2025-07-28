@@ -14,6 +14,8 @@ use App\Services\OpenAIService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
@@ -292,6 +294,145 @@ class DashboardController extends Controller
             Tarefa::create($validated);
 
             return redirect('/minhas-tarefas')->with('success', 'Tarefa criada com sucesso!');
+        }
+    }
+
+    public function processarTarefaIA(Request $request)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador) {
+            return response()->json(['success' => false, 'message' => 'Não autorizado'], 401);
+        }
+
+        $tipo = $request->input('tipo');
+        $conteudo = '';
+
+        try {
+            if ($tipo === 'audio') {
+                // Processar áudio
+                if (!$request->hasFile('audio')) {
+                    return response()->json(['success' => false, 'message' => 'Nenhum arquivo de áudio enviado'], 400);
+                }
+
+                $audioFile = $request->file('audio');
+                $audioPath = $audioFile->store('temp-audio');
+                
+                // Usar OpenAI Whisper para transcrever
+                $apiKey = config('services.openai.api_key', env('OPENAI_API_KEY'));
+                
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $apiKey,
+                ])->attach(
+                    'file', 
+                    file_get_contents(storage_path('app/' . $audioPath)), 
+                    'audio.wav'
+                )->post('https://api.openai.com/v1/audio/transcriptions', [
+                    'model' => 'whisper-1',
+                    'language' => 'pt'
+                ]);
+
+                if ($response->successful()) {
+                    $conteudo = $response->json()['text'];
+                    // Limpar arquivo temporário
+                    Storage::delete($audioPath);
+                } else {
+                    Storage::delete($audioPath);
+                    return response()->json(['success' => false, 'message' => 'Erro ao transcrever áudio'], 500);
+                }
+            } else {
+                // Texto direto
+                $conteudo = $request->input('conteudo');
+            }
+
+            // Processar conteúdo com ChatGPT
+            $prompt = "Você é um assistente especializado em extrair e organizar tarefas a partir de descrições em linguagem natural.
+
+Analise o seguinte texto e extraia as tarefas mencionadas:
+\"$conteudo\"
+
+Para cada tarefa identificada, retorne um JSON com a seguinte estrutura:
+{
+    \"tarefas\": [
+        {
+            \"titulo\": \"título curto e descritivo\",
+            \"descricao\": \"descrição detalhada da tarefa\",
+            \"prazo\": \"YYYY-MM-DD (se mencionado, caso contrário null)\",
+            \"prioridade\": \"baixa|media|alta|urgente (baseado no contexto, padrão: media)\",
+            \"colaborador_nome\": \"nome do colaborador se mencionado\",
+            \"projeto_nome\": \"nome do projeto se mencionado\",
+            \"titulo_base\": \"título base se múltiplas tarefas similares\"
+        }
+    ]
+}
+
+Regras importantes:
+1. Se múltiplas tarefas forem mencionadas, crie uma entrada para cada uma
+2. Interprete prazos relativos (hoje, amanhã, próxima semana, sexta-feira, etc) baseado na data atual: " . now()->toDateString() . "
+3. Se um colaborador for mencionado, inclua o nome
+4. Se um projeto for mencionado, inclua o nome
+5. Determine a prioridade baseado em palavras como: urgente, importante, crítico (alta/urgente), normal (media), quando der (baixa)
+6. Se as tarefas parecem relacionadas, sugira um titulo_base
+
+Retorne APENAS o JSON, sem explicações adicionais.";
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . config('services.openai.api_key', env('OPENAI_API_KEY')),
+                'Content-Type' => 'application/json',
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o-mini',
+                'messages' => [
+                    ['role' => 'system', 'content' => $prompt],
+                    ['role' => 'user', 'content' => $conteudo]
+                ],
+                'temperature' => 0.3,
+                'response_format' => ['type' => 'json_object']
+            ]);
+
+            if ($response->successful()) {
+                $resultado = json_decode($response->json()['choices'][0]['message']['content'], true);
+                
+                // Processar tarefas e tentar encontrar IDs
+                $tarefasProcessadas = [];
+                foreach ($resultado['tarefas'] as $tarefa) {
+                    $tarefaProcessada = $tarefa;
+                    
+                    // Tentar encontrar colaborador por nome
+                    if (!empty($tarefa['colaborador_nome'])) {
+                        $colaboradorEncontrado = Colaborador::where('nome', 'like', '%' . $tarefa['colaborador_nome'] . '%')->first();
+                        if ($colaboradorEncontrado) {
+                            $tarefaProcessada['colaborador_id'] = $colaboradorEncontrado->id;
+                        }
+                    }
+                    
+                    // Se não encontrou colaborador, usar o atual
+                    if (empty($tarefaProcessada['colaborador_id'])) {
+                        $tarefaProcessada['colaborador_id'] = $colaborador->id;
+                    }
+                    
+                    // Tentar encontrar projeto por nome
+                    if (!empty($tarefa['projeto_nome'])) {
+                        $projetoEncontrado = Projeto::where('nome', 'like', '%' . $tarefa['projeto_nome'] . '%')->first();
+                        if ($projetoEncontrado) {
+                            $tarefaProcessada['projeto_id'] = $projetoEncontrado->id;
+                        }
+                    }
+                    
+                    $tarefasProcessadas[] = $tarefaProcessada;
+                }
+                
+                return response()->json([
+                    'success' => true,
+                    'tarefas' => $tarefasProcessadas
+                ]);
+                
+            } else {
+                return response()->json(['success' => false, 'message' => 'Erro ao processar com IA'], 500);
+            }
+            
+        } catch (\Exception $e) {
+            \Log::error('Erro ao processar tarefa com IA: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Erro ao processar: ' . $e->getMessage()], 500);
         }
     }
 
