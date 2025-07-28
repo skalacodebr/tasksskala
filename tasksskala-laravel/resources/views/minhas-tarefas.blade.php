@@ -11,6 +11,7 @@
                 <label class="block text-sm font-medium text-gray-700">Status</label>
                 <select name="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Todos</option>
+                    <option value="pendente_em_andamento" {{ (!request()->hasAny(['status', 'prioridade', 'projeto_id']) || request('status') == 'pendente_em_andamento') ? 'selected' : '' }}>Pendente + Em Andamento</option>
                     <option value="pendente" {{ request('status') == 'pendente' ? 'selected' : '' }}>Pendente</option>
                     <option value="em_andamento" {{ request('status') == 'em_andamento' ? 'selected' : '' }}>Em Andamento</option>
                     <option value="concluida" {{ request('status') == 'concluida' ? 'selected' : '' }}>Concluída</option>
@@ -78,7 +79,7 @@
                                             <span>Vencimento: {{ $tarefa->data_vencimento->format('d/m/Y H:i') }}</span>
                                         @endif
                                         @if($tarefa->data_inicio && $tarefa->data_fim)
-                                            <span>Duração: {{ $tarefa->duracao }} min</span>
+                                            <span>Duração: {{ $tarefa->duracao_formatada }}</span>
                                         @endif
                                     </div>
                                     <div class="mt-2 flex items-center space-x-2">

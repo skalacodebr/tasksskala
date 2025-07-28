@@ -45,6 +45,12 @@ class Colaborador extends Model
         return $this->hasMany(Projeto::class, 'colaborador_responsavel_id');
     }
 
+    public function projetosComoResponsavel()
+    {
+        return $this->belongsToMany(Projeto::class, 'projeto_responsaveis', 'colaborador_id', 'projeto_id')
+                    ->withTimestamps();
+    }
+
     public function googleOAuthToken()
     {
         return $this->hasOne(GoogleOAuthToken::class);

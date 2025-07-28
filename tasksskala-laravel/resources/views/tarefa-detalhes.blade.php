@@ -84,6 +84,12 @@
                         </button>
                     @endif
 
+                    @if(in_array($tarefa->status, ['pendente', 'em_andamento']))
+                        <button type="button" onclick="openTransferirModal()" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                            Transferir
+                        </button>
+                    @endif
+
                     <a href="{{ route('minhas-tarefas') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                         Voltar
                     </a>
@@ -193,6 +199,34 @@
                                     </li>
                                 @endif
 
+                                @if($tarefa->data_transferencia)
+                                    <li>
+                                        <div class="relative pb-8">
+                                            <div class="relative flex space-x-3">
+                                                <div>
+                                                    <span class="h-8 w-8 rounded-full bg-orange-500 flex items-center justify-center ring-8 ring-white">
+                                                        <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                    <div>
+                                                        <p class="text-sm text-gray-500">Tarefa transferida</p>
+                                                        <p class="text-xs text-gray-400">De: {{ $tarefa->transferidoDe->nome ?? 'N/A' }}</p>
+                                                        @if($tarefa->motivo_transferencia)
+                                                            <p class="text-xs text-gray-400 mt-1">Motivo: {{ $tarefa->motivo_transferencia }}</p>
+                                                        @endif
+                                                    </div>
+                                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                        {{ $tarefa->data_transferencia->format('d/m/Y H:i') }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+
                                 @if($tarefa->data_fim)
                                     <li>
                                         <div class="relative">
@@ -208,7 +242,7 @@
                                                     <div>
                                                         <p class="text-sm text-gray-500">Tarefa concluída</p>
                                                         @if($tarefa->duracao)
-                                                            <p class="text-xs text-gray-400">Duração: {{ $tarefa->duracao }} minutos</p>
+                                                            <p class="text-xs text-gray-400">Duração: {{ $tarefa->duracao_formatada }}</p>
                                                         @endif
                                                     </div>
                                                     <div class="text-right text-sm whitespace-nowrap text-gray-500">
@@ -351,6 +385,42 @@
     </div>
 </div>
 
+<!-- Modal Transferir Tarefa -->
+<div id="transferirModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Transferir Tarefa</h3>
+            <form action="{{ route('tarefa.transferir', $tarefa) }}" method="POST">
+                @csrf
+                <div class="mb-4">
+                    <label for="colaborador_id" class="block text-sm font-medium text-gray-700">Transferir para</label>
+                    <select name="colaborador_id" id="colaborador_id" required
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500">
+                        <option value="">Selecione um colaborador</option>
+                        @foreach(App\Models\Colaborador::where('id', '!=', $tarefa->colaborador_id)->orderBy('nome')->get() as $colaborador)
+                            <option value="{{ $colaborador->id }}">{{ $colaborador->nome }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="motivo" class="block text-sm font-medium text-gray-700">Motivo da transferência</label>
+                    <textarea name="motivo" id="motivo" rows="3" required
+                              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+                              placeholder="Explique o motivo da transferência..."></textarea>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeTransferirModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                        Transferir
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
 function openConcluirModal() {
     document.getElementById('concluirModal').classList.remove('hidden');
@@ -368,6 +438,16 @@ function openNotaModal() {
 function closeNotaModal() {
     document.getElementById('notaModal').classList.add('hidden');
     document.getElementById('nota').value = '';
+}
+
+function openTransferirModal() {
+    document.getElementById('transferirModal').classList.remove('hidden');
+}
+
+function closeTransferirModal() {
+    document.getElementById('transferirModal').classList.add('hidden');
+    document.getElementById('colaborador_id').value = '';
+    document.getElementById('motivo').value = '';
 }
 </script>
 @endsection

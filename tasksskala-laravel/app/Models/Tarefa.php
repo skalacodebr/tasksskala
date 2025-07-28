@@ -33,6 +33,10 @@ class Tarefa extends Model
         'data_pausa',
         'tempo_pausado',
         'pausada',
+        'transferido_de_id',
+        'transferido_para_id',
+        'data_transferencia',
+        'motivo_transferencia',
     ];
 
     protected function casts(): array
@@ -47,6 +51,7 @@ class Tarefa extends Model
             'criar_tarefa_teste' => 'boolean',
             'data_pausa' => 'datetime',
             'pausada' => 'boolean',
+            'data_transferencia' => 'datetime',
         ];
     }
 
@@ -126,6 +131,23 @@ class Tarefa extends Model
         return null;
     }
 
+    public function getDuracaoFormatadaAttribute()
+    {
+        if (!$this->duracao) {
+            return null;
+        }
+        
+        $totalMinutos = round($this->duracao);
+        $horas = floor($totalMinutos / 60);
+        $minutosRestantes = $totalMinutos % 60;
+        
+        if ($horas > 0) {
+            return sprintf('%dh %dm', $horas, $minutosRestantes);
+        }
+        
+        return sprintf('%dm', $minutosRestantes);
+    }
+
     public function scopePendentes($query)
     {
         return $query->where('status', 'pendente');
@@ -165,5 +187,50 @@ class Tarefa extends Model
     public function tarefaTeste()
     {
         return $this->belongsTo(Tarefa::class, 'tarefa_teste_id');
+    }
+
+    public function transferidoDe()
+    {
+        return $this->belongsTo(Colaborador::class, 'transferido_de_id');
+    }
+
+    public function transferidoPara()
+    {
+        return $this->belongsTo(Colaborador::class, 'transferido_para_id');
+    }
+
+    public function transferencias()
+    {
+        return $this->hasMany(TarefaTransferencia::class);
+    }
+
+    public function transferirResponsabilidade($paraColaboradorId, $motivo)
+    {
+        $deColaboradorId = $this->colaborador_id;
+        
+        // Criar registro de transferência
+        TarefaTransferencia::create([
+            'tarefa_id' => $this->id,
+            'de_colaborador_id' => $deColaboradorId,
+            'para_colaborador_id' => $paraColaboradorId,
+            'motivo' => $motivo,
+        ]);
+        
+        // Atualizar a tarefa
+        $this->update([
+            'colaborador_id' => $paraColaboradorId,
+            'transferido_de_id' => $deColaboradorId,
+            'transferido_para_id' => $paraColaboradorId,
+            'data_transferencia' => now(),
+            'motivo_transferencia' => $motivo,
+        ]);
+        
+        // Adicionar nota sobre a transferência
+        $colaboradorDe = Colaborador::find($deColaboradorId);
+        $colaboradorPara = Colaborador::find($paraColaboradorId);
+        $nota = "Tarefa transferida de {$colaboradorDe->nome} para {$colaboradorPara->nome}. Motivo: {$motivo}";
+        $this->adicionarNota($nota);
+        
+        return $this;
     }
 }

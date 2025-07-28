@@ -60,6 +60,7 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::patch('/tarefa/{tarefa}/continuar', [DashboardController::class, 'continuarTarefa'])->name('tarefa.continuar');
     Route::post('/tarefa/{tarefa}/nota', [DashboardController::class, 'adicionarNota'])->name('tarefa.nota');
     Route::get('/tarefa/{tarefa}/detalhes', [DashboardController::class, 'verTarefa'])->name('tarefa.detalhes');
+    Route::post('/tarefa/{tarefa}/transferir', [DashboardController::class, 'transferirTarefa'])->name('tarefa.transferir');
     
     // Plano de ação diário e Pomodoro
     Route::get('/plano-diario', [DashboardController::class, 'planoDiario'])->name('plano-diario');
@@ -178,6 +179,7 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::patch('tarefas/{tarefa}/iniciar', [TarefaController::class, 'iniciar'])->name('tarefas.iniciar');
     Route::patch('tarefas/{tarefa}/concluir', [TarefaController::class, 'concluir'])->name('tarefas.concluir');
     Route::patch('tarefas/{tarefa}/cancelar', [TarefaController::class, 'cancelar'])->name('tarefas.cancelar');
+    Route::post('tarefas/{tarefa}/transferir', [TarefaController::class, 'transferir'])->name('tarefas.transferir');
     
     // Agente Skala routes
     Route::get('agente-skala', [AdminAgenteSkalaController::class, 'index'])->name('agente-skala.index');

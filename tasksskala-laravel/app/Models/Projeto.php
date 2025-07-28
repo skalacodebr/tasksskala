@@ -40,6 +40,12 @@ class Projeto extends Model
         return $this->belongsTo(Colaborador::class, 'colaborador_responsavel_id');
     }
 
+    public function responsaveis()
+    {
+        return $this->belongsToMany(Colaborador::class, 'projeto_responsaveis', 'projeto_id', 'colaborador_id')
+                    ->withTimestamps();
+    }
+
     public function marcos()
     {
         return $this->hasMany(MarcosProjeto::class);

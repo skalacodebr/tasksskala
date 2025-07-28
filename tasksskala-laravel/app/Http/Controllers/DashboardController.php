@@ -8,6 +8,7 @@ use App\Models\Colaborador;
 use App\Models\Cliente;
 use App\Models\MarcosProjeto;
 use App\Models\Tutorial;
+use App\Models\TarefaTransferencia;
 use App\Services\GoogleCalendarService;
 use App\Services\OpenAIService;
 use Illuminate\Http\Request;
@@ -115,7 +116,14 @@ class DashboardController extends Controller
 
         // Filtros
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            if ($request->status == 'pendente_em_andamento') {
+                $query->whereIn('status', ['pendente', 'em_andamento']);
+            } else {
+                $query->where('status', $request->status);
+            }
+        } elseif (!$request->hasAny(['prioridade', 'projeto_id'])) {
+            // Se nenhum filtro foi aplicado, mostrar apenas pendentes e em andamento por padrão
+            $query->whereIn('status', ['pendente', 'em_andamento']);
         }
 
         if ($request->filled('prioridade')) {
@@ -849,5 +857,27 @@ class DashboardController extends Controller
         $tarefa->adicionarNota($validated['nota']);
 
         return redirect()->back()->with('success', 'Nota adicionada com sucesso!');
+    }
+
+    public function transferirTarefa(Request $request, Tarefa $tarefa)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador || $tarefa->colaborador_id != $colaborador->id) {
+            return redirect('/dashboard')->with('error', 'Acesso negado!');
+        }
+
+        $validated = $request->validate([
+            'colaborador_id' => 'required|exists:colaboradores,id|different:' . $tarefa->colaborador_id,
+            'motivo' => 'required|string|max:1000'
+        ]);
+
+        if ($tarefa->status === 'concluida' || $tarefa->status === 'cancelada') {
+            return redirect()->back()->with('error', 'Não é possível transferir tarefas concluídas ou canceladas!');
+        }
+
+        $tarefa->transferirResponsabilidade($validated['colaborador_id'], $validated['motivo']);
+
+        return redirect()->back()->with('success', 'Tarefa transferida com sucesso!');
     }
 }

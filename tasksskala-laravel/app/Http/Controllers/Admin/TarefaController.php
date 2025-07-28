@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tarefa;
 use App\Models\Colaborador;
 use App\Models\Projeto;
+use App\Models\TarefaTransferencia;
 use Illuminate\Http\Request;
 
 class TarefaController extends Controller
@@ -161,5 +162,21 @@ class TarefaController extends Controller
         $tarefa->cancelarTarefa($validated['observacoes']);
 
         return redirect()->back()->with('success', 'Tarefa cancelada com sucesso!');
+    }
+
+    public function transferir(Request $request, Tarefa $tarefa)
+    {
+        $validated = $request->validate([
+            'colaborador_id' => 'required|exists:colaboradores,id|different:' . $tarefa->colaborador_id,
+            'motivo' => 'required|string|max:1000'
+        ]);
+
+        if ($tarefa->status === 'concluida' || $tarefa->status === 'cancelada') {
+            return redirect()->back()->with('error', 'Não é possível transferir tarefas concluídas ou canceladas!');
+        }
+
+        $tarefa->transferirResponsabilidade($validated['colaborador_id'], $validated['motivo']);
+
+        return redirect()->back()->with('success', 'Tarefa transferida com sucesso!');
     }
 }

@@ -725,7 +725,7 @@
                     this.loadingSuggestion = true;
                     
                     try {
-                        const response = await fetch('{{ route("agente-srs2.sugerir") }}', {
+                        const response = await fetch('/teste_agente2/sugerir-resposta', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -1038,7 +1038,7 @@
                     this.loadingSuggestion[suggestionKey] = true;
 
                     try {
-                        const response = await fetch('{{ route("agente-srs2.sugerir") }}', {
+                        const response = await fetch('/teste_agente2/sugerir-resposta', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
