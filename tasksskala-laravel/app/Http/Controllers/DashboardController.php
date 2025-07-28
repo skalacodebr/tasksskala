@@ -319,7 +319,7 @@ class DashboardController extends Controller
                 $audioPath = $audioFile->store('temp-audio');
                 
                 // Usar OpenAI Whisper para transcrever
-                $apiKey = config('services.openai.api_key', env('OPENAI_API_KEY'));
+                $apiKey = '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';
                 
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . $apiKey,
@@ -377,7 +377,7 @@ Regras importantes:
 Retorne APENAS o JSON, sem explicações adicionais.";
 
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . config('services.openai.api_key', env('OPENAI_API_KEY')),
+                'Authorization' => 'Bearer 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',
                 'Content-Type' => 'application/json',
             ])->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-4o-mini',
