@@ -34,7 +34,7 @@
     <!-- Filtros -->
     <div class="card-dark p-4 rounded-lg shadow mb-6">
         <form method="GET" action="{{ route('tickets.index') }}" class="flex flex-wrap gap-4">
-            <select name="status" onchange="this.form.submit()" class="rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select name="status" onchange="this.form.submit()" class="input-dark rounded-md shadow-sm">
                 <option value="">Todos os Status</option>
                 <option value="aberto" {{ request('status') == 'aberto' ? 'selected' : '' }}>Aberto</option>
                 <option value="em_andamento" {{ request('status') == 'em_andamento' ? 'selected' : '' }}>Em Andamento</option>
@@ -42,14 +42,14 @@
                 <option value="fechado" {{ request('status') == 'fechado' ? 'selected' : '' }}>Fechado</option>
             </select>
             
-            <select name="setor" onchange="this.form.submit()" class="rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select name="setor" onchange="this.form.submit()" class="input-dark rounded-md shadow-sm">
                 <option value="">Todos os Setores</option>
                 <option value="comercial" {{ request('setor') == 'comercial' ? 'selected' : '' }}>Comercial</option>
                 <option value="financeiro" {{ request('setor') == 'financeiro' ? 'selected' : '' }}>Financeiro</option>
                 <option value="desenvolvimento" {{ request('setor') == 'desenvolvimento' ? 'selected' : '' }}>Desenvolvimento</option>
             </select>
             
-            <select name="prioridade" onchange="this.form.submit()" class="rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select name="prioridade" onchange="this.form.submit()" class="input-dark rounded-md shadow-sm">
                 <option value="">Todas as Prioridades</option>
                 <option value="baixa" {{ request('prioridade') == 'baixa' ? 'selected' : '' }}>Baixa</option>
                 <option value="media" {{ request('prioridade') == 'media' ? 'selected' : '' }}>Média</option>
@@ -71,8 +71,8 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full {{ $ticket->prioridade == 'alta' ? 'bg-red-100' : ($ticket->prioridade == 'media' ? 'bg-yellow-100' : 'bg-green-100') }}">
-                                    <span class="text-sm font-medium {{ $ticket->prioridade == 'alta' ? 'text-red-800' : ($ticket->prioridade == 'media' ? 'text-yellow-800' : 'text-green-800') }}">
+                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full {{ $ticket->prioridade == 'alta' ? 'bg-red-800' : ($ticket->prioridade == 'media' ? 'bg-yellow-800' : 'bg-green-800') }}">
+                                    <span class="text-sm font-medium {{ $ticket->prioridade == 'alta' ? 'text-red-200' : ($ticket->prioridade == 'media' ? 'text-yellow-200' : 'text-green-200') }}">
                                         {{ strtoupper(substr($ticket->prioridade, 0, 1)) }}
                                     </span>
                                 </span>

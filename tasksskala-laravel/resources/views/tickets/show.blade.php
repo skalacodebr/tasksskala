@@ -10,7 +10,7 @@
                     <h1 class="text-2xl font-bold text-primary-dark">Ticket #{{ $ticket->id }}</h1>
                     <p class="mt-1 text-gray-400">{{ $ticket->titulo }}</p>
                 </div>
-                <a href="{{ route('tickets.index') }}" class="text-indigo-600 hover:text-indigo-900">
+                <a href="{{ route('tickets.index') }}" class="text-indigo-400 hover:text-indigo-300">
                     ← Voltar para lista
                 </a>
             </div>
@@ -71,12 +71,12 @@
                                     Nova Mensagem
                                 </label>
                                 <textarea name="mensagem" id="mensagem" rows="4" required
-                                    class="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                                    class="mt-1 block w-full input-dark rounded-md shadow-sm"></textarea>
                             </div>
                             
                             <div class="flex items-center">
                                 <input type="checkbox" name="is_internal" id="is_internal" value="1"
-                                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-600 rounded">
+                                    class="h-4 w-4 text-indigo-400 focus:ring-indigo-500 border-gray-600 rounded bg-gray-800">
                                 <label for="is_internal" class="ml-2 block text-sm text-primary-dark">
                                     Nota interna (não visível para o cliente)
                                 </label>
@@ -172,7 +172,7 @@
                                     Transferir responsabilidade para
                                 </label>
                                 <select name="novo_responsavel_id" id="novo_responsavel_id" required
-                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    class="mt-1 block w-full input-dark rounded-md">
                                     <option value="">Selecione um colaborador</option>
                                     @foreach($colaboradores as $colaborador)
                                         @if($colaborador->id != $ticket->atribuido_para)
@@ -198,7 +198,7 @@
                                 Atribuir para
                             </label>
                             <select name="colaborador_id" id="colaborador_id" required
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                class="mt-1 block w-full input-dark rounded-md">
                                 <option value="">Selecione um colaborador</option>
                                 @foreach($colaboradores as $colaborador)
                                     <option value="{{ $colaborador->id }}" {{ $ticket->atribuido_para == $colaborador->id ? 'selected' : '' }}>
@@ -225,7 +225,7 @@
                                 Alterar Status
                             </label>
                             <select name="status" id="status" required
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                class="mt-1 block w-full input-dark rounded-md">
                                 <option value="aberto" {{ $ticket->status == 'aberto' ? 'selected' : '' }}>Aberto</option>
                                 <option value="em_andamento" {{ $ticket->status == 'em_andamento' ? 'selected' : '' }}>Em Andamento</option>
                                 <option value="respondido" {{ $ticket->status == 'respondido' ? 'selected' : '' }}>Respondido</option>

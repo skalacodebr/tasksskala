@@ -47,7 +47,7 @@
                 <button type="submit" class="btn-primary-dark font-bold py-2 px-4 rounded">
                     Filtrar
                 </button>
-                <a href="{{ route('tarefas-designadas') }}" class="ml-2 bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                <a href="{{ route('tarefas-designadas') }}" class="ml-2 btn-secondary-dark font-bold py-2 px-4 rounded">
                     Limpar
                 </a>
             </div>

@@ -90,7 +90,7 @@
                         </button>
                     @endif
 
-                    <a href="{{ route('minhas-tarefas') }}" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                    <a href="{{ route('minhas-tarefas') }}" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                         Voltar
                     </a>
                 </div>
@@ -348,7 +348,7 @@
                               class="mt-1 block w-full input-dark rounded-md shadow-sm"></textarea>
                 </div>
                 <div class="flex justify-end space-x-3">
-                    <button type="button" onclick="closeConcluirModal()" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                    <button type="button" onclick="closeConcluirModal()" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                         Cancelar
                     </button>
                     <button type="submit" class="btn-primary-dark font-bold py-2 px-4 rounded">
@@ -373,7 +373,7 @@
                               class="mt-1 block w-full input-dark rounded-md shadow-sm"></textarea>
                 </div>
                 <div class="flex justify-end space-x-3">
-                    <button type="button" onclick="closeNotaModal()" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                    <button type="button" onclick="closeNotaModal()" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                         Cancelar
                     </button>
                     <button type="submit" class="btn-primary-dark font-bold py-2 px-4 rounded">
@@ -405,11 +405,11 @@
                 <div class="mb-4">
                     <label for="motivo" class="block text-sm font-medium text-muted-dark">Motivo da transferência</label>
                     <textarea name="motivo" id="motivo" rows="3" required
-                              class="mt-1 block w-full border-gray-600 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+                              class="mt-1 block w-full input-dark rounded-md shadow-sm"
                               placeholder="Explique o motivo da transferência..."></textarea>
                 </div>
                 <div class="flex justify-end space-x-3">
-                    <button type="button" onclick="closeTransferirModal()" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                    <button type="button" onclick="closeTransferirModal()" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                         Cancelar
                     </button>
                     <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">

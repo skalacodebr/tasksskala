@@ -19,7 +19,7 @@
                         </svg>
                         Assistente IA
                     </button>
-                    <a href="{{ route('minhas-tarefas') }}" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                    <a href="{{ route('minhas-tarefas') }}" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                         Voltar
                     </a>
                 </div>
@@ -248,7 +248,7 @@
                 <!-- Botões de Ação -->
                 <div class="flex justify-end space-x-3 pt-6 border-t border-gray-700">
                     <a href="{{ route('minhas-tarefas') }}" 
-                       class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                       class="btn-secondary-dark font-bold py-2 px-4 rounded">
                         Cancelar
                     </a>
                     <button type="submit" 
@@ -472,7 +472,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             <!-- Botões -->
             <div class="mt-6 flex justify-end space-x-3">
                 <button type="button" id="cancelar-ia" 
-                        class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                        class="btn-secondary-dark font-bold py-2 px-4 rounded">
                     Cancelar
                 </button>
                 <button type="button" id="processar-ia" 

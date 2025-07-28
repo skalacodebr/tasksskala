@@ -277,7 +277,7 @@ function exibirPlano(plano) {
             <div class="flex-1">
                 <h4 class="font-medium text-primary-dark">${tarefa.titulo}</h4>
                 <div class="text-sm text-gray-400">
-                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${getPrioridadeColor(tarefa.prioridade)}-100 text-${getPrioridadeColor(tarefa.prioridade)}-800 mr-2">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${getPrioridadeColor(tarefa.prioridade)}-800 text-${getPrioridadeColor(tarefa.prioridade)}-200 mr-2">
                         ${tarefa.prioridade.charAt(0).toUpperCase() + tarefa.prioridade.slice(1)}
                     </span>
                     Tempo estimado: ${Math.round(tarefa.tempo_estimado / 60)}h${tarefa.tempo_estimado % 60 ? ' ' + (tarefa.tempo_estimado % 60) + 'min' : ''}
@@ -584,15 +584,15 @@ function exibirPlanoExistente(plano) {
         })();
         
         tarefaDiv.innerHTML = `
-            <div class="w-6 h-6 bg-green-100 border-2 border-green-500 rounded mr-3 flex items-center justify-center">
-                <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <div class="w-6 h-6 bg-green-800 border-2 border-green-500 rounded mr-3 flex items-center justify-center">
+                <svg class="w-4 h-4 text-green-200" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                 </svg>
             </div>
             <div class="flex-1">
                 <h4 class="font-medium text-primary-dark">${tarefa.titulo}</h4>
                 <div class="text-sm text-gray-400">
-                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${getPrioridadeColor(tarefa.prioridade)}-100 text-${getPrioridadeColor(tarefa.prioridade)}-800 mr-2">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-${getPrioridadeColor(tarefa.prioridade)}-800 text-${getPrioridadeColor(tarefa.prioridade)}-200 mr-2">
                         ${tarefa.prioridade.charAt(0).toUpperCase() + tarefa.prioridade.slice(1)}
                     </span>
                     Tempo estimado: ${Math.round(tempoEstimado / 60)}h${tempoEstimado % 60 ? ' ' + (tempoEstimado % 60) + 'min' : ''}

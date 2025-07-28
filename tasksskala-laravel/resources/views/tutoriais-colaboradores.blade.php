@@ -12,7 +12,7 @@
                     <h1 class="text-2xl font-bold text-primary-dark">Tutoriais</h1>
                     <p class="text-gray-400 mt-1">Aprenda como usar as funcionalidades do sistema</p>
                 </div>
-                <a href="{{ route('dashboard') }}" class="bg-gray-300 hover:bg-gray-400 text-primary-dark font-bold py-2 px-4 rounded">
+                <a href="{{ route('dashboard') }}" class="btn-secondary-dark font-bold py-2 px-4 rounded">
                     Voltar ao Dashboard
                 </a>
             </div>
