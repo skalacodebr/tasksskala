@@ -1470,7 +1470,7 @@ Retorne APENAS o JSON, sem explicações adicionais.";
             }
             
             // Buscar projetos onde o colaborador é responsável e estão concluídos no período
-            $projetosResponsavel = Projeto::where('responsavel_id', $colab->id)
+            $projetosResponsavel = Projeto::where('colaborador_responsavel_id', $colab->id)
                 ->where('status_id', function($query) {
                     $query->select('id')
                         ->from('status_projetos')
