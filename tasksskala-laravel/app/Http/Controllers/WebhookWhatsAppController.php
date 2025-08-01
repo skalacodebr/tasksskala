@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use App\Models\ContatoWp;
+use App\Models\MessageWp;
 
 class WebhookWhatsAppController extends Controller
 {
@@ -21,6 +23,11 @@ class WebhookWhatsAppController extends Controller
             // Verificar se é o evento de contatos
             if ($event === 'contacts.upsert' && !empty($data) && !empty($instance)) {
                 $this->processContactsUpsert($instance, $data);
+            }
+            
+            // Verificar se é o evento de mensagens
+            if ($event === 'messages.upsert' && !empty($data) && !empty($instance)) {
+                $this->processMessagesUpsert($instance, $data);
             }
             
             return response()->json(['status' => 'success'], 200);
@@ -95,5 +102,168 @@ class WebhookWhatsAppController extends Controller
                 ]);
             }
         }
+    }
+    
+    private function processMessagesUpsert($instanceName, $messageData)
+    {
+        try {
+            // Extrair dados da mensagem
+            $key = $messageData['key'] ?? [];
+            $message = $messageData['message'] ?? [];
+            
+            $messageId = $key['id'] ?? null;
+            $remoteJid = $key['remoteJid'] ?? null;
+            $fromMe = $key['fromMe'] ?? false;
+            $pushName = $messageData['pushName'] ?? null;
+            $status = $messageData['status'] ?? null;
+            $messageType = $messageData['messageType'] ?? null;
+            $messageTimestamp = $messageData['messageTimestamp'] ?? null;
+            $instanceId = $messageData['instanceId'] ?? null;
+            
+            if (!$messageId || !$remoteJid) {
+                Log::warning('Mensagem sem ID ou remoteJid', $messageData);
+                return;
+            }
+            
+            // Verificar se a mensagem já existe
+            $existingMessage = MessageWp::where('message_id', $messageId)
+                ->where('instance_name', $instanceName)
+                ->first();
+                
+            if ($existingMessage) {
+                Log::info('Mensagem já existe, pulando', [
+                    'message_id' => $messageId,
+                    'instance' => $instanceName
+                ]);
+                return;
+            }
+            
+            $messageText = null;
+            $mediaUrl = null;
+            $mediaType = null;
+            
+            // Processar diferentes tipos de mensagem
+            switch ($messageType) {
+                case 'conversation':
+                    $messageText = $message['conversation'] ?? null;
+                    break;
+                    
+                case 'imageMessage':
+                    $messageText = '[Imagem]';
+                    $mediaType = 'image';
+                    if (isset($message['imageMessage']['base64'])) {
+                        $mediaUrl = $this->saveBase64Media($message['imageMessage']['base64'], 'image', $messageId);
+                    }
+                    break;
+                    
+                case 'audioMessage':
+                    $messageText = '[Áudio]';
+                    $mediaType = 'audio';
+                    if (isset($message['audioMessage']['base64'])) {
+                        $mediaUrl = $this->saveBase64Media($message['audioMessage']['base64'], 'audio', $messageId);
+                    }
+                    break;
+                    
+                default:
+                    $messageText = '[Mensagem não suportada: ' . $messageType . ']';
+            }
+            
+            // Criar registro da mensagem
+            MessageWp::create([
+                'message_id' => $messageId,
+                'remote_jid' => $remoteJid,
+                'from_me' => $fromMe,
+                'push_name' => $pushName,
+                'status' => $status,
+                'message_text' => $messageText,
+                'message_type' => $messageType,
+                'media_url' => $mediaUrl,
+                'media_type' => $mediaType,
+                'message_timestamp' => $messageTimestamp,
+                'instance_id' => $instanceId,
+                'instance_name' => $instanceName,
+                'raw_data' => $messageData
+            ]);
+            
+            Log::info('Nova mensagem WhatsApp salva', [
+                'message_id' => $messageId,
+                'remote_jid' => $remoteJid,
+                'from_me' => $fromMe,
+                'type' => $messageType,
+                'instance' => $instanceName
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Erro ao processar mensagem individual', [
+                'message_data' => $messageData,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+    
+    private function saveBase64Media($base64Data, $mediaType, $messageId)
+    {
+        try {
+            // Remover prefixo do base64 se existir
+            if (strpos($base64Data, 'data:') === 0) {
+                $base64Data = substr($base64Data, strpos($base64Data, ',') + 1);
+            }
+            
+            // Decodificar base64
+            $decodedData = base64_decode($base64Data);
+            if ($decodedData === false) {
+                throw new \Exception('Falha ao decodificar base64');
+            }
+            
+            // Determinar extensão do arquivo
+            $extension = $this->getMediaExtension($mediaType, $decodedData);
+            
+            // Criar nome do arquivo
+            $fileName = 'whatsapp_' . $mediaType . '_' . $messageId . '.' . $extension;
+            $filePath = 'whatsapp-media/' . $fileName;
+            
+            // Criar diretório se não existir
+            if (!Storage::exists('whatsapp-media')) {
+                Storage::makeDirectory('whatsapp-media');
+            }
+            
+            // Salvar arquivo
+            Storage::put($filePath, $decodedData);
+            
+            // Retornar URL pública do arquivo
+            return Storage::url($filePath);
+            
+        } catch (\Exception $e) {
+            Log::error('Erro ao salvar mídia base64', [
+                'media_type' => $mediaType,
+                'message_id' => $messageId,
+                'error' => $e->getMessage()
+            ]);
+            
+            return null;
+        }
+    }
+    
+    private function getMediaExtension($mediaType, $data)
+    {
+        // Detectar tipo de arquivo pelos primeiros bytes
+        $header = substr($data, 0, 20);
+        
+        if ($mediaType === 'image') {
+            if (strpos($header, "\xFF\xD8\xFF") === 0) return 'jpg';
+            if (strpos($header, "\x89PNG") === 0) return 'png';
+            if (strpos($header, "GIF87a") === 0 || strpos($header, "GIF89a") === 0) return 'gif';
+            if (strpos($header, "WEBP") !== false) return 'webp';
+            return 'jpg'; // fallback
+        }
+        
+        if ($mediaType === 'audio') {
+            if (strpos($header, "OggS") === 0) return 'ogg';
+            if (strpos($header, "\xFF\xFB") === 0 || strpos($header, "\xFF\xF3") === 0 || strpos($header, "\xFF\xF2") === 0) return 'mp3';
+            if (strpos($header, "RIFF") === 0 && strpos($header, "WAVE") !== false) return 'wav';
+            return 'ogg'; // fallback para WhatsApp (geralmente opus em ogg)
+        }
+        
+        return 'bin'; // fallback genérico
     }
 }

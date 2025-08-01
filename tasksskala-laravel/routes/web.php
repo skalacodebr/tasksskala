@@ -155,6 +155,12 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
         Route::post('/{instanceName}/disconnect', [App\Http\Controllers\WhatsAppInstanceController::class, 'disconnect'])->name('disconnect');
     });
     
+    // Rotas WhatsApp Chat (apenas para Administrativo)
+    Route::prefix('whatsapp-chat')->name('whatsapp-chat.')->group(function () {
+        Route::get('/', [App\Http\Controllers\WhatsAppChatController::class, 'index'])->name('index');
+        Route::get('/messages', [App\Http\Controllers\WhatsAppChatController::class, 'getMessages'])->name('messages');
+    });
+    
     // Rotas Financeiras para colaboradores (Administrativo e Financeiro)
     Route::prefix('financeiro')->name('financeiro.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardFinanceiraController::class, 'index'])->name('dashboard');
