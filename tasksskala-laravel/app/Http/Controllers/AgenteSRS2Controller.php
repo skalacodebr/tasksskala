@@ -411,7 +411,14 @@ class AgenteSRS2Controller extends Controller
         $formattedAnswers = $this->formatAnswersForAPI($answers);
 
         try {
-            $apiKey = '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';
+            $apiKey = config('services.openai.api_key');
+            
+            if (!$apiKey) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'API Key da OpenAI não configurada'
+                ]);
+            }
             
             $response = Http::timeout(60)->withHeaders([
                 'Authorization' => 'Bearer ' . $apiKey,
@@ -747,7 +754,14 @@ Gere um Software Requirements Specification (SRS) completo, profissional e detal
         }
 
         try {
-            $apiKey = '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';
+            $apiKey = config('services.openai.api_key');
+            
+            if (!$apiKey) {
+                return response()->json([
+                    'success' => false,
+                    'suggestion' => 'API Key da OpenAI não configurada. Por favor, configure-a no arquivo .env'
+                ]);
+            }
             
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $apiKey,
@@ -834,7 +848,11 @@ FORMATO: Forneça APENAS o texto da resposta, sem preâmbulos ou explicações.'
         $contextString = $this->formatContextForAI($context, ['question' => 'Sugerir funcionalidades principais']);
         
         try {
-            $apiKey = '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';
+            $apiKey = config('services.openai.api_key');
+            
+            if (!$apiKey) {
+                return [];
+            }
             
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $apiKey,
