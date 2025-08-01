@@ -117,35 +117,53 @@ class WhatsAppInstanceController extends Controller
     public function show($instanceName)
     {
         try {
-            // Buscar QR Code
-            $qrResponse = Http::withHeaders([
-                'apikey' => $this->apiKey
-            ])->get($this->apiUrl . '/instance/connect/' . $instanceName);
-
-            $qrCode = null;
-            $status = 'disconnected';
-
-            if ($qrResponse->successful()) {
-                $data = $qrResponse->json();
-                if (isset($data['qrcode'])) {
-                    $qrCode = $data['qrcode'];
-                    $status = 'waiting_qr';
-                }
-            }
-
-            // Verificar status da conexão
+            // Primeiro verificar status da conexão
             $statusResponse = Http::withHeaders([
                 'apikey' => $this->apiKey
             ])->get($this->apiUrl . '/instance/connectionState/' . $instanceName);
 
+            $status = 'disconnected';
+            $qrCode = null;
+            $base64 = null;
+
             if ($statusResponse->successful()) {
                 $statusData = $statusResponse->json();
-                if (isset($statusData['state']) && $statusData['state'] == 'open') {
+                Log::info('Status da instância', $statusData);
+                
+                // Verificar o estado da instância
+                $state = $statusData['instance']['state'] ?? ($statusData['state'] ?? 'closed');
+                
+                if ($state == 'open' || $state == 'connected') {
                     $status = 'connected';
+                } elseif ($state == 'connecting' || $state == 'closed' || $state == 'disconnected') {
+                    // Se está conectando ou desconectado, buscar QR Code
+                    $qrResponse = Http::withHeaders([
+                        'apikey' => $this->apiKey
+                    ])->get($this->apiUrl . '/instance/connect/' . $instanceName);
+
+                    if ($qrResponse->successful()) {
+                        $qrData = $qrResponse->json();
+                        Log::info('Resposta QR Code', $qrData);
+                        
+                        // O QR code pode vir em base64 ou como código
+                        if (isset($qrData['base64'])) {
+                            $base64 = $qrData['base64'];
+                            $status = 'waiting_qr';
+                        } elseif (isset($qrData['code'])) {
+                            $qrCode = $qrData['code'];
+                            $status = 'waiting_qr';
+                        }
+                    }
+                }
+            } else {
+                // Se a instância não existe ou erro na API
+                if ($statusResponse->status() == 404) {
+                    return redirect()->route('whatsapp-instances.index')
+                        ->with('error', 'Instância não encontrada');
                 }
             }
 
-            return view('whatsapp-instances.show', compact('instanceName', 'qrCode', 'status'));
+            return view('whatsapp-instances.show', compact('instanceName', 'qrCode', 'status', 'base64'));
         } catch (\Exception $e) {
             Log::error('Erro ao buscar detalhes da instância', ['error' => $e->getMessage()]);
             return redirect()->route('whatsapp-instances.index')
