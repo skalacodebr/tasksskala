@@ -20,4 +20,17 @@ class ContatoWp extends Model
     protected $casts = [
         'is_group' => 'boolean',
     ];
+    
+    public function lastMessage()
+    {
+        return $this->hasOne(MessageWp::class, 'remote_jid', 'remote_jid')
+                    ->whereColumn('messages_wp.instance_name', 'contatos_wp.instance_name')
+                    ->latest('message_timestamp');
+    }
+    
+    public function messages()
+    {
+        return $this->hasMany(MessageWp::class, 'remote_jid', 'remote_jid')
+                    ->whereColumn('messages_wp.instance_name', 'contatos_wp.instance_name');
+    }
 }

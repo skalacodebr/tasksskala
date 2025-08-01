@@ -49,26 +49,23 @@ class WhatsAppChatController extends Controller
         $messages = collect();
         
         if ($instanceName) {
-            // Buscar contatos da instância com última mensagem
-            $contacts = ContatoWp::where('contatos_wp.instance_name', $instanceName)
-                ->leftJoin('messages_wp', function($join) use ($instanceName) {
-                    $join->on('contatos_wp.remote_jid', '=', 'messages_wp.remote_jid')
-                         ->where('messages_wp.instance_name', '=', $instanceName);
-                })
-                ->select(
-                    'contatos_wp.*',
-                    'messages_wp.message_text as last_message',
-                    'messages_wp.message_timestamp as last_message_time',
-                    'messages_wp.from_me as last_message_from_me'
-                )
-                ->selectRaw('MAX(messages_wp.message_timestamp) as max_timestamp')
-                ->groupBy('contatos_wp.id', 'contatos_wp.remote_jid', 'contatos_wp.push_name', 
-                         'contatos_wp.profile_pic_url', 'contatos_wp.instance_id', 
-                         'contatos_wp.instance_name', 'contatos_wp.is_group', 
-                         'contatos_wp.created_at', 'contatos_wp.updated_at',
-                         'messages_wp.message_text', 'messages_wp.message_timestamp', 'messages_wp.from_me')
-                ->orderByDesc('max_timestamp')
-                ->get();
+            // Buscar todos os contatos da instância
+            $allContacts = ContatoWp::where('instance_name', $instanceName)->get();
+            
+            // Para cada contato, buscar a última mensagem
+            $contacts = $allContacts->map(function($contact) use ($instanceName) {
+                $lastMessage = MessageWp::where('instance_name', $instanceName)
+                    ->where('remote_jid', $contact->remote_jid)
+                    ->orderBy('message_timestamp', 'desc')
+                    ->first();
+                
+                $contact->last_message = $lastMessage ? $lastMessage->message_text : null;
+                $contact->last_message_time = $lastMessage ? $lastMessage->message_timestamp : null;
+                $contact->last_message_from_me = $lastMessage ? $lastMessage->from_me : null;
+                $contact->max_timestamp = $lastMessage ? $lastMessage->message_timestamp : 0;
+                
+                return $contact;
+            })->sortByDesc('max_timestamp')->values();
             
             // Se tiver contato selecionado, buscar mensagens
             if ($selectedContact) {
