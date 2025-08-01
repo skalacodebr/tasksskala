@@ -11,7 +11,7 @@ class OpenAIService
 
     public function __construct()
     {
-        $this->apiKey = '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';
+        $this->apiKey = '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';
     }
 
     public function generateTestTaskDescription(string $originalTaskTitle, string $originalTaskDescription = null): string
