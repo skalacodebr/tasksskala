@@ -27,6 +27,7 @@
 
     <!-- Tabs -->
     <div class="card-dark shadow rounded-lg">
+        {{-- Comentado temporariamente - Tabs de navegação
         <div class="border-b border-gray-700">
             <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
                 <button type="button" 
@@ -43,6 +44,7 @@
                 </button>
             </nav>
         </div>
+        --}}
 
         <!-- Tab Content: Métricas -->
         <div id="content-metricas" class="tab-content p-6">
@@ -135,7 +137,7 @@
             </div>
         </div>
 
-        <!-- Tab Content: Ranking -->
+        {{-- Comentado temporariamente - Tab Content: Ranking
         <div id="content-ranking" class="tab-content hidden p-6">
             <!-- Ranking Atual -->
             <div class="mb-8">
@@ -252,9 +254,11 @@
                 </ul>
             </div>
         </div>
+        --}}
     </div>
 </div>
 
+{{-- Comentado temporariamente - JavaScript para tabs
 <script>
 function showTab(tabName) {
     // Hide all tab contents
@@ -277,4 +281,5 @@ function showTab(tabName) {
     activeTab.classList.add('border-purple-500', 'text-purple-600');
 }
 </script>
+--}}
 @endsection
