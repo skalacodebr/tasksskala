@@ -292,4 +292,14 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::get('importacao-ofx/conciliar', [ImportacaoOfxController::class, 'conciliar'])->name('importacao-ofx.conciliar');
     Route::post('importacao-ofx/conciliar/{transacao}', [ImportacaoOfxController::class, 'conciliarTransacao'])->name('importacao-ofx.conciliar-transacao');
     Route::get('importacao-ofx/buscar-contas/{transacao}', [ImportacaoOfxController::class, 'buscarContasSugeridas'])->name('importacao-ofx.buscar-contas');
+    
+    // Rotas WhatsApp Instances
+    Route::prefix('whatsapp-instances')->name('whatsapp-instances.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'store'])->name('store');
+        Route::get('/{instanceName}', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'show'])->name('show');
+        Route::delete('/{instanceName}', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'destroy'])->name('destroy');
+        Route::post('/{instanceName}/disconnect', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'disconnect'])->name('disconnect');
+    });
 });
