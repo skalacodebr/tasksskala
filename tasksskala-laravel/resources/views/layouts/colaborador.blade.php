@@ -192,36 +192,41 @@
 </head>
 <body class="bg-black">
     <div class="min-h-screen flex">
+        <!-- Toggle Button for Mobile -->
+        <button id="sidebarToggle" class="fixed top-4 left-4 z-50 md:hidden bg-black text-white p-2 rounded-lg shadow-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+
         <!-- Modern Sidebar -->
-        <div class="relative bg-black text-white w-64 flex-shrink-0 flex flex-col">
+        <div id="sidebar" class="relative bg-black text-white w-16 hover:w-64 md:w-16 md:hover:w-64 transition-all duration-300 ease-in-out flex-shrink-0 flex flex-col group overflow-hidden md:block fixed md:relative z-40 h-full -translate-x-full md:translate-x-0">
             <!-- Logo -->
-            <div class="p-6">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xl font-semibold">Skala</span>
+            <div class="p-4 flex items-center justify-center group-hover:justify-start group-hover:px-6 transition-all duration-300">
+                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
                 </div>
+                <span class="text-xl font-semibold ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Skala</span>
             </div>
             
             <!-- Navigation -->
-            <nav class="flex-1 px-4 pb-4 sidebar-scroll overflow-y-auto">
+            <nav class="flex-1 px-2 pb-4 sidebar-scroll overflow-y-auto">
                 <!-- Dashboard -->
-                <a href="{{ route('dashboard') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('dashboard') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('dashboard') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('dashboard') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Dashboard">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
-                    <span class="font-medium">Dashboard</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Dashboard</span>
                 </a>
 
                 <!-- Desempenho do Time -->
-                <a href="{{ route('desempenho-time') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('desempenho-time') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('desempenho-time') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('desempenho-time') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Desempenho do Time">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
-                    <span class="font-medium">Desempenho do Time</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Desempenho do Time</span>
                 </a>
 
                 @php
@@ -476,7 +481,7 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto main-content">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto main-content md:ml-0 ml-0">
                 <div class="px-6 py-6">
                     @if(session('success'))
                         <div class="mb-4 alert-success-dark px-4 py-3 rounded">
@@ -517,6 +522,91 @@
                     }
                 }
             });
+            
+            // Converter todos os links da sidebar para o formato responsivo
+            const sidebar = document.getElementById('sidebar');
+            const navLinks = sidebar.querySelectorAll('nav a:not([data-converted])');
+            
+            navLinks.forEach(link => {
+                // Adicionar classes para responsividade
+                if (!link.classList.contains('group-hover:justify-start')) {
+                    link.classList.add('group-hover:justify-start', 'justify-center');
+                }
+                
+                // Encontrar o SVG
+                const svg = link.querySelector('svg');
+                if (svg) {
+                    svg.classList.remove('mr-3', 'mr-2');
+                    svg.classList.add('flex-shrink-0');
+                }
+                
+                // Encontrar o span de texto
+                const textSpan = link.querySelector('span:not(.bg-green-500):not(.bg-red-500):not(.bg-yellow-500)');
+                if (textSpan && !textSpan.classList.contains('opacity-0')) {
+                    textSpan.classList.add('ml-3', 'opacity-0', 'group-hover:opacity-100', 'transition-all', 'duration-300', 'whitespace-nowrap');
+                }
+                
+                // Adicionar title para tooltip
+                if (!link.hasAttribute('title') && textSpan) {
+                    link.setAttribute('title', textSpan.textContent.trim());
+                }
+                
+                // Marcar como convertido
+                link.setAttribute('data-converted', 'true');
+            });
+            
+            // Converter botões também
+            const navButtons = sidebar.querySelectorAll('nav button:not([data-converted])');
+            navButtons.forEach(button => {
+                if (!button.classList.contains('group-hover:justify-start')) {
+                    button.classList.add('group-hover:justify-start', 'justify-center');
+                }
+                
+                const svg = button.querySelector('svg');
+                if (svg && !svg.classList.contains('transition-transform')) {
+                    svg.classList.remove('mr-3', 'mr-2');
+                    svg.classList.add('flex-shrink-0');
+                }
+                
+                const textSpan = button.querySelector('span:not(svg)');
+                if (textSpan && !textSpan.classList.contains('opacity-0')) {
+                    textSpan.classList.add('ml-3', 'opacity-0', 'group-hover:opacity-100', 'transition-all', 'duration-300', 'whitespace-nowrap');
+                }
+                
+                if (!button.hasAttribute('title') && textSpan) {
+                    button.setAttribute('title', textSpan.textContent.trim());
+                }
+                
+                button.setAttribute('data-converted', 'true');
+            });
+            
+            // Converter headers de seção
+            const sectionHeaders = sidebar.querySelectorAll('h3');
+            sectionHeaders.forEach(header => {
+                if (!header.classList.contains('opacity-0')) {
+                    header.classList.add('opacity-0', 'group-hover:opacity-100', 'transition-all', 'duration-300', 'whitespace-nowrap');
+                }
+            });
+            
+            // Toggle sidebar mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarElement = document.getElementById('sidebar');
+            
+            if (sidebarToggle && sidebarElement) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebarElement.classList.toggle('-translate-x-full');
+                });
+                
+                // Fechar sidebar quando clicar fora (mobile)
+                document.addEventListener('click', function(e) {
+                    if (window.innerWidth < 768 && 
+                        !sidebarElement.contains(e.target) && 
+                        !sidebarToggle.contains(e.target) &&
+                        !sidebarElement.classList.contains('-translate-x-full')) {
+                        sidebarElement.classList.add('-translate-x-full');
+                    }
+                });
+            }
         });
     </script>
 </body>
