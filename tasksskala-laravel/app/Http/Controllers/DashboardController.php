@@ -340,7 +340,7 @@ class DashboardController extends Controller
     public function testarApiKey()
     {
         try {
-            $apiKey = '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';
+            $apiKey = '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';
             
             if (!$apiKey) {
                 return response()->json([
@@ -381,7 +381,7 @@ class DashboardController extends Controller
         \Log::info('ProcessarTarefaIA iniciado', ['tipo' => $request->input('tipo')]);
         
         // Verificar API Key primeiro
-        $apiKey = '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';
+        $apiKey = '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';
         if (!$apiKey) {
             \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada');
             return response()->json([
@@ -472,7 +472,7 @@ class DashboardController extends Controller
                 }
                 
                 // Usar OpenAI Whisper para transcrever
-                $apiKey = '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';
+                $apiKey = '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';
                 
                 if (!$apiKey) {
                     \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada');
@@ -601,7 +601,7 @@ HEREB;
             \Log::info('ProcessarTarefaIA: Enviando para ChatGPT');
             
             try {
-                $apiKey = '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';
+                $apiKey = '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';
                 
                 if (!$apiKey) {
                     \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada para ChatGPT');
