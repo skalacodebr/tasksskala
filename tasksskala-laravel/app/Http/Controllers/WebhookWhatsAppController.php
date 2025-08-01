@@ -125,6 +125,9 @@ class WebhookWhatsAppController extends Controller
                 return;
             }
             
+            // Verificar se o contato existe, se não existir, criar
+            $this->ensureContactExists($instanceName, $remoteJid, $pushName, $instanceId);
+            
             // Verificar se a mensagem já existe
             $existingMessage = MessageWp::where('message_id', $messageId)
                 ->where('instance_name', $instanceName)
@@ -265,5 +268,58 @@ class WebhookWhatsAppController extends Controller
         }
         
         return 'bin'; // fallback genérico
+    }
+    
+    private function ensureContactExists($instanceName, $remoteJid, $pushName, $instanceId)
+    {
+        try {
+            // Verificar se o contato já existe
+            $existingContact = ContatoWp::where('remote_jid', $remoteJid)
+                ->where('instance_name', $instanceName)
+                ->first();
+            
+            if (!$existingContact) {
+                // Determinar se é grupo baseado no remoteJid
+                $isGroup = str_contains($remoteJid, '@g.us');
+                
+                // Criar novo contato
+                ContatoWp::create([
+                    'remote_jid' => $remoteJid,
+                    'push_name' => $pushName,
+                    'profile_pic_url' => null,
+                    'instance_id' => $instanceId,
+                    'instance_name' => $instanceName,
+                    'is_group' => $isGroup
+                ]);
+                
+                Log::info('Novo contato criado automaticamente via mensagem', [
+                    'remote_jid' => $remoteJid,
+                    'push_name' => $pushName,
+                    'instance' => $instanceName,
+                    'is_group' => $isGroup
+                ]);
+            } elseif ($existingContact->push_name !== $pushName && !empty($pushName)) {
+                // Atualizar nome do contato se mudou
+                $existingContact->update([
+                    'push_name' => $pushName,
+                    'instance_id' => $instanceId
+                ]);
+                
+                Log::info('Nome do contato atualizado', [
+                    'remote_jid' => $remoteJid,
+                    'old_name' => $existingContact->push_name,
+                    'new_name' => $pushName,
+                    'instance' => $instanceName
+                ]);
+            }
+            
+        } catch (\Exception $e) {
+            Log::error('Erro ao criar/atualizar contato automaticamente', [
+                'remote_jid' => $remoteJid,
+                'push_name' => $pushName,
+                'instance' => $instanceName,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 }
