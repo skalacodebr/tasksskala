@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Colaborador;
+use App\Http\Controllers\Controller;
 
 class WhatsAppInstanceController extends Controller
 {
