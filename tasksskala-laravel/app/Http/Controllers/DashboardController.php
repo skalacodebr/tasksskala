@@ -491,8 +491,28 @@ class DashboardController extends Controller
                 \Log::info('ProcessarTarefaIA: Processando texto', ['tamanho' => strlen($conteudo)]);
             }
 
+            // Buscar todos os colaboradores e projetos para facilitar a identificação
+            $todosColaboradores = Colaborador::select('id', 'nome')->get();
+            $todosProjetos = Projeto::select('id', 'nome')->get();
+            
+            // Criar lista de colaboradores para o prompt
+            $listaColaboradores = $todosColaboradores->map(function($colab) {
+                return "ID: {$colab->id}, Nome: {$colab->nome}";
+            })->join("\n");
+            
+            // Criar lista de projetos para o prompt
+            $listaProjetos = $todosProjetos->map(function($proj) {
+                return "ID: {$proj->id}, Nome: {$proj->nome}";
+            })->join("\n");
+
             // Processar conteúdo com ChatGPT
             $prompt = "Você é um assistente especializado em extrair e organizar tarefas a partir de descrições em linguagem natural.
+
+COLABORADORES DISPONÍVEIS:
+$listaColaboradores
+
+PROJETOS DISPONÍVEIS:
+$listaProjetos
 
 Analise o seguinte texto e extraia as tarefas mencionadas:
 \"$conteudo\"
@@ -514,11 +534,28 @@ Para cada tarefa identificada, retorne um JSON com a seguinte estrutura:
 
 Regras importantes:
 1. Se múltiplas tarefas forem mencionadas, crie uma entrada para cada uma
-2. Interprete prazos relativos (hoje, amanhã, próxima semana, sexta-feira, etc) baseado na data atual: " . now()->toDateString() . "
-3. Se um colaborador for mencionado, inclua o nome
-4. Se um projeto for mencionado, inclua o nome
-5. Determine a prioridade baseado em palavras como: urgente, importante, crítico (alta/urgente), normal (media), quando der (baixa)
-6. Se as tarefas parecem relacionadas, sugira um titulo_base
+2. Interprete prazos relativos (hoje, amanhã, próxima semana, sexta-feira, etc) baseado na data atual: " . now()->toDateString() . " e dia da semana: " . now()->locale('pt')->dayName . "
+3. IDENTIFICAÇÃO DE COLABORADOR: 
+   - Procure por nomes mencionados no texto e compare com a lista de COLABORADORES DISPONÍVEIS acima
+   - Use correspondência parcial e variações (João = Joao, Maria = MARIA, etc)
+   - Procure por palavras como 'para', 'responsável', 'atribuir para', 'designar para' seguidas de nomes
+   - SEMPRE retorne o nome EXATO como está na lista de colaboradores disponíveis
+4. IDENTIFICAÇÃO DE PROJETO:
+   - Procure por nomes de projetos mencionados e compare com a lista de PROJETOS DISPONÍVEIS acima
+   - Use correspondência parcial (se falar "vendas" e existir "Sistema de Vendas", use este)
+   - Procure por palavras como 'projeto', 'sistema', 'app', 'site' seguidas de nomes
+   - SEMPRE retorne o nome EXATO como está na lista de projetos disponíveis
+5. Determine a prioridade baseado em palavras como: urgente, importante, crítico, ASAP (alta/urgente), normal, padrão (media), quando der, depois (baixa)
+6. Se as tarefas parecem relacionadas ou foram mencionadas juntas, sugira um titulo_base comum
+7. Se não conseguir identificar um colaborador da lista, deixe colaborador_nome como null
+8. Se não conseguir identificar um projeto da lista, deixe projeto_nome como null
+9. Cada tarefa deve ter seu próprio título e descrição completa
+10. Separe tarefas diferentes mesmo que estejam relacionadas ao mesmo projeto
+
+Exemplos de extração:
+- Se na lista tem "João Silva" e o texto diz "para o João", use colaborador_nome: "João Silva"
+- Se na lista tem "Sistema de Vendas" e o texto diz "projeto vendas", use projeto_nome: "Sistema de Vendas"
+- "Maria precisa revisar o código" → procure "Maria" na lista de colaboradores e use o nome completo encontrado
 
 Retorne APENAS o JSON, sem explicações adicionais.";
 

@@ -423,6 +423,12 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             
             <p class="text-gray-400 mb-6">Descreva as tarefas por texto ou áudio e deixe a IA organizar para você!</p>
             
+            <div class="bg-blue-900 bg-opacity-20 border border-blue-700 rounded-lg p-3 mb-4">
+                <p class="text-sm text-blue-400">
+                    💡 <strong>Dica:</strong> Mencione o nome do projeto, responsável e prazo para preenchimento automático!
+                </p>
+            </div>
+            
             <!-- Tabs -->
             <div class="border-b border-gray-700 mb-6">
                 <nav class="-mb-px flex space-x-8">
@@ -470,11 +476,21 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             <!-- Exemplos -->
             <div class="mt-6 bg-gray-800 rounded-lg p-4">
                 <h4 class="text-sm font-medium text-primary-dark mb-2">Exemplos de como descrever:</h4>
-                <ul class="text-sm text-gray-400 space-y-1">
-                    <li>• "Criar 3 tarefas urgentes para João: revisar código, fazer testes, documentar API"</li>
-                    <li>• "Tarefas do projeto ABC com prazo para próxima semana: design da home, implementar carrinho, integrar pagamento"</li>
-                    <li>• "Setup inicial do projeto: configurar ambiente, criar banco de dados, fazer deploy inicial"</li>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li>• <strong>"Criar 3 tarefas urgentes para João do projeto ABC:"</strong><br>
+                       &nbsp;&nbsp;- Revisar código do módulo de login<br>
+                       &nbsp;&nbsp;- Fazer testes unitários<br>
+                       &nbsp;&nbsp;- Documentar API REST</li>
+                    <li>• <strong>"Tarefas do sistema de vendas para Maria com prazo sexta-feira:"</strong><br>
+                       &nbsp;&nbsp;- Implementar carrinho de compras<br>
+                       &nbsp;&nbsp;- Criar tela de checkout</li>
+                    <li>• <strong>"Setup urgente do projeto novo site para Pedro:"</strong><br>
+                       &nbsp;&nbsp;- Configurar ambiente de desenvolvimento<br>
+                       &nbsp;&nbsp;- Criar estrutura do banco de dados</li>
                 </ul>
+                <p class="text-xs text-gray-500 mt-3">
+                    A IA identificará automaticamente: projeto, responsável, prazos e prioridades mencionados.
+                </p>
             </div>
             
             <!-- Botões -->
