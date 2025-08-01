@@ -222,6 +222,19 @@
                     </svg>
                     <span class="font-medium">Desempenho do Time</span>
                 </a>
+
+                @php
+                    $colaboradorKanbanSetor = session('colaborador')->setor->nome ?? '';
+                @endphp
+                @if($colaboradorKanbanSetor === 'Vendas' || $colaboradorKanbanSetor === 'Administrativo')
+                <!-- Kanban de Vendas -->
+                <a href="{{ route('kanban-vendas.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('kanban-vendas.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+                    </svg>
+                    <span class="font-medium">Kanban de Vendas</span>
+                </a>
+                @endif
                 
                 <!-- Reuniões -->
                 <a href="{{ route('reunioes.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('reunioes.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">

@@ -121,6 +121,20 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     // Desempenho do Time
     Route::get('/desempenho-time', [DashboardController::class, 'desempenhoTime'])->name('desempenho-time');
     
+    // Kanban de Vendas (apenas para Vendas e Administrativo)
+    Route::prefix('kanban-vendas')->name('kanban-vendas.')->group(function () {
+        Route::get('/', [App\Http\Controllers\KanbanVendasController::class, 'index'])->name('index');
+        Route::post('/colunas', [App\Http\Controllers\KanbanVendasController::class, 'storeColuna'])->name('colunas.store');
+        Route::put('/colunas/{coluna}', [App\Http\Controllers\KanbanVendasController::class, 'updateColuna'])->name('colunas.update');
+        Route::delete('/colunas/{coluna}', [App\Http\Controllers\KanbanVendasController::class, 'deleteColuna'])->name('colunas.destroy');
+        Route::post('/cards', [App\Http\Controllers\KanbanVendasController::class, 'storeCard'])->name('cards.store');
+        Route::get('/cards/{card}', [App\Http\Controllers\KanbanVendasController::class, 'showCard'])->name('cards.show');
+        Route::put('/cards/{card}', [App\Http\Controllers\KanbanVendasController::class, 'updateCard'])->name('cards.update');
+        Route::delete('/cards/{card}', [App\Http\Controllers\KanbanVendasController::class, 'deleteCard'])->name('cards.destroy');
+        Route::post('/cards/{card}/mover', [App\Http\Controllers\KanbanVendasController::class, 'moveCard'])->name('cards.move');
+        Route::post('/colunas/reordenar', [App\Http\Controllers\KanbanVendasController::class, 'reorderColunas'])->name('colunas.reorder');
+    });
+    
     // Área de Reuniões
     Route::get('/reunioes', [App\Http\Controllers\ReuniaoController::class, 'index'])->name('reunioes.index');
     Route::post('/reunioes/analise-requisitos/gerar', [App\Http\Controllers\ReuniaoController::class, 'gerarAnaliseRequisitos'])->name('reunioes.analise-requisitos.gerar');

@@ -542,7 +542,7 @@ Regras importantes:
    - SEMPRE retorne o nome EXATO como está na lista de colaboradores disponíveis
 4. IDENTIFICAÇÃO DE PROJETO:
    - Procure por nomes de projetos mencionados e compare com a lista de PROJETOS DISPONÍVEIS acima
-   - Use correspondência parcial (se falar "vendas" e existir "Sistema de Vendas", use este)
+   - Use correspondência parcial (se falar \"vendas\" e existir \"Sistema de Vendas\", use este)
    - Procure por palavras como 'projeto', 'sistema', 'app', 'site' seguidas de nomes
    - SEMPRE retorne o nome EXATO como está na lista de projetos disponíveis
 5. Determine a prioridade baseado em palavras como: urgente, importante, crítico, ASAP (alta/urgente), normal, padrão (media), quando der, depois (baixa)
