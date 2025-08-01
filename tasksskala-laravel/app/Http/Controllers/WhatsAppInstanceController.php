@@ -1,16 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\Colaborador;
 
 class WhatsAppInstanceController extends Controller
 {
     private $apiUrl = 'https://apiwp.skconnect.com.br';
     private $apiKey = '4fk6xm78dgyd6j32oiq43dgmbqtoryxr';
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $colaborador = Colaborador::with('setor')->find(session('colaborador_id'));
+            
+            if (!$colaborador || $colaborador->setor->nome !== 'Administrativo') {
+                return redirect()->route('dashboard')->with('error', 'Acesso negado. Esta funcionalidade é exclusiva para o setor Administrativo.');
+            }
+            
+            return $next($request);
+        });
+    }
 
     public function index()
     {
@@ -22,7 +35,20 @@ class WhatsAppInstanceController extends Controller
             ])->get($this->apiUrl . '/instance/fetchInstances');
 
             if ($response->successful()) {
-                $instances = $response->json();
+                $data = $response->json();
+                // A resposta pode vir em diferentes formatos, vamos normalizar
+                if (isset($data['instances'])) {
+                    $instances = $data['instances'];
+                } elseif (isset($data['data'])) {
+                    $instances = $data['data'];
+                } elseif (is_array($data) && !empty($data) && !isset($data[0])) {
+                    // Se for um objeto único, transformar em array
+                    $instances = [$data];
+                } else {
+                    $instances = $data;
+                }
+                
+                Log::info('Instâncias WhatsApp encontradas', ['count' => count($instances), 'data' => $instances]);
             } else {
                 $instances = [];
                 Log::error('Erro ao buscar instâncias WhatsApp', ['response' => $response->body()]);
@@ -32,12 +58,12 @@ class WhatsAppInstanceController extends Controller
             Log::error('Erro ao conectar com API WhatsApp', ['error' => $e->getMessage()]);
         }
 
-        return view('admin.whatsapp-instances.index', compact('instances'));
+        return view('whatsapp-instances.index', compact('instances'));
     }
 
     public function create()
     {
-        return view('admin.whatsapp-instances.create');
+        return view('whatsapp-instances.create');
     }
 
     public function store(Request $request)
@@ -73,7 +99,7 @@ class WhatsAppInstanceController extends Controller
 
             if ($response->successful()) {
                 $data = $response->json();
-                return redirect()->route('admin.whatsapp-instances.show', ['instanceName' => $instanceName])
+                return redirect()->route('whatsapp-instances.show', ['instanceName' => $instanceName])
                     ->with('success', 'Instância criada com sucesso! Aguarde o QR Code para conectar.');
             } else {
                 $error = $response->json();
@@ -119,10 +145,10 @@ class WhatsAppInstanceController extends Controller
                 }
             }
 
-            return view('admin.whatsapp-instances.show', compact('instanceName', 'qrCode', 'status'));
+            return view('whatsapp-instances.show', compact('instanceName', 'qrCode', 'status'));
         } catch (\Exception $e) {
             Log::error('Erro ao buscar detalhes da instância', ['error' => $e->getMessage()]);
-            return redirect()->route('admin.whatsapp-instances.index')
+            return redirect()->route('whatsapp-instances.index')
                 ->with('error', 'Erro ao buscar detalhes da instância');
         }
     }
@@ -135,7 +161,7 @@ class WhatsAppInstanceController extends Controller
             ])->delete($this->apiUrl . '/instance/delete/' . $instanceName);
 
             if ($response->successful()) {
-                return redirect()->route('admin.whatsapp-instances.index')
+                return redirect()->route('whatsapp-instances.index')
                     ->with('success', 'Instância removida com sucesso!');
             } else {
                 return back()->with('error', 'Erro ao remover instância');

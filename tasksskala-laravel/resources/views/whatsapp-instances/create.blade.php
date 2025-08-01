@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.colaborador')
 
 @section('title', 'Nova Instância WhatsApp')
 
@@ -21,7 +21,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('admin.whatsapp-instances.store') }}" method="POST">
+                    <form action="{{ route('whatsapp-instances.store') }}" method="POST">
                         @csrf
                         
                         <div class="mb-3">
@@ -60,7 +60,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-plus"></i> Criar Instância
                             </button>
-                            <a href="{{ route('admin.whatsapp-instances.index') }}" class="btn btn-secondary">
+                            <a href="{{ route('whatsapp-instances.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Cancelar
                             </a>
                         </div>

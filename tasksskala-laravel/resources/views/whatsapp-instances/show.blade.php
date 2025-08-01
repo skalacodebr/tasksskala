@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.colaborador')
 
 @section('title', 'Detalhes da Instância')
 
@@ -37,7 +37,7 @@
                         </div>
                         
                         <div class="mt-4">
-                            <form action="{{ route('admin.whatsapp-instances.disconnect', $instanceName) }}" 
+                            <form action="{{ route('whatsapp-instances.disconnect', $instanceName) }}" 
                                   method="POST" class="d-inline">
                                 @csrf
                                 @method('POST')
@@ -96,11 +96,11 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="{{ route('admin.whatsapp-instances.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('whatsapp-instances.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Voltar para Lista
                         </a>
                         
-                        <form action="{{ route('admin.whatsapp-instances.destroy', $instanceName) }}" 
+                        <form action="{{ route('whatsapp-instances.destroy', $instanceName) }}" 
                               method="POST">
                             @csrf
                             @method('DELETE')

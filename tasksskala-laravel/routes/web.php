@@ -140,6 +140,16 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::post('/reunioes/analise-requisitos/gerar', [App\Http\Controllers\ReuniaoController::class, 'gerarAnaliseRequisitos'])->name('reunioes.analise-requisitos.gerar');
     Route::post('/reunioes/vincular-requisito', [App\Http\Controllers\ReuniaoController::class, 'vincularRequisito'])->name('reunioes.vincular-requisito');
     
+    // Rotas WhatsApp Instances (apenas para Administrativo)
+    Route::prefix('whatsapp-instances')->name('whatsapp-instances.')->group(function () {
+        Route::get('/', [App\Http\Controllers\WhatsAppInstanceController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\WhatsAppInstanceController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\WhatsAppInstanceController::class, 'store'])->name('store');
+        Route::get('/{instanceName}', [App\Http\Controllers\WhatsAppInstanceController::class, 'show'])->name('show');
+        Route::delete('/{instanceName}', [App\Http\Controllers\WhatsAppInstanceController::class, 'destroy'])->name('destroy');
+        Route::post('/{instanceName}/disconnect', [App\Http\Controllers\WhatsAppInstanceController::class, 'disconnect'])->name('disconnect');
+    });
+    
     // Rotas Financeiras para colaboradores (Administrativo e Financeiro)
     Route::prefix('financeiro')->name('financeiro.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardFinanceiraController::class, 'index'])->name('dashboard');
@@ -293,13 +303,4 @@ Route::prefix('admin')->name('admin.')->middleware(['web', App\Http\Middleware\A
     Route::post('importacao-ofx/conciliar/{transacao}', [ImportacaoOfxController::class, 'conciliarTransacao'])->name('importacao-ofx.conciliar-transacao');
     Route::get('importacao-ofx/buscar-contas/{transacao}', [ImportacaoOfxController::class, 'buscarContasSugeridas'])->name('importacao-ofx.buscar-contas');
     
-    // Rotas WhatsApp Instances
-    Route::prefix('whatsapp-instances')->name('whatsapp-instances.')->group(function () {
-        Route::get('/', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'index'])->name('index');
-        Route::get('/create', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'create'])->name('create');
-        Route::post('/', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'store'])->name('store');
-        Route::get('/{instanceName}', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'show'])->name('show');
-        Route::delete('/{instanceName}', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'destroy'])->name('destroy');
-        Route::post('/{instanceName}/disconnect', [App\Http\Controllers\Admin\WhatsAppInstanceController::class, 'disconnect'])->name('disconnect');
-    });
 });
