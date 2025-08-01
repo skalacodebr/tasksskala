@@ -340,7 +340,7 @@ class DashboardController extends Controller
     public function testarApiKey()
     {
         try {
-            $apiKey = config('services.openai.api_key');
+            $apiKey = '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';
             
             if (!$apiKey) {
                 return response()->json([
@@ -381,7 +381,7 @@ class DashboardController extends Controller
         \Log::info('ProcessarTarefaIA iniciado', ['tipo' => $request->input('tipo')]);
         
         // Verificar API Key primeiro
-        $apiKey = config('services.openai.api_key');
+        $apiKey = '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';
         if (!$apiKey) {
             \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada');
             return response()->json([
@@ -472,7 +472,7 @@ class DashboardController extends Controller
                 }
                 
                 // Usar OpenAI Whisper para transcrever
-                $apiKey = config('services.openai.api_key');
+                $apiKey = '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';
                 
                 if (!$apiKey) {
                     \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada');
@@ -601,7 +601,7 @@ HEREB;
             \Log::info('ProcessarTarefaIA: Enviando para ChatGPT');
             
             try {
-                $apiKey = config('services.openai.api_key');
+                $apiKey = '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';
                 
                 if (!$apiKey) {
                     \Log::error('ProcessarTarefaIA: API Key da OpenAI não configurada para ChatGPT');
