@@ -3,9 +3,9 @@
 @section('title', 'WhatsApp Chat')
 
 @section('content')
-<div class="h-screen flex flex-col bg-gray-900">
-    <!-- Header -->
-    <div class="bg-gray-800 border-b border-gray-700 p-4">
+<div class="h-screen flex flex-col bg-gray-900 overflow-hidden">
+    <!-- Header Fixo -->
+    <div class="bg-gray-800 border-b border-gray-700 p-4 fixed top-0 left-0 right-0 z-50">
         <div class="flex items-center justify-between">
             <h1 class="text-xl font-semibold text-white">
                 <i class="fab fa-whatsapp mr-2 text-green-400"></i>
@@ -27,8 +27,8 @@
         </div>
     </div>
 
-    <!-- Layout do Chat -->
-    <div class="flex flex-1 overflow-hidden">
+    <!-- Layout do Chat com margem superior para compensar header fixo -->
+    <div class="flex flex-1 overflow-hidden mt-20">
         <!-- Lista de Contatos -->
         <div class="w-1/3 bg-gray-800 border-r border-gray-700 flex flex-col">
             <!-- Cabeçalho da lista -->
@@ -107,8 +107,8 @@
         <!-- Área do Chat -->
         <div class="flex-1 flex flex-col">
             @if($selectedContact)
-                <!-- Cabeçalho do chat -->
-                <div class="bg-gray-800 border-b border-gray-700 p-4">
+                <!-- Cabeçalho do chat fixo -->
+                <div class="bg-gray-800 border-b border-gray-700 p-4 fixed top-20 left-1/3 right-0 z-30">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
                             @php
@@ -131,8 +131,8 @@
                     </div>
                 </div>
 
-                <!-- Mensagens -->
-                <div class="flex-1 overflow-y-auto p-4 bg-gray-900" id="messagesContainer">
+                <!-- Mensagens com margens para compensar cabeçalho e input fixos -->
+                <div class="flex-1 overflow-y-auto p-4 bg-gray-900 pt-20 pb-24" id="messagesContainer">
                     @if($messages->isNotEmpty())
                         @foreach($messages as $message)
                             <div class="mb-4 flex {{ $message->from_me ? 'justify-end' : 'justify-start' }}">
@@ -184,8 +184,8 @@
                     @endif
                 </div>
 
-                <!-- Área de Resposta -->
-                <div class="border-t border-gray-700 p-4 bg-gray-800">
+                <!-- Área de Resposta Fixa -->
+                <div class="border-t border-gray-700 p-4 bg-gray-800 fixed bottom-0 left-1/3 right-0 z-40">
                     <form id="messageForm" class="flex space-x-2">
                         <input type="hidden" id="instanceInput" value="{{ $instanceName }}">
                         <input type="hidden" id="contactInput" value="{{ $selectedContact }}">

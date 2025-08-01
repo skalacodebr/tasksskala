@@ -234,40 +234,38 @@
                 @endphp
                 @if($colaboradorKanbanSetor === 'Vendas' || $colaboradorKanbanSetor === 'Administrativo')
                 <!-- Kanban de Vendas -->
-                <a href="{{ route('kanban-vendas.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('kanban-vendas.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('kanban-vendas.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('kanban-vendas.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Kanban de Vendas">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
                     </svg>
-                    <span class="font-medium">Kanban de Vendas</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Kanban de Vendas</span>
                 </a>
                 @endif
                 
                 <!-- Reuniões -->
-                <a href="{{ route('reunioes.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('reunioes.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('reunioes.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('reunioes.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Reuniões">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
-                    <span class="font-medium">Reuniões</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Reuniões</span>
                 </a>
 
                 <!-- Plano Diário -->
-                <a href="{{ route('plano-diario') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('plano-diario') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('plano-diario') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('plano-diario') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Plano Diário">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span class="font-medium">Plano Diário</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Plano Diário</span>
                 </a>
 
                 <!-- Tarefas Dropdown -->
                 <div class="mb-2">
-                    <button onclick="toggleDropdown('tarefasDropdown')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-200 {{ request()->routeIs(['minhas-tarefas', 'tarefas-designadas', 'tarefa.*']) ? 'bg-gray-900' : 'hover:bg-gray-900' }} text-gray-400 hover:text-white">
-                        <div class="flex items-center">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                            </svg>
-                            <span class="font-medium">Tarefas</span>
-                        </div>
-                        <svg class="w-4 h-4 transition-transform {{ request()->routeIs(['minhas-tarefas', 'tarefas-designadas', 'tarefa.*']) ? 'rotate-180' : '' }}" id="tarefasChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button onclick="toggleDropdown('tarefasDropdown')" class="w-full flex items-center px-3 py-2 rounded-lg transition-all duration-200 {{ request()->routeIs(['minhas-tarefas', 'tarefas-designadas', 'tarefa.*']) ? 'bg-gray-900' : 'hover:bg-gray-900' }} text-gray-400 hover:text-white group-hover:justify-start justify-center" title="Tarefas">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Tarefas</span>
+                        <svg class="w-4 h-4 ml-auto transition-transform opacity-0 group-hover:opacity-100 {{ request()->routeIs(['minhas-tarefas', 'tarefas-designadas', 'tarefa.*']) ? 'rotate-180' : '' }}" id="tarefasChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
@@ -308,35 +306,35 @@
                 </div>
 
                 <!-- Projetos -->
-                <a href="{{ route('projetos.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('projetos.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('projetos.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('projetos.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Projetos">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                     </svg>
-                    <span class="font-medium">Projetos</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Projetos</span>
                 </a>
 
                 <!-- Agente Skala -->
-                <a href="{{ route('agente-skala.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('agente-skala.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('agente-skala.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('agente-skala.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Agente Skala">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
-                    <span class="font-medium">Agente Skala</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Agente Skala</span>
                 </a>
 
                 <!-- Tickets -->
-                <a href="{{ route('tickets.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('tickets.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('tickets.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('tickets.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Tickets">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
                     </svg>
-                    <span class="font-medium">Tickets</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Tickets</span>
                 </a>
 
                 <!-- Tutoriais -->
-                <a href="{{ route('tutoriais') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('tutoriais') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('tutoriais') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('tutoriais') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Tutoriais">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
-                    <span class="font-medium">Tutoriais</span>
+                    <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Tutoriais</span>
                 </a>
 
                 @php
@@ -350,17 +348,17 @@
                         <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Administrativo</h3>
                         
                         <!-- WhatsApp Instances -->
-                        <a href="{{ route('whatsapp-instances.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('whatsapp-instances.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('whatsapp-instances.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('whatsapp-instances.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="WhatsApp API">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                             </svg>
-                            <span class="font-medium">WhatsApp API</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">WhatsApp API</span>
                         </a>
                         
                         <!-- WhatsApp Chat -->
-                        <a href="{{ route('whatsapp-chat.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('whatsapp-chat.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <i class="fab fa-whatsapp w-5 h-5 mr-3 text-green-400"></i>
-                            <span class="font-medium">WhatsApp Chat</span>
+                        <a href="{{ route('whatsapp-chat.index') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('whatsapp-chat.*') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="WhatsApp Chat">
+                            <i class="fab fa-whatsapp w-5 h-5 flex-shrink-0 text-green-400"></i>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">WhatsApp Chat</span>
                         </a>
                     </div>
                 @endif
@@ -371,75 +369,75 @@
                         <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Financeiro</h3>
                         
                         <!-- Dashboard Financeira -->
-                        <a href="{{ route('financeiro.dashboard') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.dashboard') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.dashboard') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.dashboard') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Dashboard Financeira">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
-                            <span class="font-medium">Dashboard Financeira</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Dashboard Financeira</span>
                         </a>
 
                         <!-- Fluxo de Caixa -->
-                        <a href="{{ route('financeiro.fluxo-caixa') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.fluxo-caixa') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.fluxo-caixa') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.fluxo-caixa') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Fluxo de Caixa">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
-                            <span class="font-medium">Fluxo de Caixa</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Fluxo de Caixa</span>
                         </a>
 
                         <!-- Tipos de Custo -->
-                        <a href="{{ route('financeiro.tipos-custo') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.tipos-custo') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.tipos-custo') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.tipos-custo') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Tipos de Custo">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                             </svg>
-                            <span class="font-medium">Tipos de Custo</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Tipos de Custo</span>
                         </a>
 
                         <!-- Categorias -->
-                        <a href="{{ route('financeiro.categorias') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.categorias') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.categorias') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.categorias') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Categorias">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                             </svg>
-                            <span class="font-medium">Categorias</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Categorias</span>
                         </a>
 
                         <!-- Contas Bancárias -->
-                        <a href="{{ route('financeiro.contas-bancarias') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.contas-bancarias') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.contas-bancarias') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.contas-bancarias') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Contas Bancárias">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                             </svg>
-                            <span class="font-medium">Contas Bancárias</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Contas Bancárias</span>
                         </a>
 
                         <!-- Contas a Pagar -->
-                        <a href="{{ route('financeiro.contas-pagar') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.contas-pagar') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.contas-pagar') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.contas-pagar') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Contas a Pagar">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span class="font-medium">Contas a Pagar</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Contas a Pagar</span>
                         </a>
 
                         <!-- Contas a Receber -->
-                        <a href="{{ route('financeiro.contas-receber') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.contas-receber') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.contas-receber') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.contas-receber') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Contas a Receber">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span class="font-medium">Contas a Receber</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Contas a Receber</span>
                         </a>
 
                         <!-- Fornecedores -->
-                        <a href="{{ route('financeiro.fornecedores') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.fornecedores') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.fornecedores') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.fornecedores') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Fornecedores">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
-                            <span class="font-medium">Fornecedores</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Fornecedores</span>
                         </a>
 
                         <!-- Importação OFX -->
-                        <a href="{{ route('financeiro.importacao-ofx') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.importacao-ofx') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }}">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('financeiro.importacao-ofx') }}" class="flex items-center px-3 py-2 mb-1 rounded-lg transition-all duration-200 {{ request()->routeIs('financeiro.importacao-ofx') ? 'bg-white text-black' : 'hover:bg-gray-900 text-gray-400 hover:text-white' }} group-hover:justify-start justify-center" title="Importação OFX">
+                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                             </svg>
-                            <span class="font-medium">Importação OFX</span>
+                            <span class="font-medium ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">Importação OFX</span>
                         </a>
                     </div>
                 @endif
@@ -555,8 +553,8 @@
                 link.setAttribute('data-converted', 'true');
             });
             
-            // Converter botões também
-            const navButtons = sidebar.querySelectorAll('nav button:not([data-converted])');
+            // Converter botões também (exceto os que já estão convertidos manualmente)
+            const navButtons = sidebar.querySelectorAll('nav button:not([data-converted]):not([title])');
             navButtons.forEach(button => {
                 if (!button.classList.contains('group-hover:justify-start')) {
                     button.classList.add('group-hover:justify-start', 'justify-center');
