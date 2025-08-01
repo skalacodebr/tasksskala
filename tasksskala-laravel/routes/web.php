@@ -164,6 +164,7 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::prefix('whatsapp-chat')->name('whatsapp-chat.')->group(function () {
         Route::get('/', [App\Http\Controllers\WhatsAppChatController::class, 'index'])->name('index');
         Route::get('/messages', [App\Http\Controllers\WhatsAppChatController::class, 'getMessages'])->name('messages');
+        Route::post('/send-message', [App\Http\Controllers\WhatsAppChatController::class, 'sendMessage'])->name('send-message');
     });
     
     // Rotas Financeiras para colaboradores (Administrativo e Financeiro)

@@ -183,6 +183,34 @@
                         </div>
                     @endif
                 </div>
+
+                <!-- Área de Resposta -->
+                <div class="border-t border-gray-700 p-4 bg-gray-800">
+                    <form id="messageForm" class="flex space-x-2">
+                        <input type="hidden" id="instanceInput" value="{{ $instanceName }}">
+                        <input type="hidden" id="contactInput" value="{{ $selectedContact }}">
+                        
+                        <div class="flex-1">
+                            <input type="text" 
+                                   id="messageInput" 
+                                   placeholder="Digite sua mensagem..." 
+                                   class="w-full px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                   maxlength="1000"
+                                   required>
+                        </div>
+                        
+                        <button type="submit" 
+                                class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                        </button>
+                    </form>
+                    
+                    <div id="sendingStatus" class="hidden mt-2 text-sm text-gray-400">
+                        Enviando mensagem...
+                    </div>
+                </div>
             @else
                 <!-- Estado vazio -->
                 <div class="flex-1 flex items-center justify-center bg-gray-900">
@@ -224,6 +252,108 @@ document.addEventListener('DOMContentLoaded', function() {
     const messagesContainer = document.getElementById('messagesContainer');
     if (messagesContainer) {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Envio de mensagens
+    const messageForm = document.getElementById('messageForm');
+    if (messageForm) {
+        messageForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const instanceInput = document.getElementById('instanceInput');
+            const contactInput = document.getElementById('contactInput');
+            const messageInput = document.getElementById('messageInput');
+            const sendingStatus = document.getElementById('sendingStatus');
+            const submitButton = messageForm.querySelector('button[type="submit"]');
+            
+            const instance = instanceInput.value;
+            const contact = contactInput.value;
+            const message = messageInput.value.trim();
+            
+            if (!instance || !contact || !message) {
+                alert('Por favor, preencha todos os campos');
+                return;
+            }
+            
+            // Desabilitar form e mostrar status
+            submitButton.disabled = true;
+            messageInput.disabled = true;
+            sendingStatus.classList.remove('hidden');
+            
+            try {
+                const response = await fetch('{{ route("whatsapp-chat.send-message") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        instance: instance,
+                        contact: contact,
+                        message: message
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    messageInput.value = '';
+                    
+                    // Adicionar mensagem enviada na tela imediatamente
+                    addMessageToChat(message, true, Date.now());
+                    
+                    // Scroll para a última mensagem
+                    if (messagesContainer) {
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                } else {
+                    alert('Erro ao enviar mensagem: ' + result.message);
+                }
+            } catch (error) {
+                alert('Erro ao enviar mensagem: ' + error.message);
+            } finally {
+                // Reabilitar form
+                submitButton.disabled = false;
+                messageInput.disabled = false;
+                sendingStatus.classList.add('hidden');
+                messageInput.focus();
+            }
+        });
+    }
+
+    // Função para adicionar mensagem na tela
+    function addMessageToChat(messageText, fromMe, timestamp) {
+        if (!messagesContainer) return;
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `mb-4 flex ${fromMe ? 'justify-end' : 'justify-start'}`;
+        
+        const time = new Date(timestamp * 1000).toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        messageDiv.innerHTML = `
+            <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${fromMe ? 'bg-green-600 text-white' : 'bg-gray-700 text-white'}">
+                <p class="text-sm">${messageText}</p>
+                <div class="text-xs ${fromMe ? 'text-green-200' : 'text-gray-400'} mt-1">
+                    ${time}
+                </div>
+            </div>
+        `;
+        
+        messagesContainer.appendChild(messageDiv);
+    }
+
+    // Enter para enviar mensagem
+    const messageInput = document.getElementById('messageInput');
+    if (messageInput) {
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                messageForm.dispatchEvent(new Event('submit'));
+            }
+        });
     }
 });
 </script>
