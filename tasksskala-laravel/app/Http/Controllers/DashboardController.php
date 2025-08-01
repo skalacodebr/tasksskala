@@ -775,7 +775,7 @@ Retorne APENAS o JSON, sem explicações adicionais.";
             return redirect('/login');
         }
 
-        $projeto->load(['cliente', 'colaboradorResponsavel', 'marcos', 'tarefas' => function($query) {
+        $projeto->load(['cliente', 'colaboradorResponsavel', 'marcos', 'requisitos', 'tarefas' => function($query) {
             $query->orderBy('created_at', 'desc');
         }]);
 

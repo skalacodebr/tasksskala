@@ -121,6 +121,11 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     // Desempenho do Time
     Route::get('/desempenho-time', [DashboardController::class, 'desempenhoTime'])->name('desempenho-time');
     
+    // Área de Reuniões
+    Route::get('/reunioes', [App\Http\Controllers\ReuniaoController::class, 'index'])->name('reunioes.index');
+    Route::post('/reunioes/analise-requisitos/gerar', [App\Http\Controllers\ReuniaoController::class, 'gerarAnaliseRequisitos'])->name('reunioes.analise-requisitos.gerar');
+    Route::post('/reunioes/vincular-requisito', [App\Http\Controllers\ReuniaoController::class, 'vincularRequisito'])->name('reunioes.vincular-requisito');
+    
     // Rotas Financeiras para colaboradores (Administrativo e Financeiro)
     Route::prefix('financeiro')->name('financeiro.')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardFinanceiraController::class, 'index'])->name('dashboard');

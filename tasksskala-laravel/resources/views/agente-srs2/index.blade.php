@@ -28,6 +28,11 @@
                 <div>
                     <h1 class="text-3xl font-bold text-gray-800 mb-2">Agente de Geração de SRS - ISO/IEC/IEEE 29148:2018</h1>
                     <p class="text-gray-600">Formulário estruturado baseado no padrão internacional para especificação de requisitos de software</p>
+                    @if(isset($projeto_nome))
+                    <p class="text-sm text-blue-600 mt-2">
+                        <strong>Projeto:</strong> {{ $projeto_nome }}
+                    </p>
+                    @endif
                 </div>
                 <a href="{{ route('agente-srs2.historico') }}" 
                    class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors flex items-center gap-2">
@@ -970,7 +975,8 @@
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                             },
                             body: JSON.stringify({
-                                answers: this.answers
+                                answers: this.answers,
+                                projeto_id: {{ $projeto_id ?? 'null' }}
                             })
                         });
 
@@ -980,6 +986,11 @@
                             this.srsDocument = data.srs;
                             this.showSRS = true;
                             localStorage.removeItem('srs_draft_v2'); // Limpar rascunho após sucesso
+                            
+                            // Se veio de reuniões, vincular automaticamente
+                            @if(isset($projeto_id))
+                            this.vincularRequisitoProjeto();
+                            @endif
                         } else {
                             alert(data.error || 'Erro ao gerar SRS');
                         }
@@ -987,6 +998,29 @@
                         alert('Erro de conexão: ' + error.message);
                     } finally {
                         this.loading = false;
+                    }
+                },
+                
+                async vincularRequisitoProjeto() {
+                    try {
+                        const response = await fetch('{{ route("reunioes.vincular-requisito") }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({
+                                projeto_id: {{ $projeto_id ?? 'null' }},
+                                requisito_id: {{ session('ultimo_requisito_id') ?? 'null' }}
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        if (data.success) {
+                            this.showToast('Requisito vinculado ao projeto com sucesso!');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao vincular requisito:', error);
                     }
                 },
 

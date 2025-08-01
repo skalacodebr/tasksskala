@@ -248,6 +248,38 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Documentos de Requisitos -->
+            @if($projeto->requisitos->count() > 0)
+            <div class="card-dark shadow rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h3 class="text-lg leading-6 font-medium text-primary-dark mb-4">Documentos de Requisitos</h3>
+                    
+                    <div class="space-y-3">
+                        @foreach($projeto->requisitos as $requisito)
+                            <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-200">
+                                        Documento SRS - {{ $requisito->created_at->format('d/m/Y H:i') }}
+                                    </p>
+                                    <p class="text-xs text-gray-400 mt-1">
+                                        Versão: {{ $requisito->version }}
+                                    </p>
+                                </div>
+                                <a href="{{ route('agente-srs2.ver-historico', $requisito->id) }}" 
+                                   target="_blank"
+                                   class="text-blue-400 hover:text-blue-300 text-sm">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>

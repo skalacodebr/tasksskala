@@ -338,10 +338,15 @@ class AgenteSRS2Controller extends Controller
         ]
     ];
 
-    public function index()
+    public function index(Request $request)
     {
+        $projetoId = $request->get('projeto_id');
+        $projetoNome = $request->get('projeto_nome');
+        
         return view('agente-srs2.index', [
-            'questionCategories' => $this->questions
+            'questionCategories' => $this->questions,
+            'projeto_id' => $projetoId,
+            'projeto_nome' => $projetoNome
         ]);
     }
 
@@ -431,14 +436,20 @@ class AgenteSRS2Controller extends Controller
                 
                 // Salvar no histórico
                 try {
-                    SrsHistory::create([
+                    $srsHistory = SrsHistory::create([
                         'session_id' => session()->getId(),
                         'version' => 'v2',
                         'answers' => $answers,
                         'srs_document' => $srsDocument,
                         'ip_address' => $request->ip(),
-                        'user_agent' => $request->userAgent()
+                        'user_agent' => $request->userAgent(),
+                        'projeto_id' => $request->projeto_id
                     ]);
+                    
+                    // Se veio de reuniões, adicionar o ID do requisito na sessão
+                    if ($request->projeto_id) {
+                        Session::put('ultimo_requisito_id', $srsHistory->id);
+                    }
                 } catch (\Exception $e) {
                     // Log error but don't fail the request
                     \Log::error('Failed to save SRS history: ' . $e->getMessage());

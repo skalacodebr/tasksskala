@@ -12,7 +12,8 @@ class SrsHistory extends Model
         'answers',
         'srs_document',
         'ip_address',
-        'user_agent'
+        'user_agent',
+        'projeto_id'
     ];
     
     protected $casts = [
@@ -40,5 +41,13 @@ class SrsHistory extends Model
             // For v1, get from first answer or summary
             return array_values($this->answers)[0] ?? 'Sem nome';
         }
+    }
+    
+    /**
+     * Relationship with Projeto
+     */
+    public function projeto()
+    {
+        return $this->belongsTo(Projeto::class);
     }
 }

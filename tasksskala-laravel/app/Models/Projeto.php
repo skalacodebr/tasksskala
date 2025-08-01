@@ -60,4 +60,9 @@ class Projeto extends Model
     {
         return $this->belongsTo(StatusProjeto::class, 'status_id');
     }
+    
+    public function requisitos()
+    {
+        return $this->hasMany(SrsHistory::class);
+    }
 }
