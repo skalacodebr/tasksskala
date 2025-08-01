@@ -16,5 +16,7 @@ class VerifyCsrfToken extends Middleware
         'webhook/*',
         'cron/*',
         'api/*',
+        'api/webhook-whatsapp',
+        '*webhook*',
     ];
 }
