@@ -47,6 +47,11 @@ Route::get('/cron/daily-report', [App\Http\Controllers\CronController::class, 'r
     ->name('cron.daily-report')
     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
+// Webhook WhatsApp (sem autenticação e sem CSRF)
+Route::post('/webhook/whatsapp', [App\Http\Controllers\WebhookWhatsAppController::class, 'handle'])
+    ->name('webhook.whatsapp')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
 // Rotas de autenticação do colaborador
 Route::get('/login', [ColaboradorAuthController::class, 'showLoginForm'])->name('colaborador.login.form');
 Route::post('/login', [ColaboradorAuthController::class, 'login'])->name('colaborador.login');

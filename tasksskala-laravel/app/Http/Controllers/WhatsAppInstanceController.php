@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Colaborador;
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller as BaseController;
 
-class WhatsAppInstanceController extends Controller
+class WhatsAppInstanceController extends BaseController
 {
     private $apiUrl = 'https://apiwp.skconnect.com.br';
     private $apiKey = '4fk6xm78dgyd6j32oiq43dgmbqtoryxr';
@@ -75,7 +76,7 @@ class WhatsAppInstanceController extends Controller
         ]);
 
         $instanceName = $request->input('instanceName');
-        $webhookUrl = $request->input('webhookUrl', 'https://webhook.site/f0913db5-0dbe-4805-b827-044ff7fa00d2');
+        $webhookUrl = $request->input('webhookUrl', url('/webhook/whatsapp'));
 
         try {
             $response = Http::withHeaders([
