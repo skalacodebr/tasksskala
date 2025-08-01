@@ -416,7 +416,7 @@ class AgenteSRS2Controller extends Controller
             if (!$apiKey) {
                 return response()->json([
                     'success' => false,
-                    'error' => 'API Key da OpenAI não configurada'
+                    'error' => 'API Key da OpenAI não configurada. Por favor, configure OPENAI_API_KEY no arquivo .env'
                 ]);
             }
             
@@ -759,7 +759,7 @@ Gere um Software Requirements Specification (SRS) completo, profissional e detal
             if (!$apiKey) {
                 return response()->json([
                     'success' => false,
-                    'suggestion' => 'API Key da OpenAI não configurada. Por favor, configure-a no arquivo .env'
+                    'suggestion' => 'API Key da OpenAI não configurada. Por favor, configure OPENAI_API_KEY no arquivo .env'
                 ]);
             }
             

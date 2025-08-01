@@ -614,7 +614,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
                 iconMicrofone.classList.add('hidden');
                 iconGravando.classList.remove('hidden');
                 statusGravacao.textContent = 'Gravando... Clique para parar';
-                btnGravarAudio.classList.remove('bg-red-900 bg-opacity-200', 'hover:bg-red-600');
+                btnGravarAudio.classList.remove('bg-red-900', 'bg-opacity-200', 'hover:bg-red-600');
                 btnGravarAudio.classList.add('bg-red-600', 'hover:bg-red-700');
                 
             } catch (err) {
@@ -629,7 +629,7 @@ if (document.getElementById('criar_tarefa_teste').checked) {
             iconMicrofone.classList.remove('hidden');
             iconGravando.classList.add('hidden');
             statusGravacao.textContent = 'Gravação concluída';
-            btnGravarAudio.classList.add('bg-red-900 bg-opacity-200', 'hover:bg-red-600');
+            btnGravarAudio.classList.add('bg-red-900', 'bg-opacity-200', 'hover:bg-red-600');
             btnGravarAudio.classList.remove('bg-red-600', 'hover:bg-red-700');
         }
     });
