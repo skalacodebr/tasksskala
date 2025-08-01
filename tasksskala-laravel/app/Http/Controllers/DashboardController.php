@@ -506,7 +506,8 @@ class DashboardController extends Controller
             })->join("\n");
 
             // Processar conteúdo com ChatGPT
-            $prompt = "Você é um assistente especializado em extrair e organizar tarefas a partir de descrições em linguagem natural.
+            $prompt = <<<HEREB
+Você é um assistente especializado em extrair e organizar tarefas a partir de descrições em linguagem natural.
 
 COLABORADORES DISPONÍVEIS:
 $listaColaboradores
@@ -515,26 +516,26 @@ PROJETOS DISPONÍVEIS:
 $listaProjetos
 
 Analise o seguinte texto e extraia as tarefas mencionadas:
-\"$conteudo\"
+"$conteudo"
 
 Para cada tarefa identificada, retorne um JSON com a seguinte estrutura:
 {
-    \"tarefas\": [
+    "tarefas": [
         {
-            \"titulo\": \"título curto e descritivo\",
-            \"descricao\": \"descrição detalhada da tarefa\",
-            \"prazo\": \"YYYY-MM-DD (se mencionado, caso contrário null)\",
-            \"prioridade\": \"baixa|media|alta|urgente (baseado no contexto, padrão: media)\",
-            \"colaborador_nome\": \"nome do colaborador se mencionado\",
-            \"projeto_nome\": \"nome do projeto se mencionado\",
-            \"titulo_base\": \"título base se múltiplas tarefas similares\"
+            "titulo": "título curto e descritivo",
+            "descricao": "descrição detalhada da tarefa",
+            "prazo": "YYYY-MM-DD (se mencionado, caso contrário null)",
+            "prioridade": "baixa|media|alta|urgente (baseado no contexto, padrão: media)",
+            "colaborador_nome": "nome do colaborador se mencionado",
+            "projeto_nome": "nome do projeto se mencionado",
+            "titulo_base": "título base se múltiplas tarefas similares"
         }
     ]
 }
 
 Regras importantes:
 1. Se múltiplas tarefas forem mencionadas, crie uma entrada para cada uma
-2. Interprete prazos relativos (hoje, amanhã, próxima semana, sexta-feira, etc) baseado na data atual: " . now()->toDateString() . " e dia da semana: " . now()->locale('pt')->dayName . "
+2. Interprete prazos relativos (hoje, amanhã, próxima semana, sexta-feira, etc) baseado na data atual: {now()->toDateString()} e dia da semana: {now()->locale('pt')->dayName}
 3. IDENTIFICAÇÃO DE COLABORADOR: 
    - Procure por nomes mencionados no texto e compare com a lista de COLABORADORES DISPONÍVEIS acima
    - Use correspondência parcial e variações (João = Joao, Maria = MARIA, etc)
@@ -542,7 +543,7 @@ Regras importantes:
    - SEMPRE retorne o nome EXATO como está na lista de colaboradores disponíveis
 4. IDENTIFICAÇÃO DE PROJETO:
    - Procure por nomes de projetos mencionados e compare com a lista de PROJETOS DISPONÍVEIS acima
-   - Use correspondência parcial (se falar \"vendas\" e existir \"Sistema de Vendas\", use este)
+   - Use correspondência parcial (se falar "vendas" e existir "Sistema de Vendas", use este)
    - Procure por palavras como 'projeto', 'sistema', 'app', 'site' seguidas de nomes
    - SEMPRE retorne o nome EXATO como está na lista de projetos disponíveis
 5. Determine a prioridade baseado em palavras como: urgente, importante, crítico, ASAP (alta/urgente), normal, padrão (media), quando der, depois (baixa)
@@ -557,7 +558,8 @@ Exemplos de extração:
 - Se na lista tem "Sistema de Vendas" e o texto diz "projeto vendas", use projeto_nome: "Sistema de Vendas"
 - "Maria precisa revisar o código" → procure "Maria" na lista de colaboradores e use o nome completo encontrado
 
-Retorne APENAS o JSON, sem explicações adicionais.";
+Retorne APENAS o JSON, sem explicações adicionais.
+HEREB;
 
             \Log::info('ProcessarTarefaIA: Enviando para ChatGPT');
             
