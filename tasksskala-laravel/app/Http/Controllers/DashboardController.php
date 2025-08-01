@@ -431,8 +431,45 @@ class DashboardController extends Controller
                     'mime' => $audioFile->getMimeType()
                 ]);
                 
-                $audioPath = $audioFile->store('temp-audio');
-                \Log::info('ProcessarTarefaIA: Áudio salvo temporariamente', ['path' => $audioPath]);
+                // Garantir que o diretório temp-audio existe
+                if (!Storage::exists('temp-audio')) {
+                    Storage::makeDirectory('temp-audio');
+                }
+                
+                // Salvar o arquivo com nome único
+                $fileName = uniqid('audio_') . '.' . $audioFile->getClientOriginalExtension();
+                $audioPath = $audioFile->storeAs('temp-audio', $fileName);
+                \Log::info('ProcessarTarefaIA: Áudio salvo temporariamente', ['path' => $audioPath, 'fileName' => $fileName]);
+                
+                // Verificar se o arquivo existe e obter o conteúdo
+                try {
+                    if (Storage::exists($audioPath)) {
+                        $audioContent = Storage::get($audioPath);
+                        \Log::info('ProcessarTarefaIA: Arquivo lido com sucesso usando Storage::get', ['size' => strlen($audioContent)]);
+                    } else {
+                        // Tentar caminho absoluto como fallback
+                        $fullPath = storage_path('app/' . $audioPath);
+                        if (file_exists($fullPath)) {
+                            $audioContent = file_get_contents($fullPath);
+                            \Log::info('ProcessarTarefaIA: Arquivo lido com sucesso usando file_get_contents', ['size' => strlen($audioContent)]);
+                        } else {
+                            \Log::error('ProcessarTarefaIA: Arquivo não encontrado', [
+                                'audioPath' => $audioPath,
+                                'fullPath' => $fullPath,
+                                'storage_path' => storage_path(),
+                                'app_storage' => storage_path('app')
+                            ]);
+                            return response()->json(['success' => false, 'message' => 'Erro ao salvar arquivo de áudio'], 500);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    \Log::error('ProcessarTarefaIA: Erro ao ler arquivo', [
+                        'erro' => $e->getMessage(),
+                        'audioPath' => $audioPath
+                    ]);
+                    Storage::delete($audioPath);
+                    return response()->json(['success' => false, 'message' => 'Erro ao processar arquivo de áudio'], 500);
+                }
                 
                 // Usar OpenAI Whisper para transcrever
                 $apiKey = config('services.openai.api_key');
@@ -452,8 +489,8 @@ class DashboardController extends Controller
                         'Authorization' => 'Bearer ' . $apiKey,
                     ])->attach(
                         'file', 
-                        file_get_contents(storage_path('app/' . $audioPath)), 
-                        'audio.wav'
+                        $audioContent, 
+                        'audio.webm'
                     )->post('https://api.openai.com/v1/audio/transcriptions', [
                         'model' => 'whisper-1',
                         'language' => 'pt'
