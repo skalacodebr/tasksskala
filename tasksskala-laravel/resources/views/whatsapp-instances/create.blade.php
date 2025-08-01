@@ -50,9 +50,9 @@
                         <input type="url" 
                                id="webhookUrl" 
                                name="webhookUrl" 
-                               value="{{ old('webhookUrl') }}"
+                               value="https://intranet.skalacode.com/webhook/whatsapp"
                                class="w-full px-4 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('webhookUrl') border-red-500 @enderror"
-                               placeholder="https://webhook.site/...">
+                               placeholder="https://intranet.skalacode.com/webhook/whatsapp.">
                         @error('webhookUrl')
                             <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror

@@ -50,7 +50,7 @@ class WhatsAppChatController extends Controller
         
         if ($instanceName) {
             // Buscar contatos da instância com última mensagem
-            $contacts = ContatoWp::where('instance_name', $instanceName)
+            $contacts = ContatoWp::where('contatos_wp.instance_name', $instanceName)
                 ->leftJoin('messages_wp', function($join) use ($instanceName) {
                     $join->on('contatos_wp.remote_jid', '=', 'messages_wp.remote_jid')
                          ->where('messages_wp.instance_name', '=', $instanceName);
