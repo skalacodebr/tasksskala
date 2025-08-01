@@ -152,18 +152,22 @@ class WebhookWhatsAppController extends Controller
                     break;
                     
                 case 'imageMessage':
-                    $messageText = '[Imagem]';
                     $mediaType = 'image';
                     if (isset($message['imageMessage']['base64'])) {
                         $mediaUrl = $this->saveBase64Media($message['imageMessage']['base64'], 'image', $messageId);
+                        $messageText = $mediaUrl ?: '[Imagem]'; // Usa a URL se salvou com sucesso, senão usa texto padrão
+                    } else {
+                        $messageText = '[Imagem]';
                     }
                     break;
                     
                 case 'audioMessage':
-                    $messageText = '[Áudio]';
                     $mediaType = 'audio';
                     if (isset($message['audioMessage']['base64'])) {
                         $mediaUrl = $this->saveBase64Media($message['audioMessage']['base64'], 'audio', $messageId);
+                        $messageText = $mediaUrl ?: '[Áudio]'; // Usa a URL se salvou com sucesso, senão usa texto padrão
+                    } else {
+                        $messageText = '[Áudio]';
                     }
                     break;
                     

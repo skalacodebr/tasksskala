@@ -137,19 +137,33 @@
                         @foreach($messages as $message)
                             <div class="mb-4 flex {{ $message->from_me ? 'justify-end' : 'justify-start' }}">
                                 <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg {{ $message->from_me ? 'bg-green-600 text-white' : 'bg-gray-700 text-white' }}">
-                                    @if($message->media_url)
-                                        @if($message->media_type == 'image')
-                                            <img src="{{ $message->media_url }}" alt="Imagem" class="rounded mb-2 max-w-full">
-                                        @elseif($message->media_type == 'audio')
-                                            <audio controls class="mb-2">
-                                                <source src="{{ $message->media_url }}" type="audio/ogg">
-                                                <source src="{{ $message->media_url }}" type="audio/mpeg">
-                                                Seu navegador não suporta áudio.
-                                            </audio>
-                                        @endif
+                                    @php
+                                        // Verificar se message_text é uma URL de imagem ou áudio
+                                        $isImageUrl = $message->message_text && (str_contains($message->message_text, '/storage/whatsapp-media/') && $message->media_type == 'image');
+                                        $isAudioUrl = $message->message_text && (str_contains($message->message_text, '/storage/whatsapp-media/') && $message->media_type == 'audio');
+                                    @endphp
+                                    
+                                    @if($isImageUrl)
+                                        <img src="{{ $message->message_text }}" alt="Imagem" class="rounded mb-2 max-w-full">
+                                    @elseif($message->media_url && $message->media_type == 'image')
+                                        <img src="{{ $message->media_url }}" alt="Imagem" class="rounded mb-2 max-w-full">
                                     @endif
                                     
-                                    @if($message->message_text && !in_array($message->message_text, ['[Imagem]', '[Áudio]']))
+                                    @if($isAudioUrl)
+                                        <audio controls class="mb-2">
+                                            <source src="{{ $message->message_text }}" type="audio/ogg">
+                                            <source src="{{ $message->message_text }}" type="audio/mpeg">
+                                            Seu navegador não suporta áudio.
+                                        </audio>
+                                    @elseif($message->media_url && $message->media_type == 'audio')
+                                        <audio controls class="mb-2">
+                                            <source src="{{ $message->media_url }}" type="audio/ogg">
+                                            <source src="{{ $message->media_url }}" type="audio/mpeg">
+                                            Seu navegador não suporta áudio.
+                                        </audio>
+                                    @endif
+                                    
+                                    @if($message->message_text && !$isImageUrl && !$isAudioUrl && !in_array($message->message_text, ['[Imagem]', '[Áudio]']))
                                         <p class="text-sm">{{ $message->message_text }}</p>
                                     @endif
                                     
