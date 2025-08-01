@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ContatoWp;
 use App\Models\MessageWp;
 use App\Models\Colaborador;
+use App\Http\Controllers\Controller;
 
 class WhatsAppChatController extends Controller
 {
