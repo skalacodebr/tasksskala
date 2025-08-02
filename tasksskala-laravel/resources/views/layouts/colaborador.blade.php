@@ -24,6 +24,17 @@
             background: rgba(255, 255, 255, 0.3);
         }
         
+        /* Margem esquerda para SVGs quando sidebar está colapsada */
+        #sidebar:not(:hover) nav a svg,
+        #sidebar:not(:hover) nav button svg.w-5 {
+            margin-left: 76px !important;
+        }
+        
+        /* Remover margem do chevron do dropdown */
+        #sidebar:not(:hover) nav button svg.w-4 {
+            margin-left: 0 !important;
+        }
+        
         /* Main content area following sidebar visual identity */
         .main-content {
             background-color: #111111;
