@@ -35,8 +35,7 @@
         
         /* Esconder elementos quando colapsado */
         .sidebar-collapsed .sidebar-text {
-            opacity: 0;
-            visibility: hidden;
+            display: none;
         }
         
         .sidebar-expanded .sidebar-text {
