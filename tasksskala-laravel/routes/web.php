@@ -89,6 +89,7 @@ Route::middleware(['web', App\Http\Middleware\ColaboradorAuth::class])->group(fu
     Route::post('/plano-diario/salvar', [DashboardController::class, 'salvarPlanoDiario'])->name('plano-diario.salvar');
     Route::delete('/plano-diario/limpar', [DashboardController::class, 'limparPlanoDiario'])->name('plano-diario.limpar');
     Route::patch('/tarefa/{tarefa}/pomodoro', [DashboardController::class, 'registrarPomodoro'])->name('tarefa.pomodoro');
+    Route::post('/tarefa/{tarefa}/toggle-checklist', [DashboardController::class, 'toggleChecklistTarefa'])->name('tarefa.toggle-checklist');
     
     // CRUD de projetos para colaboradores
     Route::get('/projetos', [DashboardController::class, 'listarProjetos'])->name('projetos.index');

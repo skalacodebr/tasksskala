@@ -934,40 +934,43 @@ HEREB;
         // Buscar plano do dia atual se existir
         $planoExistente = session('plano_diario_' . now()->format('Y-m-d'));
         
-        // Se não há plano na sessão, buscar tarefas já planejadas para hoje
-        if (!$planoExistente) {
-            $tarefasPlanejadasHoje = Tarefa::where('colaborador_id', $colaborador->id)
-                ->where('plano_dia', now()->format('Y-m-d'))
-                ->with(['projeto'])
-                ->get();
-            
-            if ($tarefasPlanejadasHoje->count() > 0) {
-                // Buscar outras tarefas para organizar próximos dias
-                $tarefasRestantes = Tarefa::where('colaborador_id', $colaborador->id)
-                    ->whereIn('status', ['pendente', 'em_andamento'])
-                    ->whereNull('plano_dia')
-                    ->with(['projeto'])
-                    ->get();
-                
-                // Recriar plano baseado nas tarefas já salvas
-                $planoExistente = [
-                    'data' => now()->format('Y-m-d'),
-                    'tarefas_dia' => $tarefasPlanejadasHoje,
-                    'tempo_total_estimado' => $tarefasPlanejadasHoje->sum(function($tarefa) {
-                        return match($tarefa->prioridade) {
-                            'baixa' => 60,
-                            'media' => 90,
-                            'alta' => 120,
-                            'urgente' => 180
-                        };
-                    }),
-                    'configuracao' => [
-                        'tempo_pomodoro' => 25
-                    ],
-                    'proximos_dias' => $this->organizarProximosDias($colaborador->id, $tarefasRestantes)
-                ];
-                $planoExistente['pomodoros_necessarios'] = ceil($planoExistente['tempo_total_estimado'] / 25);
-            }
+        // Buscar todas as tarefas disponíveis para seleção
+        $tarefasDisponiveis = Tarefa::where('colaborador_id', $colaborador->id)
+            ->whereIn('status', ['pendente', 'em_andamento'])
+            ->with(['projeto'])
+            ->orderBy('prioridade_ordem')
+            ->orderBy('data_vencimento')
+            ->get();
+
+        // Buscar tarefas já planejadas para hoje com status do checklist
+        $tarefasPlanejadasHoje = Tarefa::where('colaborador_id', $colaborador->id)
+            ->where('plano_dia', now()->format('Y-m-d'))
+            ->with(['projeto'])
+            ->get()
+            ->map(function($tarefa) {
+                // Adicionar status do checklist (se está marcada como feita hoje)
+                $tarefa->checklist_concluida = session('checklist_' . now()->format('Y-m-d') . '_' . $tarefa->id, false);
+                return $tarefa;
+            });
+        
+        // Se não há plano na sessão mas existem tarefas planejadas, recriar plano
+        if (!$planoExistente && $tarefasPlanejadasHoje->count() > 0) {
+            $planoExistente = [
+                'data' => now()->format('Y-m-d'),
+                'tarefas_dia' => $tarefasPlanejadasHoje,
+                'tempo_total_estimado' => $tarefasPlanejadasHoje->sum(function($tarefa) {
+                    return match($tarefa->prioridade) {
+                        'baixa' => 60,
+                        'media' => 90,
+                        'alta' => 120,
+                        'urgente' => 180
+                    };
+                }),
+                'configuracao' => [
+                    'tempo_pomodoro' => 25
+                ]
+            ];
+            $planoExistente['pomodoros_necessarios'] = ceil($planoExistente['tempo_total_estimado'] / 25);
         }
         
         // Estatísticas básicas
@@ -987,6 +990,8 @@ HEREB;
         return view('plano-diario', compact(
             'colaborador', 
             'planoExistente', 
+            'tarefasDisponiveis',
+            'tarefasPlanejadasHoje',
             'tarefasPendentes', 
             'tarefasEmAndamento', 
             'tarefasAtrasadas'
@@ -1118,6 +1123,41 @@ HEREB;
             'success' => true,
             'total_pomodoros' => count(array_filter($pomodoros, fn($p) => $p['tipo'] === 'foco')),
             'tempo_total' => array_sum(array_column(array_filter($pomodoros, fn($p) => $p['tipo'] === 'foco'), 'duracao'))
+        ]);
+    }
+
+    public function toggleChecklistTarefa(Request $request, Tarefa $tarefa)
+    {
+        $colaborador = session('colaborador');
+        
+        if (!$colaborador || $tarefa->colaborador_id != $colaborador->id) {
+            return response()->json(['error' => 'Acesso negado'], 403);
+        }
+
+        $chaveChecklist = 'checklist_' . now()->format('Y-m-d') . '_' . $tarefa->id;
+        $estadoAtual = session($chaveChecklist, false);
+        
+        // Alternar o estado
+        session([$chaveChecklist => !$estadoAtual]);
+
+        // Se marcando como concluída, atualizar progresso da tarefa
+        if (!$estadoAtual) {
+            // Adicionar nota de progresso
+            $notas = $tarefa->notas ?? [];
+            $notas[] = [
+                'data' => now()->toISOString(),
+                'tipo' => 'progresso',
+                'conteudo' => 'Tarefa concluída no checklist diário',
+                'colaborador_id' => $colaborador->id,
+                'colaborador_nome' => $colaborador->nome
+            ];
+            $tarefa->update(['notas' => $notas]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'concluida' => !$estadoAtual,
+            'message' => !$estadoAtual ? 'Tarefa marcada como concluída!' : 'Tarefa desmarcada'
         ]);
     }
 
