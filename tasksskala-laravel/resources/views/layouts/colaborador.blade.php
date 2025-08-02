@@ -555,26 +555,68 @@
                 link.setAttribute('data-converted', 'true');
             });
             
-            // Converter botões também
+            // Converter botões também (tratamento especial para dropdowns)
             const navButtons = sidebar.querySelectorAll('nav button:not([data-converted])');
             navButtons.forEach(button => {
-                if (!button.classList.contains('group-hover:justify-start')) {
-                    button.classList.add('group-hover:justify-start', 'justify-center');
-                }
+                // Verificar se é um botão de dropdown (tem justify-between)
+                const isDropdown = button.classList.contains('justify-between');
                 
-                const svg = button.querySelector('svg');
-                if (svg && !svg.classList.contains('transition-transform')) {
-                    svg.classList.remove('mr-3', 'mr-2');
-                    svg.classList.add('flex-shrink-0');
-                }
-                
-                const textSpan = button.querySelector('span:not(svg)');
-                if (textSpan && !textSpan.classList.contains('opacity-0')) {
-                    textSpan.classList.add('ml-3', 'opacity-0', 'group-hover:opacity-100', 'transition-all', 'duration-300', 'whitespace-nowrap');
-                }
-                
-                if (!button.hasAttribute('title') && textSpan) {
-                    button.setAttribute('title', textSpan.textContent.trim());
+                if (isDropdown) {
+                    // Tratamento especial para dropdowns
+                    const iconDiv = button.querySelector('div.flex.items-center');
+                    const chevron = button.querySelector('svg.w-4.h-4');
+                    
+                    if (iconDiv) {
+                        // Remover justify-between e adicionar justify-center com hover
+                        button.classList.remove('justify-between');
+                        button.classList.add('justify-center', 'group-hover:justify-between');
+                        
+                        // Ajustar o div interno
+                        iconDiv.classList.add('group-hover:flex', 'group-hover:items-center');
+                        
+                        // Ajustar o ícone principal
+                        const mainIcon = iconDiv.querySelector('svg');
+                        if (mainIcon) {
+                            mainIcon.classList.remove('mr-3');
+                            mainIcon.classList.add('group-hover:mr-3');
+                        }
+                        
+                        // Ajustar o texto
+                        const textSpan = iconDiv.querySelector('span');
+                        if (textSpan) {
+                            textSpan.classList.add('hidden', 'group-hover:inline', 'transition-all', 'duration-300');
+                        }
+                        
+                        // Esconder o chevron quando colapsado
+                        if (chevron) {
+                            chevron.classList.add('hidden', 'group-hover:block');
+                        }
+                        
+                        // Adicionar título para tooltip
+                        if (textSpan && !button.hasAttribute('title')) {
+                            button.setAttribute('title', textSpan.textContent.trim());
+                        }
+                    }
+                } else {
+                    // Tratamento normal para botões não-dropdown
+                    if (!button.classList.contains('group-hover:justify-start')) {
+                        button.classList.add('group-hover:justify-start', 'justify-center');
+                    }
+                    
+                    const svg = button.querySelector('svg');
+                    if (svg && !svg.classList.contains('transition-transform')) {
+                        svg.classList.remove('mr-3', 'mr-2');
+                        svg.classList.add('flex-shrink-0');
+                    }
+                    
+                    const textSpan = button.querySelector('span:not(svg)');
+                    if (textSpan && !textSpan.classList.contains('opacity-0')) {
+                        textSpan.classList.add('ml-3', 'opacity-0', 'group-hover:opacity-100', 'transition-all', 'duration-300', 'whitespace-nowrap');
+                    }
+                    
+                    if (!button.hasAttribute('title') && textSpan) {
+                        button.setAttribute('title', textSpan.textContent.trim());
+                    }
                 }
                 
                 button.setAttribute('data-converted', 'true');
